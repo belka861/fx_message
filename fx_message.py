@@ -20,6 +20,23 @@ def _click(xpath):
 	return True
 
 
+def _do_email():
+	driver.get('https://24xforex.com/ru#contact')
+	time.sleep(2)
+
+	e=driver.find_element_by_xpath('//*[@id="contact_email"]')
+	e.send_keys(email)
+	time.sleep(1)
+	name1=driver.find_element_by_xpath('//*[@id="contact_name"]')
+	name1.send_keys(name)
+	_click('//*[@id="contact_message"]')
+	text1=driver.find_element_by_xpath('//*[@id="contact_message"]')
+	text1.send_keys(t)
+	_click('//*[@id="contact"]/div[2]/div[2]/form/button')
+	time.sleep(7)
+
+
+
 #with open('z.txt', 'r', encoding='utf-8', errors='ignore') as file:
 #	data = file.read().replace('\n', '')
 
@@ -91,6 +108,16 @@ while True:
 
 	print (name, surname)
 
+	domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotmail.com', 'list.ru', 'bk.ru', 'inbox.ru', 'internet.ru',  'yahoo.com', 'aol.com', 'e1.ru','inbox.lv', 'dino.lv','human.lv', 'fit.lv','sok.lv', 'eclub.lv']
+	password=""
+	for i in range (1,5):
+		password=password+random.choice('01234567890')
+
+	username=generate_username(1)[0]+password
+	domain=random.choice(domains)
+	email=username+"@"+domain
+
+
 
 #sex=df['Sex'][random_sur_id]
 #print(surname, sex)
@@ -100,6 +127,14 @@ while True:
 	driver = webdriver.Chrome(PATH)
 	driver.maximize_window()
 	driver.delete_all_cookies()
+
+	_do_email()
+	driver.delete_all_cookies()
+	driver.close()
+	driver.quit()
+
+def _do_chat():
+
 	driver.get("https://24xforex.com/ru")
 	time.sleep(10)
 	_click('//*[@id="jvlabelWrap"]/jdiv[2]')
@@ -240,33 +275,13 @@ while True:
 #driver.close()
 #driver.quit()
 
-	domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotmail.com', 'list.ru', 'bk.ru', 'inbox.ru', 'internet.ru',  'yahoo.com', 'aol.com', 'e1.ru','inbox.lv', 'dino.lv','human.lv', 'fit.lv','sok.lv', 'eclub.lv']
-	password=""
-	for i in range (1,5):
-		password=password+random.choice('01234567890')
-
-	username=generate_username(1)[0]+password
-	domain=random.choice(domains)
-	email=username+"@"+domain
 #print(email)
 	e=driver.find_element_by_xpath('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[3]/input')
 	e.send_keys(email)
 	time.sleep(1)
 	_click('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[4]')
 	time.sleep(3)
-	driver.get('https://24xforex.com/ru#contact')
-	time.sleep(2)
-
-	e=driver.find_element_by_xpath('//*[@id="contact_email"]')
-	e.send_keys(email)
-	time.sleep(1)
-	name1=driver.find_element_by_xpath('//*[@id="contact_name"]')
-	name1.send_keys(name)
-	_click('//*[@id="contact_message"]')
-	text1=driver.find_element_by_xpath('//*[@id="contact_message"]')
-	text1.send_keys(t)
-	_click('//*[@id="contact"]/div[2]/div[2]/form/button')
-	time.sleep(7)
+	return True
 
 
 
@@ -295,9 +310,6 @@ while True:
 
 #	b=driver.find_element_by_xpath('//*[@id="Logout-button"]')
 #	b.click()
-	driver.delete_all_cookies()
-	driver.close()
-	driver.quit()
 #	sys.exit()
 #import time
 #time.sleep(10)
