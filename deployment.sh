@@ -13,3 +13,4 @@ wget https://raw.githubusercontent.com/belka861/fx_message/main/headless_test.py
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install ./google-chrome-stable_current_amd64.deb -y
 pip3 install requests,transliterate
+wget https://datahub.io/core/nyse-other-listings/r/nyse-listed.csv
