@@ -9,4 +9,6 @@ sudo apt-get install python3-pip -y
 wget https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 pip3 install selenium
-https://raw.githubusercontent.com/belka861/fx_message/main/headless_test.py
+wget https://raw.githubusercontent.com/belka861/fx_message/main/headless_test.py
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install ./google-chrome-stable_current_amd64.deb
