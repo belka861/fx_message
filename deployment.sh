@@ -9,3 +9,4 @@ sudo apt-get install python3-pip -y
 wget https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
 pip3 install selenium
+https://raw.githubusercontent.com/belka861/fx_message/main/headless_test.py
