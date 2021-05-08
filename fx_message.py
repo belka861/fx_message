@@ -3,6 +3,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.chrome.options import Options
+chrome_options = Options()
+chrome_options.add_argument("--headless")
+
+
 
 from selenium.webdriver.common.keys import Keys
 import sys, random
@@ -11,6 +16,7 @@ import sys, random
 import pandas as pd
 import time
 import requests
+from transliterate import translit, get_available_language_codes
 
 from random_username.generate import generate_username
 
@@ -28,12 +34,12 @@ def _do_email():
 	e.send_keys(email)
 	time.sleep(1)
 	name1=driver.find_element_by_xpath('//*[@id="contact_name"]')
-	name1.send_keys(name)
+	name1.send_keys(final_name)
 	_click('//*[@id="contact_message"]')
 	text1=driver.find_element_by_xpath('//*[@id="contact_message"]')
 	text1.send_keys(t)
 	_click('//*[@id="contact"]/div[2]/div[2]/form/button')
-	time.sleep(7)
+	time.sleep(4)
 
 
 
@@ -90,7 +96,23 @@ while True:
 	t=s[r]
 	print (t)
 
+	with open('nyse-listed.csv', 'r') as file:
+		nyse = file.readlines()
 
+	with open('names_f.txt', 'r',encoding='utf-8', errors='ignore') as file:
+		data = file.readlines()
+    #print(data)
+	name=data[random.randint(1,len(data)-1)].replace('\n', '')
+#    _log(name)
+
+	with open('surnames_f.txt', 'r',encoding='utf-8', errors='ignore') as file:
+		data = file.readlines()
+    #print(data)
+	surname=data[random.randint(1,len(data)-1)].replace('\n', '')
+#    _log(surname)
+	tick=nyse[random.randint(1,len(nyse)-1)].replace('\n', '')
+#    print (tick)
+#    sys.exit()
 
 
 # reading csv file 
@@ -98,15 +120,24 @@ while True:
 	max_sur=round(df.size/6-1)
 	random_sur_id=random.randint(1, max_sur)
 
-	surname=df['Surname'][random_sur_id]
+#	surname=df['Surname'][random_sur_id]
 
 
 	df=pd.read_csv("russian_names.csv", header=0, sep=';')
 	max_sur=round(df.size/6-1)
 	random_sur_id=random.randint(1, max_sur)
-	name=df['Name'][random_sur_id]
+#	name=df['Name'][random_sur_id]
 
 	print (name, surname)
+
+	dice=random.choice([1,2,3])
+	if (dice==1):
+		final_name=name
+	if (dice==2):
+		final_name=name+" "+surname
+	if (dice==3):
+		final_name=surname+" "+name
+
 
 	domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotmail.com', 'list.ru', 'bk.ru', 'inbox.ru', 'internet.ru',  'yahoo.com', 'aol.com', 'e1.ru','inbox.lv', 'dino.lv','human.lv', 'fit.lv','sok.lv', 'eclub.lv']
 	password=""
@@ -114,6 +145,7 @@ while True:
 		password=password+random.choice('01234567890')
 
 	username=generate_username(1)[0]+password
+	username=translit(final_name, reversed=True).replace(" ", "_").replace("'","").lower()+password
 	domain=random.choice(domains)
 	email=username+"@"+domain
 
@@ -125,13 +157,18 @@ while True:
 
 	PATH = 'C:\Program Files (x86)\chromedriver.exe'
 	driver = webdriver.Chrome(PATH)
+#	driver = webdriver.Chrome(PATH,options=chrome_options)
 	driver.maximize_window()
 	driver.delete_all_cookies()
 
 	_do_email()
+	r=driver.find_element_by_xpath('//*[@id="contact"]/div[2]/div[1]').text
+	print(r)
+#	sys.exit()
 	driver.delete_all_cookies()
 	driver.close()
 	driver.quit()
+
 
 def _do_chat():
 
@@ -191,7 +228,7 @@ def _do_chat():
 #print(driver.page_source)
 
 	name1=driver.find_element_by_xpath('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input')
-	name1.send_keys(name)
+	name1.send_keys(final_name)
 #sys.exit()
 #time.sleep(2)
 
