@@ -15,7 +15,7 @@ import time,os,random,datetime,sys
 #from pyvirtualdisplay import Display 
 #display = Display(visible=0, size=(1024, 768)) 
 #display.start() 
-#driver = webdriver.Chrome(driver_path='//dev/chromedriver', 
+#driver = webdriver.Chrome(driver_path='/home/dev/chromedriver', 
 #  service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
 # Log path added via service_args to see errors if something goes wrong (always a good idea - many of the errors I encountered were described in the logs)
 # And now you can add your website / app testing functionality: 
@@ -99,6 +99,35 @@ def _do_email():
     print(r)
 
 
+def ingo_email():
+    driver.get('https://ingoinvest.com/ru')
+    time.sleep(7)
+
+    e=driver.find_element_by_xpath('//*[@id="contact_email"]')
+    e.send_keys(email)
+#    time.sleep(1)
+    name1=driver.find_element_by_xpath('//*[@id="contact_name"]')
+    name1.send_keys(final_name)
+    _click('//*[@id="contact_message"]')
+    text1=driver.find_element_by_xpath('//*[@id="contact_message"]')
+    text1.send_keys(question)
+    time.sleep (1)
+    _click('//*[@id="contact"]/div/div[2]/div[1]/form/button')
+#    _wait_element
+#    r=driver.find_element_by_css_selector('#contact > div.contact-block > div.form-block > form > button')
+#    r.click()
+#    _wait_element('//*[@id="contact"]/div/div[2]/div[1]/form/button')
+#    driver.execute_script('document.evaluate(\'//*[@id="contact"]/div/div[2]/div[1]/form/button\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
+#    time.sleep(4)
+#    _wait_element('//*[@id="contact"]/div[2]/div[1]')
+    _wait_element('//*[@id="wrapper"]/main/div[2]/article/h1')
+    r=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/h1').text
+    _log(r)
+#    time.sleep(5)
+#    _log(driver.page_source)
+
+
+
 
 def _do_chat():
     driver.get("https://24xforex.com/ru")
@@ -141,6 +170,10 @@ def _do_reg():
     driver.maximize_window()
     driver.delete_all_cookies()
     driver.get("https://24xforex.com/ru/register")
+
+#    time.sleep(10)
+#    _log(driver.page_source)
+
     driver.execute_script("window.open('about:blank', 'tab2');")
     driver.switch_to.window("tab2")
     driver.get('https://temp-mail.io/en')
@@ -238,7 +271,7 @@ with open('countries.txt', 'r') as file:
     countries = file.readlines()
 
 while True:
-    driver = webdriver.Chrome('/home/svetlana/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
 
     question=data[random.randint(1,len(data)-1)].replace('\n', '')
 #    _log(question)
@@ -269,10 +302,19 @@ while True:
         final_name=surname+" "+name
     _log(final_name)
 
-    dice=random.choice([1,2,3,4,5,6,7,8,9,20])
+    dice=random.choice([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,20])
     if (dice==5):
         tick=nyse[random.randint(1,len(nyse)-1)].replace('\n', '')
         question="Мне аналитик посоветовал купить акции "+tick+" А ОНИ СЕГОДНЯ ОБВАЛИЛИСЬ! ВЕРНИТЕ МНЕ МОИ ДЕНЬГИ!!!"
+
+    if (dice==6):
+        card=str(random.randint(1000,9999))
+        question="По поводу пополнения торгвого счета карточкой Visa "+card
+
+
+
+
+
 #    _log(question)
 
 
@@ -301,13 +343,32 @@ while True:
 # driver.click...
 
 #_do_email()
-    _do_chat()
-    _do_email()
-    _do_reg()
+    try:
+        ingo_email()
+    except:
+        print ("ingo email fail")
+        pass
+    try:
+        _do_chat()
+    except:
+        print ('chat failed')
+        pass
+    try:
+        _do_email()
+    except:
+        print ('email failed')
+        pass
+    try:
+        _do_reg()
+    except:
+        print ('reg failed')
+        pass
 
 
-
-    driver.delete_all_cookies()
+    try:
+        driver.delete_all_cookies()
+    except:
+        pass
     driver.close()
     driver.quit()
     os.system('pkill chrome')
