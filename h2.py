@@ -7,14 +7,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from phone_gen import PhoneNumber
-
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors. 
+#
+#chrome_options.add_argument('--headless')
+#chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors. 
 import time,os,random,datetime,sys
+chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+
 # Option 2 - with pyvirtualdisplay
-#from pyvirtualdisplay import Display 
-#display = Display(visible=0, size=(1024, 768)) 
-#display.start() 
+from pyvirtualdisplay import Display 
+display = Display(visible=0, size=(1024, 768)) 
+display.start() 
 #driver = webdriver.Chrome(driver_path='/home/dev/chromedriver', 
 #  service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
 # Log path added via service_args to see errors if something goes wrong (always a good idea - many of the errors I encountered were described in the logs)
@@ -258,7 +260,7 @@ def _do_reg():
 
 
 def ingo_reg():
-    driver.maximize_window()
+#    driver.maximize_window()
     driver.delete_all_cookies()
     driver.get("https://ingoinvest.com/ru/register")
 
@@ -326,9 +328,10 @@ def ingo_reg():
 #    _log(driver.page_source)
 #    sys.exit()
     driver.switch_to.window(driver.window_handles[1])
-
+#    time.sleep(100000)
     try:
-        r = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="__layout"]/div/aside/div[1]/div[2]/div/div/ul/li/div[1]')))
+#        r = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="__layout"]/div/aside/div[1]/div[2]/div/div/ul/li/div[1]')))
+        r = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="__layout"]/div/aside/div[1]/div[2]/div/div/ul/li/div[5]/span')))
     except:
         print ("timeout")
         driver.close()
@@ -338,6 +341,7 @@ def ingo_reg():
     print ("found")
     try:
         r = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="__layout"]/div/main/div/div[1]/div/div[1]/article/div/div[3]/span/div/center/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr/td/div/p[6]/a')))
+
     except:
         print ("timeout clicking")
         driver.close()
@@ -353,24 +357,6 @@ def ingo_reg():
 
 #    sys.exit()
     return True
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -461,7 +447,7 @@ while True:
 #driver.get('https://24xforex.com/') 
 #print(driver.title)
 # driver.click...
-
+#    ingo_reg()
 #_do_email()
     try:
         ingo_reg()
@@ -475,11 +461,11 @@ while True:
         print ("ingo email fail")
         pass
 
-    try:
-        _do_chat()
-    except:
-        print ('chat failed')
-        pass
+#    try:
+#        _do_chat()
+#    except:
+#        print ('chat failed')
+#        pass
 
     try:
         _do_email()
