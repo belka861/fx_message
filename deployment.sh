@@ -5,7 +5,7 @@ sudo apt-get install wget -y
 sudo apt-get install mc -y
 sudo apt-get install screen -y
 sudo apt-get install python3-pip -y
-sudo apt-get install xvfb
+sudo apt-get install xvfb -y
 
 wget https://chromedriver.storage.googleapis.com/2.35/chromedriver_linux64.zip
 unzip chromedriver_linux64.zip
