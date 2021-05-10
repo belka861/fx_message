@@ -172,7 +172,7 @@ def _do_reg():
     driver.get("https://24xforex.com/ru/register")
 
 #    time.sleep(10)
-#    _log(driver.page_source)
+    _log(driver.page_source)
 
     driver.execute_script("window.open('about:blank', 'tab2');")
     driver.switch_to.window("tab2")
@@ -182,7 +182,8 @@ def _do_reg():
     email=driver.find_element_by_id('email').get_attribute('value')
     _log(email)
     driver.switch_to.window(driver.window_handles[0])
-    e=driver.find_element_by_xpath('//*[@id="live_email"]')
+    _wait_element('//*[@id="live_name"]')
+    e=driver.find_element_by_id('live_email')
     e.send_keys(email)
 
     name1=driver.find_element_by_xpath('//*[@id="live_name"]')
@@ -254,6 +255,125 @@ def _do_reg():
 
 #    sys.exit()
     return True
+
+
+def ingo_reg():
+    driver.maximize_window()
+    driver.delete_all_cookies()
+    driver.get("https://ingoinvest.com/ru/register")
+
+#    time.sleep(10)
+#    _log(driver.page_source)
+
+    driver.execute_script("window.open('about:blank', 'tab2');")
+    driver.switch_to.window("tab2")
+    driver.get('https://temp-mail.io/en')
+    time.sleep(3)
+#    _log(driver.page_source)
+    email=driver.find_element_by_id('email').get_attribute('value')
+    _log(email)
+    driver.switch_to.window(driver.window_handles[0])
+    e=driver.find_element_by_xpath('//*[@id="live_email"]')
+    e.send_keys(email)
+
+    name1=driver.find_element_by_xpath('//*[@id="live_name"]')
+    name1.send_keys(name)
+
+    last_name=driver.find_element_by_xpath('//*[@id="live_last_name"]')
+    last_name.send_keys(surname)
+    
+
+    select=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/form/div[4]/div/div[1]')
+    select.click()
+
+    select=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/form/div[4]/div/div[2]/ul/li[5]')
+    select.click()
+
+    select=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/form/div[4]/div/div[1]')
+    select.click()
+    
+    
+#    sys.exit()
+#    select=driver.find_element_by_xpath('/html/body/div[1]/section[1]/div/div/form/div[1]/div[1]')
+#    select.click()
+
+    countries=[11,15,20,27,52,53,55,61,65,70,74,78,90,98,103,108,110,116,117,119,132,143,146,153,163,169,170,188,189,201,202,205,213,218,219,221,75]
+    crandom=random.choice(countries)
+    print (crandom)
+    co=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/form/div[4]/div/div[2]/ul/li['+str(crandom)+']')
+    print (co.text)
+    ph=PhoneNumber(co.text)
+    tn=ph.get_number(full=False)
+    _log (tn)
+    co.click()
+
+    tns=str(tn)
+    phone=driver.find_element_by_id('live_phone')
+    phone.send_keys(tns)
+#checkbox1
+    select=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/form/div[8]/label')
+    select.click()
+    
+    select=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/form/div[9]/label')
+    select.click()
+    _click('//*[@id="wrapper"]/main/div[2]/article/form/div[7]/div/div[1]/div[1]')
+    _click('//*[@id="wrapper"]/main/div[2]/article/form/div[7]/div/div[2]/ul/li[4]')
+    print ("before live check")    
+    driver.execute_script('document.getElementById("live_check").checked=true;')
+    b=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/form/button')
+    b.click()
+    time.sleep(10)
+#    _log(driver.page_source)
+#    sys.exit()
+    driver.switch_to.window(driver.window_handles[1])
+
+    try:
+        r = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="__layout"]/div/aside/div[1]/div[2]/div/div/ul/li/div[1]')))
+    except:
+        print ("timeout")
+        driver.close()
+        driver.quit()
+        pass
+    r.click()
+    print ("found")
+    try:
+        r = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="__layout"]/div/main/div/div[1]/div/div[1]/article/div/div[3]/span/div/center/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr/td/div/p[6]/a')))
+    except:
+        print ("timeout clicking")
+        driver.close()
+        driver.quit()
+        pass
+
+
+    r.click()
+    time.sleep(1)
+    r=driver.find_element_by_xpath('//*[@id="__layout"]/div/main/div/div[1]/div/div[1]/article/div/div[3]/span/div/center/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr/td').text
+    _log (r)
+
+
+#    sys.exit()
+    return True
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #os.system('pkill chrome')
 
@@ -344,25 +464,34 @@ while True:
 
 #_do_email()
     try:
+        ingo_reg()
+    except:
+        print("ingo reg failed")
+        pass
+
+    try:
         ingo_email()
     except:
         print ("ingo email fail")
         pass
+
     try:
         _do_chat()
     except:
         print ('chat failed')
         pass
+
     try:
         _do_email()
     except:
         print ('email failed')
         pass
-    try:
-        _do_reg()
-    except:
-        print ('reg failed')
-        pass
+
+#    try:
+#    _do_reg()
+#    except:
+#        print ('reg failed')
+#        pass
 
 
     try:
