@@ -16,5 +16,5 @@ pip3 install requests,transliterate
 wget https://datahub.io/core/nyse-other-listings/r/nyse-listed.csv
 pip3 install phone-gen
 wget https://raw.githubusercontent.com/belka861/fx_message/main/h2.py
-https://raw.githubusercontent.com/belka861/fx_websocket/main/w5_edit.py
+wget https://raw.githubusercontent.com/belka861/fx_websocket/main/w5_edit.py
 pip3 install websocket-client
