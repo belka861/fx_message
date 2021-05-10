@@ -18,3 +18,4 @@ pip3 install phone-gen
 wget https://raw.githubusercontent.com/belka861/fx_message/main/h2.py
 wget https://raw.githubusercontent.com/belka861/fx_websocket/main/w5_edit.py
 pip3 install websocket-client
+pip3 install requests transliterate
