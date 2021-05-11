@@ -32,17 +32,6 @@ def _log(message):
     fh.close()
     return True
 
-
-import string
-
-def get_random_string(length):
-    # With combination of lower and upper case
-    result_str = ''.join(random.choice(string.ascii_letters) for i in range(length))
-    # print random string
-    print(result_str)
-
-
-
 import requests
 
 from transliterate import translit, get_available_language_codes
@@ -403,7 +392,7 @@ with open('countries.txt', 'r') as file:
     countries = file.readlines()
 
 while True:
-#    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
 
     question=data[random.randint(1,len(data)-1)].replace('\n', '')
 #    _log(question)
@@ -423,9 +412,6 @@ while True:
     tnf=ph.get_number()
 #    _log(tnf)
 
-    phone_rus=PhoneNumber("Russia").get_number(full=False)
-    phone_rus=PhoneNumber("FR").get_number(full=False)
-
     #random full name choice
     dice=random.choice([1,2,3])
     _log (dice)
@@ -440,11 +426,11 @@ while True:
     dice=random.choice([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,21,22,23,20])
     if (dice==5):
         tick=nyse[random.randint(1,len(nyse)-1)].replace('\n', '')
-        question="РњРЅРµ Р°РЅР°Р»РёС‚РёРє РїРѕСЃРѕРІРµС‚РѕРІР°Р» РєСѓРїРёС‚СЊ Р°РєС†РёРё "+tick+" Рђ РћРќР РЎР•Р“РћР”РќРЇ РћР‘Р’РђР›РР›РРЎР¬! Р’Р•Р РќРРўР• РњРќР• РњРћР Р”Р•РќР¬Р“Р!!!"
+        question="Мне аналитик посоветовал купить акции "+tick+" А ОНИ СЕГОДНЯ ОБВАЛИЛИСЬ! ВЕРНИТЕ МНЕ МОИ ДЕНЬГИ!!!"
 
     if (dice==6):
         card=str(random.randint(1000,9999))
-        question="РџРѕ РїРѕРІРѕРґСѓ РїРѕРїРѕР»РЅРµРЅРёСЏ С‚РѕСЂРіРІРѕРіРѕ СЃС‡РµС‚Р° РєР°СЂС‚РѕС‡РєРѕР№ Visa "+card
+        question="По поводу пополнения торгвого счета карточкой Visa "+card
 
 
 
@@ -478,23 +464,18 @@ while True:
 # driver.click...
 #    ingo_reg()
 #_do_email()
+    ptrend_reg()
     try:
-        ptrend_reg()
+        ingo_reg()
     except:
-        print("ptrend fail")
+        print("ingo reg failed")
         pass
-#    sys.ex
-#    try:
-#        ingo_reg()
-#    except:
-#        print("ingo reg failed")
-#        pass
 
-#    try:
-#        ingo_email()
-#    except:
-#        print ("ingo email fail")
-#        pass
+    try:
+        ingo_email()
+    except:
+        print ("ingo email fail")
+        pass
 
 #    try:
 #        _do_chat()
@@ -502,11 +483,11 @@ while True:
 #        print ('chat failed')
 #        pass
 
-#    try:
-#        _do_email()
-#    except:
-#        print ('email failed')
-#        pass
+    try:
+        _do_email()
+    except:
+        print ('email failed')
+        pass
 
 #    try:
 #    _do_reg()
@@ -515,11 +496,10 @@ while True:
 #        pass
 
 
-#    try:
-#        driver.delete_all_cookies()
-#    except:
-#        pass
-#    driver.close()
-#    driver.quit()
-#    os.system('pkill chrome')
-#    time.sleep(61)
+    try:
+        driver.delete_all_cookies()
+    except:
+        pass
+    driver.close()
+    driver.quit()
+    os.system('pkill chrome')
