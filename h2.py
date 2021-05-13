@@ -376,6 +376,58 @@ def ptrend_reg():
     return True
 
 
+def lime_reg():
+    driver.delete_all_cookies()
+    driver.get("https://limefx.com/registration/")
+    r=driver.find_element_by_xpath('//*[@id="RForm-0"]/form/div[1]/input')
+    r.send_keys(name)
+    r=driver.find_element_by_xpath('//*[@id="RForm-0"]/form/div[2]/input')
+    r.send_keys(surname)
+
+    _click('//*[@id="RForm-0"]/form/div[7]/select')
+    _click('/html/body/section/div/div[2]/div[1]/div/div/form/div[7]/select/option[157]')
+#    e=driver.find_element_by_id('//*[@id="RForm-0"]/form/div[5]/input')
+#    e.send_keys("testing1235")
+
+    ph=PhoneNumber('RU')
+    tn=ph.get_number(full=False)
+    print (tn)
+    r=driver.find_element_by_xpath('//*[@id="txtPhone"]')
+    r.send_keys(tn)
+    driver.execute_script("window.open('about:blank', 'tab2');")
+    driver.switch_to.window("tab2")
+    driver.get('https://temp-mail.io/en')
+    time.sleep(3)
+
+
+#    _log(driver.page_source)
+    email=driver.find_element_by_id('email').get_attribute('value')
+    _log(email)
+    driver.switch_to.window(driver.window_handles[0])
+#    time.sleep(3)
+#    _click('//*[@id="RForm-0"]/form/div[4]/input')
+#    _wait_element('//*[@id="RForm-0"]/form/div[4]/input')
+    e=driver.find_element_by_xpath('//*[@id="RForm-0"]/form/div[4]/input')
+    e.send_keys(email)
+    password=""
+    for i in range (1,4):
+        password=password+random.choice('abcdefghijklmnopqruvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    for i in range (1,3):
+        password=password+random.choice('0123456789')
+    r=driver.find_element_by_xpath('//*[@id="RForm-0"]/form/div[5]/input')
+    r.send_keys(password)
+    r=driver.find_element_by_xpath('//*[@id="RForm-0"]/form/div[6]/input')
+    r.send_keys(password)
+    _wait_element('//*[@id="RForm-0"]/form/div[8]/button')
+    _click('//*[@id="RForm-0"]/form/div[8]/button')
+#    time.sleep(5)
+#    _log(driver.page_source)
+    time.sleep(10)
+    driver.get('https://myaccountnew.limefx.com/personal-data/personal-data')
+    time.sleep(10)
+    _log(driver.page_source)
+
+
 #os.system('pkill chrome')
 
 #random question
