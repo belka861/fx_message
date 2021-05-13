@@ -427,7 +427,38 @@ def lime_reg():
     time.sleep(10)
     _log(driver.page_source)
 
+def lime_email():
+    co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Грузия','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция']
+    co2_choice=random.choice(co2)
+    co2_dict={'Австрия':'AT','Азербайджан':'AZ','Армения':'AM','Бельгия':'BE','Болгария':'BG','Великобритания':'GB','Венгрия':'HU','Германия':'DE','Греция':'GR','Грузия':'GE','Дания':'DK','Испания':'ES','Италия':'IT','Казахстан':'KZ','Кипр':'CY','Латвия':'LV','Литва':'LT','Молдова':'MD','Монако':'MC','Нидерланды':'NL','Норвегия':'NO','Польша':'PL','Португалия':'PT','Российская Федерация':'RU','Румыния':'RO','Словакия':'SK','Словения':'SI','Таджикистан':'TJ','Узбекистан':'UZ','Франция':'FR','Хорватия':'HR','Чешская Республика':'CZ','Швейцария':'CH','Швеция':'SE'}
+    co2_code=co2_dict[co2_choice]
+    _log(co2_choice+co2_code)
+#    sys.exit()
+    driver.delete_all_cookies()
+    driver.get("https://limefx.com/about-us/feedback/")
+    r=driver.find_element_by_xpath('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[1]/div[1]/span/input')
+    r.send_keys(name)
+    r=driver.find_element_by_xpath('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[1]/div[2]/span/input')
+    r.send_keys(surname)
+    _click('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[3]/div[1]/span/select')
+    _click('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[3]/div[1]/span/select/option[text()=\''+co2_choice+'\']')
+    _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[2]/div[1]/span/input',email)
+    ph=PhoneNumber(co2_code)
+    tn=ph.get_number(full=True)
+    _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[2]/div[2]/span/input',tn)
+    _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[3]/div[2]/span/input',question)
+    q2=question
+    dice=random.choice(1,2,3,4,5)
+    if (dice==3):
+        q2=question2
+    _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[3]/div[3]/span/textarea',q2)
+    time.sleep(1000)
+    _click('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[4]/input')
+    _wait_element('//*[@id="wpcf7-f5877-o1"]/form/div[3]')
+    _log(driver.find_element_by_xpath('//*[@id="wpcf7-f5877-o1"]/form/div[3]').text)
 
+    
+    
 #os.system('pkill chrome')
 
 #random question
@@ -447,6 +478,7 @@ while True:
     driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
 
     question=data[random.randint(1,len(data)-1)].replace('\n', '')
+    question2=data[random.randint(1,len(data)-1)].replace('\n', '')
 #    _log(question)
 
     name=names[random.randint(1,len(names)-1)].replace('\n', '')
