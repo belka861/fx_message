@@ -62,6 +62,10 @@ with open('nyse-listed.csv', 'r') as file:
 
 
 
+def _send_text(x,t):
+    r=driver.find_element_by_xpath(x)
+    r.send_keys(t)
+    return True
 
 
 
