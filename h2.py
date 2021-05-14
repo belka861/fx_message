@@ -454,7 +454,7 @@ def lime_email():
     _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[2]/div[2]/span/input',tn)
     _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[3]/div[2]/span/input',question)
     q2=question
-    dice=random.choice([1,2,3,4,5,6])
+    dice=random.choice([1,2,3,4,5])
     if (dice==3):
         q2=question2
     _log(q2)
@@ -480,9 +480,9 @@ with open('surnames_f.txt', 'r') as file:
 
 with open('countries.txt', 'r') as file:
     countries = file.readlines()
-
+driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
 while True:
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+
 
     question=data[random.randint(1,len(data)-1)].replace('\n', '')
     question2=data[random.randint(1,len(data)-1)].replace('\n', '')
@@ -523,6 +523,10 @@ while True:
         card=str(random.randint(1000,9999))
         question="По поводу пополнения торгвого счета карточкой Visa "+card
 
+    if (dice==7):
+        hour=str(random.randint(1,23))
+        minute=str(random.randint(1,59))
+        question="Перезвоните мне по поводу активации счёта завтра в "+hour+':'+minute
 
 
 
@@ -610,6 +614,6 @@ while True:
 #        driver.delete_all_cookies()
 #    except:
 #        pass
-    driver.close()
-    driver.quit()
-    os.system('pkill chrome')
+#    driver.close()
+#    driver.quit()
+#    os.system('pkill chrome')
