@@ -528,6 +528,9 @@ while True:
         minute=str(random.randint(1,59))
         question="Перезвоните мне по поводу активации счёта завтра в "+hour+':'+minute
 
+    if (dice==8):
+        name2=names[random.randint(1,len(names)-1)].replace('\n', '')
+        question="Мне звонила ваш менеджер "+name2+" по поводу активации, оборвалось, перезвоните"
 
 
 
