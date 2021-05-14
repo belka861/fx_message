@@ -8,8 +8,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from phone_gen import PhoneNumber
 #
-#chrome_options.add_argument('--headless')
-#chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors. 
+chrome_options.add_argument('--headless')
+chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors. 
 import time,os,random,datetime,sys
 chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 
@@ -55,17 +55,17 @@ with open('nyse-listed.csv', 'r') as file:
     nyse = file.readlines()
 
 
-
-
-
-
-
-
-
 def _send_text(x,t):
     r=driver.find_element_by_xpath(x)
     r.send_keys(t)
     return True
+
+
+
+
+
+
+
 
 
 
@@ -398,16 +398,16 @@ def lime_reg():
     print (tn)
     r=driver.find_element_by_xpath('//*[@id="txtPhone"]')
     r.send_keys(tn)
-    driver.execute_script("window.open('about:blank', 'tab2');")
-    driver.switch_to.window("tab2")
-    driver.get('https://temp-mail.io/en')
-    time.sleep(3)
+#    driver.execute_script("window.open('about:blank', 'tab2');")
+#    driver.switch_to.window("tab2")
+#    driver.get('https://temp-mail.io/en')
+#    time.sleep(3)
 
 
 #    _log(driver.page_source)
-    email=driver.find_element_by_id('email').get_attribute('value')
-    _log(email)
-    driver.switch_to.window(driver.window_handles[0])
+#    email=driver.find_element_by_id('email').get_attribute('value')
+#    _log(email)
+#    driver.switch_to.window(driver.window_handles[0])
 #    time.sleep(3)
 #    _click('//*[@id="RForm-0"]/form/div[4]/input')
 #    _wait_element('//*[@id="RForm-0"]/form/div[4]/input')
@@ -422,6 +422,7 @@ def lime_reg():
     r.send_keys(password)
     r=driver.find_element_by_xpath('//*[@id="RForm-0"]/form/div[6]/input')
     r.send_keys(password)
+    _log(email+" "+password)
     _wait_element('//*[@id="RForm-0"]/form/div[8]/button')
     _click('//*[@id="RForm-0"]/form/div[8]/button')
 #    time.sleep(5)
@@ -429,7 +430,8 @@ def lime_reg():
     time.sleep(10)
     driver.get('https://myaccountnew.limefx.com/personal-data/personal-data')
     time.sleep(10)
-    _log(driver.page_source)
+    _log("reg maybe ok")
+#    _log(driver.page_source)
 
 def lime_email():
     co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Грузия','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция']
@@ -452,11 +454,12 @@ def lime_email():
     _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[2]/div[2]/span/input',tn)
     _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[3]/div[2]/span/input',question)
     q2=question
-    dice=random.choice(1,2,3,4,5)
+    dice=random.choice([1,2,3,4,5,6,7,8,9,10])
     if (dice==3):
         q2=question2
+    _log(q2)
     _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[3]/div[3]/span/textarea',q2)
-    time.sleep(1000)
+#    time.sleep(1000)
     _click('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[4]/input')
     _wait_element('//*[@id="wpcf7-f5877-o1"]/form/div[3]')
     _log(driver.find_element_by_xpath('//*[@id="wpcf7-f5877-o1"]/form/div[3]').text)
@@ -550,20 +553,31 @@ while True:
 #driver.get('https://24xforex.com/') 
 #print(driver.title)
 # driver.click...
-#    ingo_reg()
-#_do_email()
-    ptrend_reg()
     try:
-        ingo_reg()
+        lime_email()
     except:
-        print("ingo reg failed")
+        _log("lime email fail")
+        pass
+    try:
+        lime_reg()
+    except:
+        _log("lime reg fail")
         pass
 
-    try:
-        ingo_email()
-    except:
-        print ("ingo email fail")
-        pass
+#    ingo_reg()
+#_do_email()
+#    ptrend_reg()
+#    try:
+#        ingo_reg()
+#    except:
+#        print("ingo reg failed")
+#        pass
+
+#    try:
+#        ingo_email()
+#    except:
+#        print ("ingo email fail")
+#        pass
 
 #    try:
 #        _do_chat()
@@ -571,11 +585,11 @@ while True:
 #        print ('chat failed')
 #        pass
 
-    try:
-        _do_email()
-    except:
-        print ('email failed')
-        pass
+#    try:
+#        _do_email()
+#    except:
+#        print ('email failed')
+#        pass
 
 #    try:
 #    _do_reg()
@@ -584,10 +598,10 @@ while True:
 #        pass
 
 
-    try:
-        driver.delete_all_cookies()
-    except:
-        pass
+#    try:
+#        driver.delete_all_cookies()
+#    except:
+#        pass
     driver.close()
     driver.quit()
     os.system('pkill chrome')
