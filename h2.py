@@ -9,8 +9,8 @@ from selenium.webdriver.common.keys import Keys
 from phone_gen import PhoneNumber
 import time,os,random,datetime,sys
 #
-mode="DEV"
-#mode="PROD"
+#mode="DEV"
+mode="PROD"
 
 
 if (mode=="PROD"):
@@ -500,7 +500,18 @@ def plus_reg():
     _wait_element('//*[@id="system_message"]/div[1]/div/div/div[2]')
     r=driver.find_element_by_xpath('//*[@id="system_message"]/div[1]/div/div/div[2]').text
     _log(r)
-    
+
+def plus_email():    
+    driver.delete_all_cookies()
+    driver.get("https://pulse-trade.com/contacts")
+    _send_text('//*[@id="rec246689055"]/div/div/div[3]/div[1]/form/div[1]/input', final_name)
+    _send_text('//*[@id="rec246689055"]/div/div/div[3]/div[1]/form/div[2]/input', email)
+    _send_text('//*[@id="rec246689055"]/div/div/div[3]/div[1]/form/div[3]/textarea',question)
+    _click('//*[@id="rec246689055"]/div/div/div[3]/div[1]/form/div[4]/input')
+    _wait_element('//*[@id="system_message"]/div[1]/div/div/div[2]')
+    r=driver.find_element_by_xpath('//*[@id="system_message"]/div[1]/div/div/div[2]').text
+    _log(r)
+    time.sleep(1000)
     
 #os.system('pkill chrome')
 
@@ -600,9 +611,15 @@ while True:
 #driver.get('https://24xforex.com/') 
 #print(driver.title)
 # driver.click...
-    plus_reg()
-
-
+    try:
+        plus_reg()
+    except:
+        _log("plus reg fail")
+        pass
+    try:
+        plus_email()
+        _log("plus email fail")
+        pass
 
     try:
         lime_email()
