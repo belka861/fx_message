@@ -375,7 +375,7 @@ def ptrend_reg():
 
 
     _log(payload)
-    result = os.popen('curl --header "Content-Type: application/json"  --request POST  --data \''+payload+'\'  https://prtrend.org/wp-json/xcritical/1.0/registration').read()
+    result = os.popen('curl -s --header "Content-Type: application/json"  --request POST  --data \''+payload+'\'  https://prtrend.org/wp-json/xcritical/1.0/registration').read()
     _log(result)
     return True
 
@@ -454,7 +454,7 @@ def lime_email():
     _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[2]/div[2]/span/input',tn)
     _send_text('//*[@id="wpcf7-f5877-o1"]/form/div[2]/div[3]/div[2]/span/input',question)
     q2=question
-    dice=random.choice([1,2,3,4,5,6,7,8,9,10])
+    dice=random.choice([1,2,3,4,5,6])
     if (dice==3):
         q2=question2
     _log(q2)
@@ -565,8 +565,16 @@ while True:
         pass
 
 #    ingo_reg()
-#_do_email()
-#    ptrend_reg()
+#    _do_email()
+#    _do_chat()
+#    ingo_email()
+    try:
+        ptrend_reg()
+    except:
+        _log("prtend reg fail")
+        pass
+
+
 #    try:
 #        ingo_reg()
 #    except:
