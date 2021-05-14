@@ -7,16 +7,22 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from phone_gen import PhoneNumber
-#
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors. 
 import time,os,random,datetime,sys
-chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+#
+mode="DEV"
+#mode="PROD"
+
+
+if (mode=="PROD"):
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors.     
+    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+    from pyvirtualdisplay import Display 
+    display = Display(visible=0, size=(1024, 768)) 
+    display.start() 
+
 
 # Option 2 - with pyvirtualdisplay
-from pyvirtualdisplay import Display 
-display = Display(visible=0, size=(1024, 768)) 
-display.start() 
 #driver = webdriver.Chrome(driver_path='/home/dev/chromedriver', 
 #  service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
 # Log path added via service_args to see errors if something goes wrong (always a good idea - many of the errors I encountered were described in the logs)
@@ -464,23 +470,57 @@ def lime_email():
     _wait_element('//*[@id="wpcf7-f5877-o1"]/form/div[3]')
     _log(driver.find_element_by_xpath('//*[@id="wpcf7-f5877-o1"]/form/div[3]').text)
 
+
+
+def plus_reg():
+    driver.delete_all_cookies()
+    driver.get("https://pulse-trade.com/register")
+    _send_text('//*[@id="front_promo"]/div/div/form/div[1]/div[2]/div[1]/input',name)
+    _send_text('//*[@id="front_promo"]/div/div/form/div[1]/div[2]/div[2]/input',surname)
+    _send_text('//*[@id="front_promo"]/div/div/form/div[1]/div[1]/div[1]/input', email)
+    password=random.choice(['A','B','C','D','E','F'])
+    for i in range (1,6):
+        password=password+random.choice('abcdefghijklmnopqruvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    for i in range (1,4):
+        password=password+random.choice('0123456789')
+    password=password+'*'
+    _log(email)
+    _log (password)
+    _send_text('//*[@id="front_promo"]/div/div/form/div[1]/div[1]/div[2]/input',password)
+    _send_text('//*[@id="front_promo"]/div/div/form/div[1]/div[1]/div[3]/input',password)
+    _click('//*[@id="front_promo"]/div/div/form/div[2]/div/input')
+    co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Грузия','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция']
+    co2_choice=random.choice(co2)
+    co2_dict={'Австрия':'AT','Азербайджан':'AZ','Армения':'AM','Бельгия':'BE','Болгария':'BG','Великобритания':'GB','Венгрия':'HU','Германия':'DE','Греция':'GR','Грузия':'GE','Дания':'DK','Испания':'ES','Италия':'IT','Казахстан':'KZ','Кипр':'CY','Латвия':'LV','Литва':'LT','Молдова':'MD','Монако':'MC','Нидерланды':'NL','Норвегия':'NO','Польша':'PL','Португалия':'PT','Российская Федерация':'RU','Румыния':'RO','Словакия':'SK','Словения':'SI','Таджикистан':'TJ','Узбекистан':'UZ','Франция':'FR','Хорватия':'HR','Чешская Республика':'CZ','Швейцария':'CH','Швеция':'SE'}
+    co2_code=co2_dict[co2_choice]
+    ph=PhoneNumber(co2_code)
+    tn=ph.get_number(full=True)
+    _send_text('//*[@id="front_promo"]/div/div/form/div[1]/div[2]/div[4]/input',tn)
+    _click('//*[@id="front_promo"]/div/div/form/button')
+    _wait_element('//*[@id="system_message"]/div[1]/div/div/div[2]')
+    r=driver.find_element_by_xpath('//*[@id="system_message"]/div[1]/div/div/div[2]').text
+    _log(r)
     
     
 #os.system('pkill chrome')
 
 #random question
-with open('phrases.txt', 'r') as file:
+with open('phrases.txt', 'r',encoding="utf-8") as file:
     data = file.readlines()
 
-with open('names_f.txt', 'r') as file:
+with open('names_f.txt', 'r',encoding="utf-8") as file:
     names = file.readlines()
 
-with open('surnames_f.txt', 'r') as file:
+with open('surnames_f.txt', 'r',encoding="utf-8") as file:
     surnames = file.readlines()
 
-with open('countries.txt', 'r') as file:
+with open('countries.txt', 'r',encoding="utf-8") as file:
     countries = file.readlines()
-driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+
+if (mode=="PROD"):
+    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+else:
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
 while True:
 
 
@@ -560,6 +600,10 @@ while True:
 #driver.get('https://24xforex.com/') 
 #print(driver.title)
 # driver.click...
+    plus_reg()
+
+
+
     try:
         lime_email()
     except:
