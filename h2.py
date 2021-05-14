@@ -618,6 +618,7 @@ while True:
         pass
     try:
         plus_email()
+    except:
         _log("plus email fail")
         pass
 
