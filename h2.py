@@ -1,4 +1,7 @@
 from selenium import webdriver
+#import numpy as np
+#from scipy.interpolate import splev, splrep
+
 # Option 1 - with ChromeOptions
 chrome_options = webdriver.ChromeOptions()
 from selenium.webdriver.support.ui import WebDriverWait
@@ -21,6 +24,8 @@ if (mode=="PROD"):
     display = Display(visible=0, size=(1024, 768)) 
     display.start() 
 
+else:
+    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 
 # Option 2 - with pyvirtualdisplay
 #driver = webdriver.Chrome(driver_path='/home/dev/chromedriver', 
@@ -37,6 +42,60 @@ def _log(message):
     fh.write(text)
     fh.close()
     return True
+
+def human_like_mouse_move(action, start_element):
+
+    points = [[10, 2], [30, 2],[0, 0], [0, 2]];
+    points = np.array(points)
+    x = points[:,0]
+    y = points[:,1]
+
+
+    t = range(len(points))
+    ipl_t = np.linspace(0.0, len(points) - 1, 100)
+
+
+    x_tup = splrep(t, x, k=1)
+    y_tup = splrep(t, y, k=1)
+
+    x_list = list(x_tup)
+    xl = x.tolist()
+    x_list[1] = xl + [0.0, 0.0, 0.0, 0.0]
+
+    y_list = list(y_tup)
+    yl = y.tolist()
+    y_list[1] = yl + [0.0, 0.0, 0.0, 0.0]
+
+    x_i = splev(ipl_t, x_list)
+    y_i = splev(ipl_t, y_list)
+
+    startElement = start_element
+
+    action.move_to_element(startElement);
+    action.perform();
+
+    c = 5
+    i = 0
+    for mouse_x, mouse_y in zip(x_i, y_i):
+        action.move_by_offset(mouse_x,mouse_y);
+        action.perform();
+        _log("Move mouse to, %s ,%s" % (mouse_x, mouse_y))
+        i =i+1    
+        if (i == c):
+            break
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import requests
 
@@ -309,7 +368,7 @@ def ingo_reg():
 #    select=driver.find_element_by_xpath('/html/body/div[1]/section[1]/div/div/form/div[1]/div[1]')
 #    select.click()
 
-    countries=[11,15,20,27,52,53,55,61,65,70,74,78,90,98,103,108,110,116,117,119,132,143,146,153,163,169,170,188,189,201,202,205,213,218,219,221,75]
+    countries=[11,15,20,27,52,53,55,61,70,74,78,90,98,103,108,110,116,117,119,132,143,146,153,163,170,188,189,201,202,205,213,218,219,221,75]
     crandom=random.choice(countries)
     print (crandom)
     co=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/form/div[4]/div/div[2]/ul/li['+str(crandom)+']')
@@ -496,6 +555,36 @@ def plus_reg():
     ph=PhoneNumber(co2_code)
     tn=ph.get_number(full=True)
     _send_text('//*[@id="front_promo"]/div/div/form/div[1]/div[2]/div[4]/input',tn)
+
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(random.randint(1,3))
+    _click('//*[@id="front_promo"]/div/div/form/div[2]/div/input')
+    driver.execute_script("window.scrollTo(0, 0);")
+    _click('//*[@id="front_promo"]/div/div/form/div[2]/div/input')
+
+    action = webdriver.ActionChains(driver)
+    element = driver.find_element_by_xpath('//*[@id="front_promo"]/div/div/form/div[1]/div[2]/div[1]/input') # or your another selector here
+#    action.move_to_element(element)
+    human_like_mouse_move(action, element)
+    action.perform()
+    time.sleep(random.randint(1,3))
+    _click('//*[@id="front_promo"]/div/div/form/div[2]/div/input')
+    element = driver.find_element_by_xpath('//*[@id="front_promo"]/div/div/form/div[1]/div[2]/div[2]/input') # or your another selector here
+    time.sleep(random.randint(1,3))
+    _click('//*[@id="front_promo"]/div/div/form/div[2]/div/input')
+    human_like_mouse_move(action, element)
+    element = driver.find_element_by_xpath('//*[@id="front_promo"]/div/div/form/div[1]/div[1]/div[1]/input') # or your another selector here
+    human_like_mouse_move(action, element)
+    time.sleep(1.4)
+    _click('//*[@id="front_promo"]/div/h1')
+#    check_box=    WebDriverWait(driver, 10).until(EC.frame_to_be_available_and_switch_to_it((By.ID,"front_promo")))
+#    human_like_mouse_move(action, check_box)
+    _wait_element('//*[@id="recaptcha-anchor"]/div[1]')
+
+
+
+    _click('//*[@id="recaptcha-anchor"]/div[1]')
+    time.sleep(3)
     _click('//*[@id="front_promo"]/div/div/form/button')
     _wait_element('//*[@id="system_message"]/div[1]/div/div/div[2]')
     r=driver.find_element_by_xpath('//*[@id="system_message"]/div[1]/div/div/div[2]').text
@@ -511,7 +600,7 @@ def plus_email():
     _wait_element('//*[@id="system_message"]/div[1]/div/div/div[2]')
     r=driver.find_element_by_xpath('//*[@id="system_message"]/div[1]/div/div/div[2]').text
     _log(r)
-    time.sleep(1000)
+#    time.sleep(1000)
     
 #os.system('pkill chrome')
 
@@ -528,10 +617,6 @@ with open('surnames_f.txt', 'r',encoding="utf-8") as file:
 with open('countries.txt', 'r',encoding="utf-8") as file:
     countries = file.readlines()
 
-if (mode=="PROD"):
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
-else:
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
 while True:
 
 
@@ -611,24 +696,50 @@ while True:
 #driver.get('https://24xforex.com/') 
 #print(driver.title)
 # driver.click...
-    try:
-        plus_reg()
-    except:
-        _log("plus reg fail")
-        pass
+#    plus_reg()
+#    try:
+#        plus_reg()
+#    except:
+#        _log("plus reg fail")
+#        pass
+
+    _log("--------------Plus email begin------------")
+    if (mode=="PROD"):
+        driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    else:
+        driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
     try:
         plus_email()
+        driver.close()
+        driver.quit()
     except:
         _log("plus email fail")
         pass
 
+    _log("--------------lime email begin------------")
+    if (mode=="PROD"):
+        driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    else:
+        driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
     try:
         lime_email()
+        driver.close()
+        driver.quit()
     except:
-        _log("lime email fail")
-        pass
+       _log("lime email fail")
+       pass
+
+    if (mode=="PROD"):
+        driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    else:
+        driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+
+    _log("--------------lime reg begin------------")
     try:
         lime_reg()
+        driver.close()
+        driver.quit()
+
     except:
         _log("lime reg fail")
         pass
@@ -637,43 +748,91 @@ while True:
 #    _do_email()
 #    _do_chat()
 #    ingo_email()
+    _log("--------------prtend reg begin------------")
     try:
         ptrend_reg()
     except:
         _log("prtend reg fail")
         pass
 
+    _log("--------------Ingo reg begin------------")
+    if (mode=="PROD"):
+        driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    else:
+        driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
 
-#    try:
-#        ingo_reg()
-#    except:
-#        print("ingo reg failed")
-#        pass
+    try:
+        ingo_reg()
+        driver.close()
+        driver.quit()
 
-#    try:
-#        ingo_email()
-#    except:
-#        print ("ingo email fail")
-#        pass
+    except:
+        print("ingo reg failed")
+        pass
+    _log("--------------Ingo reg end------------")
+    _log("")
 
-#    try:
-#        _do_chat()
-#    except:
-#        print ('chat failed')
-#        pass
+    _log("--------------Ingo email begin------------")
+    if (mode=="PROD"):
+        driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    else:
+        driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    try:
+        ingo_email()
+        driver.close()
+        driver.quit()
 
-#    try:
-#        _do_email()
-#    except:
-#        print ('email failed')
-#        pass
+    except:
+        print ("ingo email fail")
+        pass
 
-#    try:
-#    _do_reg()
-#    except:
-#        print ('reg failed')
-#        pass
 
+    _log("--------------24x forex chat begin ------------")
+    if (mode=="PROD"):
+        driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    else:
+        driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+
+    try:
+        _do_chat()
+        driver.close()
+        driver.quit()
+
+    except:
+        print ('chat failed')
+        pass
+#    time.sleep(1000)
+
+
+    _log("--------------24x forex email begin ------------")
+    if (mode=="PROD"):
+        driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    else:
+        driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    try:
+        _do_email()
+        driver.close()
+        driver.quit()
+
+    except:
+        print ('email failed')
+        pass
+
+    _log("--------------24x forex reg begin ------------")
+    if (mode=="PROD"):
+        driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    else:
+        driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+
+
+    try:
+        _do_reg()
+        driver.close()
+        driver.quit()
+
+    except:
+        print ('reg failed')
+        pass
 
 #    try:
 #        driver.delete_all_cookies()
