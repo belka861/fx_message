@@ -12,8 +12,8 @@ from selenium.webdriver.common.keys import Keys
 from phone_gen import PhoneNumber
 import time,os,random,datetime,sys
 #
-#mode="DEV"
-mode="PROD"
+mode="DEV"
+#mode="PROD"
 
 
 if (mode=="PROD"):
