@@ -704,7 +704,7 @@ while True:
 #        pass
 
     _log("--------------Plus email begin------------")
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
     try:
         plus_email()
         driver.close()
@@ -714,8 +714,7 @@ while True:
         pass
 
     _log("--------------lime email begin------------")
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
-        
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)    
     try:
         lime_email()
         driver.close()
@@ -724,8 +723,7 @@ while True:
        _log("lime email fail")
        pass
 
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
-        
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)    
     _log("--------------lime reg begin------------")
     try:
         lime_reg()
@@ -748,8 +746,7 @@ while True:
         pass
 
     _log("--------------Ingo reg begin------------")
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
-        
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)    
     try:
         ingo_reg()
         driver.close()
@@ -762,7 +759,7 @@ while True:
     _log("")
 
     _log("--------------Ingo email begin------------")
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
     
     try:
         ingo_email()
@@ -774,8 +771,7 @@ while True:
         pass
 
 
-    _log("--------------24x forex chat begin ------------")
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    _log("--------------24x forex chat begin ------------")driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
     try:
         _do_chat()
         driver.close()
@@ -788,7 +784,7 @@ while True:
 
 
     _log("--------------24x forex email begin ------------")
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
     try:
         _do_email()
         driver.close()
@@ -799,8 +795,7 @@ while True:
         pass
 
     _log("--------------24x forex reg begin ------------")
-    driver = webdriver.Chrome('/home/igor/chromedriver', options=chrome_options, service_args=['--verbose', '--log-path=/tmp/chromedriver.log'])
-
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
 
     try:
         _do_reg()
