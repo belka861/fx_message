@@ -601,6 +601,36 @@ def plus_email():
     r=driver.find_element_by_xpath('//*[@id="system_message"]/div[1]/div/div/div[2]').text
     _log(r)
 #    time.sleep(1000)
+
+
+
+def ingo_chat_online():
+    driver.get("https://ingoinvest.com/ru")
+    #click on banner jivochat
+    _wait_element('//*[@id="jvlabelWrap"]/jdiv[1]')
+    _click('//*[@id="jvlabelWrap"]/jdiv[1]')
+
+    #name
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[1]/input')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[1]/input', final_name)
+
+#phone
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[2]/input')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[2]/input',phone_full)
+
+#emial
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[3]/input')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[3]/input',email)
+
+#message
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[4]/textarea')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[4]/textarea',question)
+
+    _click('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[5]')
+
+    time.sleep(1000)
+    return True
+
     
 #os.system('pkill chrome')
 
@@ -637,7 +667,12 @@ while True:
     ph=PhoneNumber(country)
     tn=ph.get_number(full=False)
     tnf=ph.get_number()
-#    _log(tnf)
+
+    tn2=ph.get_number(full=True)
+    phone_full=ph.get_number()
+
+    
+    #    _log(tnf)
 
     #random full name choice
     dice=random.choice([1,2,3])
@@ -702,6 +737,16 @@ while True:
 #    except:
 #        _log("plus reg fail")
 #        pass
+
+    _log("--------------DEV no try here------------")
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+#    ingo_chat_online()
+    driver.close()
+    driver.quit()
+
+
+
+
 
     _log("--------------Plus email begin------------")
     driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
