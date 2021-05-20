@@ -652,7 +652,28 @@ def maxi_chat():
 
     _wait_element('//*[@id="send-button"]/img')
     _click('//*[@id="send-button"]/img')
-    time.sleep(2)
+    time.sleep(random.randint(30,60))
+    em=random.choice(['E-mail при регистрации ','у меня аккаунт: ','моя почта ', 'пробовала регистрироваться по адресу '])
+    _send_text('//*[@id="input-field"]',em +email)
+    _click('//*[@id="send-button"]/img')
+    time.sleep(random.randint(20,40))
+    _send_text('//*[@id="input-field"]',"Актуальный телефон: " +phone_full)
+    _click('//*[@id="send-button"]/img')
+    while True:
+        for y in range (1,4):
+            questiont=data[random.randint(1,len(data)-1)].replace('\n', '')
+            _send_text('//*[@id="input-field"]',questiont)
+            time.sleep(random.randint(3,5))
+            for y1 in range (1,100):
+                _send_text('//*[@id="input-field"]',Keys.BACKSPACE)
+                _send_text('//*[@id="input-field"]',Keys.DELETE)
+        questiont=data[random.randint(1,len(data)-1)].replace('\n', '')
+        _send_text('//*[@id="input-field"]',questiont)
+
+        _click('//*[@id="send-button"]/img')
+        time.sleep(random.randint(60,90))
+        print(driver.find_element_by_xpath('//*[@id="body-box"]/div/div').text)
+
 #    _send_text('//*[@id="input-field"]',Keys.ENTER)
 #    time.sleep(1000)
 #    _send_text('//*[@id="rec246689055"]/div/div/div[3]/div[1]/form/div[1]/input', final_name)
@@ -767,7 +788,7 @@ while True:
 
     _log("--------------DEV no try here------------")
     driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
-#    maxi_chat()
+    maxi_chat()
  #   ingo_chat_online()
     driver.close()
     driver.quit()
