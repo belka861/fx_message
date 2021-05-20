@@ -14,7 +14,7 @@ import time,os,random,datetime,sys
 #
 mode="DEV"
 #mode="PROD"
-
+global maxi_phone
 
 if (mode=="PROD"):
     chrome_options.add_argument('--headless')
@@ -139,6 +139,29 @@ def _wait_element(xpath):
     r = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, xpath)))
     return True
 
+#def ai(question):
+def ai(question):
+    print("----AI start---")
+    print ("Q: "+question)
+    a=[]
+    #question='Здравствуйте, я создам запрос, с вами свяжется ваш менеджер.'
+    words=question.replace(',','').replace('.','').lower().split()
+    for word in words:
+       if (len(word)>6):
+#           print (word)
+           for d in data:
+               if word in d.lower():
+#                   print(d)
+                   a.append(d)
+
+    if (len(a)>2):
+        answer=random.choice(a)
+    else:
+        answer=random.choice(data)
+
+    print ("A: "+answer)
+    print ("-----AI END--------")
+    return (answer)
 
 
 def _click(xpath):
@@ -238,7 +261,7 @@ def _do_chat():
 
 
 def _do_reg():
-    driver.maximize_window()
+#    driver.maximize_window()
     driver.delete_all_cookies()
     driver.get("https://24xforex.com/ru/register")
 
@@ -631,48 +654,204 @@ def ingo_chat_online():
     time.sleep(1000)
     return True
 
-def maxi_chat():    
+
+def maxi_reg():
+    global maxi_phone
     driver.delete_all_cookies()
     driver.get("https://maximarkets.org")
+#    _wait_element('//*[@id="open-account"]/a')
+    _wait_element('//*[@id="infinite-mobile-menu"]/a')
+    _click('//*[@id="infinite-mobile-menu"]/a')
+    time.sleep(3)
+    _wait_element('//*[@id="menu-main-navigation"]/li[1]/div[1]/div/a')
+    _click('//*[@id="menu-main-navigation"]/li[1]/div[1]/div/a')
+    _wait_element('//*[@id="modalReg"]/div[2]/div/div/div[1]/div[1]')
+    _click('//*[@id="modalReg"]/div[2]/div/div/div[1]/div[1]')
+    bph=PhoneNumber('BE')
+    maxi_phone=bph.get_number(full=False)
+    bpassword=''
+    for i in range (1,6):
+        bpassword=bpassword+random.choice('abcdefghijklmnopqruvwxyz')
+    bpassword=bpassword+random.choice('ABCFDGGJKJETET')
+    for i in range (1,4):
+        bpassword=bpassword+random.choice('0123456789')
+    print(bpassword)
+    _send_text('//*[@id="formPassword"]','londoN123')
+    _send_text('//*[@id="modalReg"]/div[2]/div/div/div[2]/div[1]/form/div[3]/div/div[2]/label/input',maxi_phone)
+    _send_text('//*[@id="modalReg"]/div[2]/div/div/div[2]/div[1]/form/div[1]/div[1]/input',name)
+    _send_text('//*[@id="modalReg"]/div[2]/div/div/div[2]/div[1]/form/div[1]/div[2]/input',surname)
+    _send_text('//*[@id="formEmail"]',email)
+    _click('//*[@id="modalReg"]/div[2]/div/div/div[2]/div[1]/form/div[5]/label/i')
+    _click('//*[@id="modalReg"]/div[2]/div/div/div[2]/div[1]/form/div[8]/button')
+    _wait_element('/html/body/div[5]/div[1]/h1')
+    print(driver.find_element_by_xpath('/html/body/div[5]/div[1]/h1').text)
+    time.sleep(10)
+
+
+
+def maxi_chat():    
+    global maxi_phone
+    stack=[]
+#    driver.delete_all_cookies()
+#    driver.get("https://maximarkets.org")
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
     _click('//*[@id="AskMeChatBot"]/div/div/img')
 
-    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input')
-    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input',final_name)
+#    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input')
+#    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input',final_name)
 
-    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input')
-    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input',email)
+ #   _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input')
+#    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input',email)
 
-    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
-    _click('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
+#    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
+#    _click('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
 
     _wait_element('//*[@id="input-field"]')
-    _send_text('//*[@id="input-field"]',question)
 
-    _wait_element('//*[@id="send-button"]/img')
-    _click('//*[@id="send-button"]/img')
-    time.sleep(random.randint(30,60))
-    em=random.choice(['E-mail при регистрации ','у меня аккаунт: ','моя почта ', 'пробовала регистрироваться по адресу '])
-    _send_text('//*[@id="input-field"]',em +email)
-    _click('//*[@id="send-button"]/img')
-    time.sleep(random.randint(20,40))
-    _send_text('//*[@id="input-field"]',"Актуальный телефон: " +phone_full)
-    _click('//*[@id="send-button"]/img')
-    while True:
+
+
+    greet=random.choice(['Горячо приветствую',\
+'Доброго здоровья',\
+'Доброе утро!',\
+'Добрый вечер!',\
+'Добрый день!',\
+'Доброе утро',\
+'Добрый вечер',\
+'Добрый день',\
+'доброе утро',\
+'добрый вечер',\
+'добрый день',\
+'Здравия желаю',\
+'Здравствуйте!',\
+'Здравствуйте',\
+'Здравствуйте,',\
+'здравствуйте',\
+'Моё почтение',\
+'Позвольте Вас приветствовать',\
+'Приветствую Вас',\
+'Приятный вечер!',\
+'Приятный день!',\
+'Рада Вам,',\
+'Рада Вас видеть',\
+'Рада Вас видеть в добром здравии',\
+'Рада Вас приветствовать',\
+'Рада Вас слышать',\
+'Разрешите Вас приветствовать,',\
+'С добрым утром',\
+'С добрым утром,',\
+'Сердечно приветствую Вас,',\
+'Как поживаяете?',\
+'Салют,',\
+'Hi,',\
+'Hello,'])
+
+    maxi_dice=random.randint(1,4)
+    if (maxi_dice==2):
+        _send_text('//*[@id="input-field"]',greet)
+        time.sleep(3)
+        _wait_element('//*[@id="send-button"]/img')
+        _click('//*[@id="send-button"]/img')
+        stack.append(greet)
+
+
+    prefix=random.choice(['','','','','','вот','почти','Вот','Вот,','Почти','Только что','только что','Зачем-то','Почему-то','Как-то','Недавно','Несколько минут назад','5 минут назад','15 минут назад','30 минут назад'])
+
+    intro=random.choice(['Являюсь клиентом вашей комании ',
+'зарегистрировалась',\
+'прошла регистрацию',\
+'прошла официальную регистрацию',\
+'я активный парнтер компании',\
+'зарегистрировалась на портале',\
+'являюсь полноценным клиентом',\
+'стала полноценным клиентом',\
+'я клиент компании',\
+'я клиентка компании',\
+'являюсь вип-клиентом компании',\
+'я зарегистрированный пользовалтель',\
+'я зарегистрированный активный пользовалтель',\
+'я прошла то ли регистрацию, то ли верификацию',\
+'Зарегистрировалась на https://maximarkets.org/',\
+'Зарегистрировалась на maximarkets',\
+'Являюсь клиенткой maximarkets',\
+'зарегистрировалась на сайте макси',\
+'зарегистрировалась на сайте maxi',\
+'зарегистрировалась на сайте maximarkets',\
+'зарегистрировалась на сайте maximarkets.org',\
+'зарегистрировалась на сайте maximarkets.org',\
+'зарегистрировалась',\
+'зарегистрировалась на вашем официальном сайте','являюсь клиенткой maximarkets'])
+
+    maxi_dice=random.randint(1,5)
+    if (maxi_dice==2):
+        time.sleep(random.randint(20,40))
+        _send_text('//*[@id="input-field"]',prefix+" "+intro)
+        stack.append(prefix+" "+intro)
+        time.sleep(3)
+        _wait_element('//*[@id="send-button"]/img')
+        _click('//*[@id="send-button"]/img')
+#    _click('//*[@id="send-button"]/img')
+#    time.sleep(random.randint(30,60))
+    em=random.choice(['E-mail при регистрации','у меня аккаунт:','моя почта', 'по адресу','мой почтовый адрес','моя официальная почта','мой email'])
+
+    maxi_dice=random.randint(1,5)
+    if (maxi_dice==2):
+        time.sleep(random.randint(20,40))
+        _send_text('//*[@id="input-field"]',em+" "+email)
+        stack.append(em+" "+email)
+        _wait_element('//*[@id="send-button"]/img')
+        _click('//*[@id="send-button"]/img')
+
+
+    maxi_dice=random.randint(1,5)
+    if (maxi_dice==2):
+        time.sleep(random.randint(20,40))
+        _send_text('//*[@id="input-field"]',"Я "+final_name)
+        stack.append(em+" "+email)
+        _wait_element('//*[@id="send-button"]/img')
+        _click('//*[@id="send-button"]/img')
+
+
+    maxi_dice=random.randint(1,5)
+    if (maxi_dice==2):
+        time.sleep(random.randint(20,40))
+        pm=random.choice(['мой номер телефона', 'Актуальный телефон', 'мой телефон', 'телефон:''мобильный телефон','телефонный номер','личный телефон','мой личный телефон','Phone','мобильный номер'])
+        print(maxi_phone)
+        _send_text('//*[@id="input-field"]',pm+" "+maxi_phone)
+        stack.append(pm+" "+maxi_phone)
+        _click('//*[@id="send-button"]/img')
+    bored=0
+    while (bored<4):
+        print("bored "+str(bored))
         for y in range (1,4):
             questiont=data[random.randint(1,len(data)-1)].replace('\n', '')
             _send_text('//*[@id="input-field"]',questiont)
-            time.sleep(random.randint(3,5))
+            time.sleep(random.randint(3,10))
             for y1 in range (1,100):
                 _send_text('//*[@id="input-field"]',Keys.BACKSPACE)
                 _send_text('//*[@id="input-field"]',Keys.DELETE)
         questiont=data[random.randint(1,len(data)-1)].replace('\n', '')
         _send_text('//*[@id="input-field"]',questiont)
+        _click('//*[@id="send-button"]/img')
+        stack.append(questiont)
+        bored=bored+1
 
         _click('//*[@id="send-button"]/img')
-        time.sleep(random.randint(60,90))
-        print(driver.find_element_by_xpath('//*[@id="body-box"]/div/div').text)
+        time.sleep(random.randint(60,120))
+        dialogue=driver.find_element_by_xpath('//*[@id="body-box"]/div/div').text
+        print ("stack dump")
+        print(stack)
+        for line in dialogue.splitlines():
+            if ((line not in stack) and (len(line)>25)):
+                print("this is answer: "+line)
+                stack.append(line)
+                answer=ai(line)
+                _send_text('//*[@id="input-field"]',answer)
+                _click('//*[@id="send-button"]/img')
+                stack.append(answer)
+                bored=0
+
+    return True 
 
 #    _send_text('//*[@id="input-field"]',Keys.ENTER)
 #    time.sleep(1000)
@@ -697,6 +876,7 @@ with open('countries.txt', 'r',encoding="utf-8") as file:
 
 while True:
 
+#    maxi_phone=''
 
     question=data[random.randint(1,len(data)-1)].replace('\n', '')
     question2=data[random.randint(1,len(data)-1)].replace('\n', '')
@@ -785,9 +965,14 @@ while True:
 #    except:
 #        _log("plus reg fail")
 #        pass
+#    ai()
+#    g=ai('Здравствуйте, я создам запрос, с вами свяжется ваш менеджер.')
+#    print (g)
+#    sys.exit()
 
     _log("--------------DEV no try here------------")
     driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    maxi_reg()
     maxi_chat()
  #   ingo_chat_online()
     driver.close()
