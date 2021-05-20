@@ -39,7 +39,7 @@ def _log(message):
     fh=open(logfile,"a")
     text=str(datetime.datetime.now())+" "+str(message)+"\r\n"
     print(text)
-    fh.write(text)
+#    fh.write(text)
     fh.close()
     return True
 
@@ -631,7 +631,34 @@ def ingo_chat_online():
     time.sleep(1000)
     return True
 
-    
+def maxi_chat():    
+    driver.delete_all_cookies()
+    driver.get("https://maximarkets.org")
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
+    _click('//*[@id="AskMeChatBot"]/div/div/img')
+
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input')
+    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input',final_name)
+
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input')
+    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input',email)
+
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
+    _click('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
+
+    _wait_element('//*[@id="input-field"]')
+    _send_text('//*[@id="input-field"]',question)
+
+    _wait_element('//*[@id="send-button"]/img')
+    _click('//*[@id="send-button"]/img')
+    time.sleep(2)
+#    _send_text('//*[@id="input-field"]',Keys.ENTER)
+#    time.sleep(1000)
+#    _send_text('//*[@id="rec246689055"]/div/div/div[3]/div[1]/form/div[1]/input', final_name)
+
+
+
 #os.system('pkill chrome')
 
 #random question
@@ -740,10 +767,24 @@ while True:
 
     _log("--------------DEV no try here------------")
     driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
-#    ingo_chat_online()
+#    maxi_chat()
+ #   ingo_chat_online()
     driver.close()
     driver.quit()
 
+
+    _log("--------------Maxi chat begin------------")
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    try:
+
+#        _log("skip plus email")
+        maxi_chat()
+#        plus_email()
+        driver.close()
+        driver.quit()
+    except:
+        _log("maxi chat fail")
+        pass
 
 
 
@@ -751,7 +792,9 @@ while True:
     _log("--------------Plus email begin------------")
     driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
     try:
-        plus_email()
+
+        _log("skip plus email")
+#        plus_email()
         driver.close()
         driver.quit()
     except:
@@ -771,7 +814,8 @@ while True:
     driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)    
     _log("--------------lime reg begin------------")
     try:
-        lime_reg()
+#        lime_reg()
+        _log ("lime reg skip")
         driver.close()
         driver.quit()
 
@@ -816,7 +860,8 @@ while True:
         pass
 
 
-    _log("--------------24x forex chat begin ------------")driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    _log("--------------24x forex chat begin ------------")
+    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
     try:
         _do_chat()
         driver.close()
