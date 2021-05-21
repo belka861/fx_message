@@ -833,6 +833,7 @@ def maxi_chat():
         for y in range (1,4):
             questiont=data[random.randint(1,len(data)-1)].replace('\n', '')
             _send_text('//*[@id="input-field"]',questiont)
+            stack.append(questiont)
             time.sleep(random.randint(3,10))
             for y1 in range (1,100):
                 _send_text('//*[@id="input-field"]',Keys.BACKSPACE)
