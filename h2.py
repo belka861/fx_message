@@ -1,4 +1,5 @@
 from selenium import webdriver
+import platform
 #import numpy as np
 #from scipy.interpolate import splev, splrep
 
@@ -26,6 +27,11 @@ if (mode=="PROD"):
 
 else:
     chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+
+if (platform.system=='Windows'):
+    PATH=PATH
+else:
+    PATH='/home/sv/chromedriver'
 
 # Option 2 - with pyvirtualdisplay
 #driver = webdriver.Chrome(driver_path='/home/dev/chromedriver', 
@@ -972,7 +978,7 @@ while True:
 #    sys.exit()
 
     _log("--------------DEV no try here------------")
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    driver = webdriver.Chrome(PATH, options=chrome_options)
     maxi_reg()
     maxi_chat()
  #   ingo_chat_online()
@@ -981,7 +987,7 @@ while True:
 
 
     _log("--------------Maxi chat begin------------")
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    driver = webdriver.Chrome(PATH, options=chrome_options)
     try:
 
 #        _log("skip plus email")
@@ -997,7 +1003,7 @@ while True:
 
 
     _log("--------------Plus email begin------------")
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    driver = webdriver.Chrome(PATH, options=chrome_options)
     try:
 
         _log("skip plus email")
@@ -1009,7 +1015,7 @@ while True:
         pass
 
     _log("--------------lime email begin------------")
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)    
+    driver = webdriver.Chrome(PATH, options=chrome_options)    
     try:
         lime_email()
         driver.close()
@@ -1018,7 +1024,7 @@ while True:
        _log("lime email fail")
        pass
 
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)    
+    driver = webdriver.Chrome(PATH, options=chrome_options)    
     _log("--------------lime reg begin------------")
     try:
 #        lime_reg()
@@ -1042,7 +1048,7 @@ while True:
         pass
 
     _log("--------------Ingo reg begin------------")
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)    
+    driver = webdriver.Chrome(PATH, options=chrome_options)    
     try:
         ingo_reg()
         driver.close()
@@ -1055,7 +1061,7 @@ while True:
     _log("")
 
     _log("--------------Ingo email begin------------")
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    driver = webdriver.Chrome(PATH, options=chrome_options)
     
     try:
         ingo_email()
@@ -1068,7 +1074,7 @@ while True:
 
 
     _log("--------------24x forex chat begin ------------")
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    driver = webdriver.Chrome(PATH, options=chrome_options)
     try:
         _do_chat()
         driver.close()
@@ -1081,7 +1087,7 @@ while True:
 
 
     _log("--------------24x forex email begin ------------")
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    driver = webdriver.Chrome(PATH, options=chrome_options)
     try:
         _do_email()
         driver.close()
@@ -1092,7 +1098,7 @@ while True:
         pass
 
     _log("--------------24x forex reg begin ------------")
-    driver = webdriver.Chrome('C:\Program Files (x86)\chromedriver.exe', options=chrome_options)
+    driver = webdriver.Chrome(PATH, options=chrome_options)
 
     try:
         _do_reg()
