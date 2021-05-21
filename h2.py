@@ -28,10 +28,10 @@ if (mode=="PROD"):
 else:
     chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 
-if (platform.system=='Windows'):
-    PATH='C:\Program Files (x86)\chromedriver.exe'
-else:
-    PATH='/home/sv/chromedriver'
+#if (platform.system=='Windows'):
+PATH='C:\Program Files (x86)\chromedriver.exe'
+#else:
+#    PATH='/home/sv/chromedriver'
 
 # Option 2 - with pyvirtualdisplay
 #driver = webdriver.Chrome(driver_path='/home/dev/chromedriver', 
@@ -151,7 +151,7 @@ def ai(question):
     print ("Q: "+question)
     a=[]
     #question='Здравствуйте, я создам запрос, с вами свяжется ваш менеджер.'
-    words=question.replace(',','').replace('.','').lower().split()
+    words=question.replace(',','').replace('.','').replace('\n', '').lower().split()
     for word in words:
        if (len(word)>6):
 #           print (word)
@@ -164,6 +164,7 @@ def ai(question):
         answer=random.choice(a)
     else:
         answer=random.choice(data)
+    answer=answer.replace('\n', '')
 
     print ("A: "+answer)
     print ("-----AI END--------")
@@ -732,14 +733,40 @@ def maxi_chat():
 'Здравия желаю',\
 'Здравствуйте!',\
 'Здравствуйте',\
+'Здравствуйте поддержка',\
+'Ув. поддежка',\
+'Ув. компания,',\
+'Уважаемая компания компания,',\
+'Здравствуй чят',\
+'Здравствуй чат',\
 'Здравствуйте,',\
+'Здравствуйте, необходима ваша помощь',\
+'доброго времени суток, необходима ваша помощь',\
+'доброго времени суток',\
+'Здравствуйте, необходима ваша поддержка',\
+'Здравствуйте, необходима ваша консультация',\
 'здравствуйте',\
+'здравствуйте появились кое-какие вопросы',\
+'здравствуйте надо пообщаться',\
+'здравствуйте позвоните мне по поводу регистрации',\
 'Моё почтение',\
 'Позвольте Вас приветствовать',\
 'Приветствую Вас',\
+'Приветствую',\
+'Салам Алейкум',\
+'Намасте',\
+'Hi, how are you',\
+'Вечер в хату',\
+'Як та на незалежний?',\
+'Добрыдень',\
 'Приятный вечер!',\
 'Приятный день!',\
 'Рада Вам,',\
+'Привет,',\
+'привет,',\
+'Извините, что беспокою',\
+'извините, что беспокою',\
+'извините, что беспокою возможно по пустякам',\
 'Рада Вас видеть',\
 'Рада Вас видеть в добром здравии',\
 'Рада Вас приветствовать',\
@@ -753,8 +780,8 @@ def maxi_chat():
 'Hi,',\
 'Hello,'])
 
-    maxi_dice=random.randint(1,4)
-    if (maxi_dice==2):
+    maxi_dice=random.randint(1,3)
+    if ((maxi_dice==2)or(maxi_dice==1)):
         _send_text('//*[@id="input-field"]',greet)
         time.sleep(3)
         _wait_element('//*[@id="send-button"]/img')
@@ -766,6 +793,14 @@ def maxi_chat():
 
     intro=random.choice(['Являюсь клиентом вашей комании ',
 'зарегистрировалась',\
+'зарегистрировалась 1 день назад',\
+'зарегистрировалась 2 дня назад',\
+'зарегистрировалась 3 дня назад',\
+'зарегистрировалась 4 дня назад',\
+'зарегистрировалась 5 дней назад',\
+'зарегистрировалась 6 дней назад',\
+'зарегистрировалась 7 дней назад',\
+'зарегистрировалась 8 дней назад',\
 'прошла регистрацию',\
 'прошла официальную регистрацию',\
 'я активный парнтер компании',\
@@ -789,7 +824,7 @@ def maxi_chat():
 'зарегистрировалась',\
 'зарегистрировалась на вашем официальном сайте','являюсь клиенткой maximarkets'])
 
-    maxi_dice=random.randint(1,5)
+    maxi_dice=random.randint(1,6)
     if (maxi_dice==2):
         time.sleep(random.randint(20,40))
         _send_text('//*[@id="input-field"]',prefix+" "+intro)
@@ -799,7 +834,22 @@ def maxi_chat():
         _click('//*[@id="send-button"]/img')
 #    _click('//*[@id="send-button"]/img')
 #    time.sleep(random.randint(30,60))
-    em=random.choice(['E-mail при регистрации','у меня аккаунт:','моя почта', 'по адресу','мой почтовый адрес','моя официальная почта','мой email'])
+    em=random.choice(['E-mail при регистрации','у меня аккаунт:','моя почта', 'по адресу',\
+'мой почтовый адрес','моя официальная почта',\
+'я у вас зарегистрировалась по почте',\
+'моя личная почта',\
+'мой почтовый ящик',\
+'мой финансовый почтовый ящик',\
+'мой идентификатор почты',\
+'email:',\
+'адрес моей почты:',\
+'вы можете найти мой аккаунт по почте',\
+'вы можете найти мой аккаунт по email',\
+'вы можете найти мой аккаунт по e-mail',\
+'e-mail:',\
+'мой E-mail:',\
+'мой e-mail который я указала при регистрации:',\
+'мой email'])
 
     maxi_dice=random.randint(1,5)
     if (maxi_dice==2):
@@ -809,11 +859,26 @@ def maxi_chat():
         _wait_element('//*[@id="send-button"]/img')
         _click('//*[@id="send-button"]/img')
 
+        myself=random.choice(['Я',\
+'я',\
+'я,',\
+'меня зовут',\
+'Меня зовут',\
+'моё имя',\
+'Моё имя',\
+'мое имя',\
+'я зарегистрировалась как',\
+'Я зарегистрировалась как',\
+'Мои данные',\
+'мои данные',\
+'Мои паспортные данные',\
+'мои паспортные данные',\
+'Моё ФИО',\
+'Мое ФИО',\
+'мои имя, фамилия',\
+'Мои имя, фамилия'])
 
-    maxi_dice=random.randint(1,5)
-    if (maxi_dice==2):
-        time.sleep(random.randint(20,40))
-        _send_text('//*[@id="input-field"]',"Я "+final_name)
+        _send_text('//*[@id="input-field"]',myself+" "+final_name)
         stack.append(em+" "+email)
         _wait_element('//*[@id="send-button"]/img')
         _click('//*[@id="send-button"]/img')
@@ -822,7 +887,24 @@ def maxi_chat():
     maxi_dice=random.randint(1,5)
     if (maxi_dice==2):
         time.sleep(random.randint(20,40))
-        pm=random.choice(['мой номер телефона', 'Актуальный телефон', 'мой телефон', 'телефон:''мобильный телефон','телефонный номер','личный телефон','мой личный телефон','Phone','мобильный номер'])
+        pm=random.choice(['мой номер телефона', 'Актуальный телефон', 'мой телефон', 'телефон:''мобильный телефон','телефонный номер',\
+'личный телефон','мой личный телефон',\
+'Сообщаю вам мой телефон для идентификации',\
+'идентификация по телефону',\
+'Мой телефонный номер',\
+'Мой номер',\
+'Телефон, по которому я регистрировалась',\
+'Мой ригистрационный номер',\
+'Мой ригистрационный номер телефона',\
+'Мой ригистрационный номер в системе',\
+'Мой ригистрационный номер в портале',\
+'Мой ригистрационный номер в системе макси',\
+'мой номер',\
+'Мой номер телефона в системе',\
+'Мой номер телефона при регистрации',\
+'Мой номер телефона в портале',\
+'Мой номер телефона в maxi',\
+'Phone','мобильный номер'])
         print(maxi_phone)
         _send_text('//*[@id="input-field"]',pm+" "+maxi_phone)
         stack.append(pm+" "+maxi_phone)
@@ -833,7 +915,6 @@ def maxi_chat():
         for y in range (1,4):
             questiont=data[random.randint(1,len(data)-1)].replace('\n', '')
             _send_text('//*[@id="input-field"]',questiont)
-            stack.append(questiont)
             time.sleep(random.randint(3,10))
             for y1 in range (1,100):
                 _send_text('//*[@id="input-field"]',Keys.BACKSPACE)
@@ -843,22 +924,25 @@ def maxi_chat():
         _click('//*[@id="send-button"]/img')
         stack.append(questiont)
         bored=bored+1
-
-        _click('//*[@id="send-button"]/img')
-        time.sleep(random.randint(60,120))
         dialogue=driver.find_element_by_xpath('//*[@id="body-box"]/div/div').text
-        print ("stack dump")
-        print(stack)
-        for line in dialogue.splitlines():
-            if ((line not in stack) and (len(line)>25)):
-                print("this is answer: "+line)
-                stack.append(line)
-                answer=ai(line)
-                _send_text('//*[@id="input-field"]',answer)
-                _click('//*[@id="send-button"]/img')
-                stack.append(answer)
-                bored=0
-
+        w=random.randint(60,180)
+        for i in range(1,w):   
+            dialogue1=driver.find_element_by_xpath('//*[@id="body-box"]/div/div').text
+            if (dialogue1 != dialogue):
+                print ("mosh typed")
+                print ("stack dump")
+                print(stack)
+                for line in dialogue1.splitlines():
+                    if ((line not in stack) and (len(line)>25)):
+                        print("this is answer: "+line)
+                        stack.append(line)
+                        answer=ai(line)
+                        _send_text('//*[@id="input-field"]',answer)
+                        _click('//*[@id="send-button"]/img')
+                        stack.append(answer)
+                        bored=0
+                        i=w-1
+            time.sleep(1)
     return True 
 
 #    _send_text('//*[@id="input-field"]',Keys.ENTER)
