@@ -1013,20 +1013,46 @@ def umarkets_reg():
 
     _click('//*[@id="RForm-0"]/form/div[9]/button')
     _log("umarkets reg "+email+" "+bpassword)
+    return True
+
+
+
+def marketbull_reg():
+    global maxi_phone
+    driver.delete_all_cookies()
+    driver.get("https://client.marketbull.co.uk/sign-up")
+    time.sleep(3)
+    _wait_element('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[1]/div[1]/div[1]/input')
+    _send_text('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[1]/div[1]/div[1]/input',name)
+
+    _send_text('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[1]/div[2]/div[1]/input',surname)
+    _send_text('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[1]/div[3]/div[1]/input',email)
+
+    _send_text('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[1]/div[4]/div[1]/input','HongKong123')
+    _send_text('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[1]/div[6]/div[1]/input',tnf)
+
+    _click('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[2]/label')
+    _click('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[3]/label')
+    _click('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[4]/label')
+    _click('//*[@id="root"]/div/div/div/div/div[2]/form/div[1]/div/div[5]/label')
+
+    _click('//*[@id="root"]/div/div/div/div/div[2]/form/div[2]/button')
+    time.sleep(1000)
+
+def tradelabs_call():
+    driver.maximize_window()
+    driver.delete_all_cookies()
+    driver.get("https://www.trade-labs.com/?lang=ru")
+    _click('//*[@id="nav-menu-item-18877"]/a/span[1]')
+    _wait_element('//*[@id="wpcf7-f18878-o1"]/form/p/span[2]/input')
+    _send_text('//*[@id="wpcf7-f18878-o1"]/form/p/span[2]/input',final_name)
+    _send_text('//*[@id="wpcf7-f18878-o1"]/form/p/span[3]/input',phone_full)
+    _click('//*[@id="wpcf7-f18878-o1"]/form/p/input')
+    _wait_element('//*[@id="wpcf7-f18878-o1"]/form/div[2]')
+    print(_get_text('//*[@id="wpcf7-f18878-o1"]/form/div[2]'))
 #    time.sleep(1000)
-#    time.sleep(3)
-#    _click('/html/body/div[5]/div[1]/div[7]/div[1]/div[1]/div/form/div[8]/button')
-#    _wait_element('/html/body/div[5]/div[1]/h1')
-#    print(driver.find_element_by_xpath('/html/body/div[5]/div[1]/h1').text)
-#    time.sleep(10)
-
-
-
-
-
-#    _send_text('//*[@id="input-field"]',Keys.ENTER)
+    return True
 #    time.sleep(1000)
-#    _send_text('//*[@id="rec246689055"]/div/div/div[3]/div[1]/form/div[1]/input', final_name)
 
 
 
@@ -1141,8 +1167,17 @@ while True:
 #    print (g)
 #    sys.exit()
 
+    while True:
+        driver = webdriver.Chrome(PATH, options=chrome_options)
+        tradelabs_call()
+        driver.close()
+        driver.quit()
+
+
     _log("--------------DEV no try here--------------")
     driver = webdriver.Chrome(PATH, options=chrome_options)
+    tradelabs_call()
+#    marketbull_reg()
     umarkets_reg()
     maxi_chat()
 
