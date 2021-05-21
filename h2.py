@@ -29,7 +29,7 @@ else:
     chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 
 if (platform.system=='Windows'):
-    PATH=PATH
+    PATH='C:\Program Files (x86)\chromedriver.exe'
 else:
     PATH='/home/sv/chromedriver'
 
