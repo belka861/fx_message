@@ -16,6 +16,8 @@ import time,os,random,datetime,sys
 mode="DEV"
 #mode="PROD"
 global maxi_phone
+co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Грузия','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция']
+co2_dict={'Австрия':'AT','Азербайджан':'AZ','Армения':'AM','Бельгия':'BE','Болгария':'BG','Беларусь':'BY','Великобритания':'GB','Венгрия':'HU','Германия':'DE','Греция':'GR','Грузия':'GE','Дания':'DK','Испания':'ES','Италия':'IT','Казахстан':'KZ','Кипр':'CY','Латвия':'LV','Литва':'LT','Молдова':'MD','Монако':'MC','Нидерланды':'NL','Норвегия':'NO','Польша':'PL','Португалия':'PT','Российская Федерация':'RU','Румыния':'RO','Словакия':'SK','Словения':'SI','Таджикистан':'TJ','Узбекистан':'UZ','Франция':'FR','Хорватия':'HR','Чешская Республика':'CZ','Швейцария':'CH','Швеция':'SE','Эстония':'EE'}
 
 if (mode=="PROD"):
     chrome_options.add_argument('--headless')
@@ -41,11 +43,11 @@ PATH='C:\Program Files (x86)\chromedriver.exe'
 
 logfile="h2.log"
 def _log(message):
-#    fh=open(logfile,"a",encoding="cp1251")
-    fh=open(logfile,"a")
+    fh=open(logfile,"a",encoding="utf-8")
+#    fh=open(logfile,"a")
     text=str(datetime.datetime.now())+" "+str(message)+"\r\n"
     print(text)
-#    fh.write(text)
+    fh.write(text)
     fh.close()
     return True
 
@@ -131,6 +133,9 @@ def _send_text(x,t):
     r.send_keys(t)
     return True
 
+def _get_text(x):
+    r=driver.find_element_by_xpath(x).text
+    return r
 
 
 
@@ -781,7 +786,7 @@ def maxi_chat():
 'Hi,',\
 'Hello,'])
 
-    maxi_dice=random.randint(1,3)
+    maxi_dice=random.randint(1,7)
     if ((maxi_dice==2)or(maxi_dice==1)):
         _send_text('//*[@id="input-field"]',greet)
         time.sleep(3)
@@ -814,16 +819,15 @@ def maxi_chat():
 'я зарегистрированный пользовалтель',\
 'я зарегистрированный активный пользовалтель',\
 'я прошла то ли регистрацию, то ли верификацию',\
-'Зарегистрировалась на https://maximarkets.org/',\
-'Зарегистрировалась на maximarkets',\
+'Зарегистрировалась на платформе',\
+'Зарегистрировалась на markets',\
 'Являюсь клиенткой maximarkets',\
-'зарегистрировалась на сайте макси',\
-'зарегистрировалась на сайте maxi',\
-'зарегистрировалась на сайте maximarkets',\
-'зарегистрировалась на сайте maximarkets.org',\
-'зарегистрировалась на сайте maximarkets.org',\
+'зарегистрировалась на сайте макрект',\
+'зарегистрировалась на сайте маркетс',\
+'зарегистрировалась на сайте markets',\
+'зарегистрировалась на вашем сайте',\
 'зарегистрировалась',\
-'зарегистрировалась на вашем официальном сайте','являюсь клиенткой maximarkets'])
+'зарегистрировалась на вашем официальном сайте','являюсь вашей клиенткой'])
 
     maxi_dice=random.randint(1,6)
     if (maxi_dice==2):
@@ -930,9 +934,13 @@ def maxi_chat():
         stack.append(questiont)
         bored=bored+1
         dialogue=driver.find_element_by_xpath('//*[@id="body-box"]/div/div').text
-        w=random.randint(5,12)
+        w=random.randint(5,60)
         for i in range(1,w):   
             dialogue1=driver.find_element_by_xpath('//*[@id="body-box"]/div/div').text
+            print("DIA  before------------vvvvv----------------")
+            print(dialogue)
+            print("DIA 1 below VVVVVVVVVVVVVVVVVVVVV-------------")
+            print(dialogue1)
             if (dialogue1 != dialogue):
                 print ("mosh typed")
                 print ("stack dump")
@@ -948,7 +956,65 @@ def maxi_chat():
                         bored=0
                         i=w-1
             time.sleep(1)
+    time.sleep(20)
+    _log(dialogue1)
     return True 
+
+
+def umarkets_reg():
+    global maxi_phone
+    driver.delete_all_cookies()
+    driver.get("https://umarkets.net/ru/registration/")
+    countries=[2,14,21,23,26,52,59,60,61,77,78,81,87,88,105,132,137,154,155,157,176,179,180,186,198,201,206,208,212,215,218,219,224]
+    country=random.choice(countries)
+    _click('//*[@id="RForm-0"]/form/div[7]/select/option['+str(country)+']')
+    co2_choice=_get_text('//*[@id="RForm-0"]/form/div[7]/select/option['+str(country)+']')
+    co2_code=co2_dict[co2_choice]
+    ph=PhoneNumber(co2_code)
+    maxi_phone=ph.get_number(full=False)
+    _log(co2_code)
+    _log(maxi_phone)
+
+#    time.sleep(1000)
+#    _wait_element('//*[@id="open-account"]/a')
+#    _wait_element('//*[@id="infinite-mobile-menu"]/a')
+#    _click('//*[@id="infinite-mobile-menu"]/a')
+#    time.sleep(3)
+ #   _wait_element('//*[@id="menu-main-navigation"]/li[1]/div[1]/div/a')
+#    _click('//*[@id="menu-main-navigation"]/li[1]/div[1]/div/a')
+#    _wait_element('//*[@id="modalReg"]/div[2]/div/div/div[1]/div[1]')
+#    _click('//*[@id="modalReg"]/div[2]/div/div/div[1]/div[1]')
+#    bph=PhoneNumber('BE')
+#    maxi_phone=bph.get_number(full=False)
+    bpassword=''
+    for i in range (1,6):
+        bpassword=bpassword+random.choice('abcdefghijklmnopqruvwxyz')
+    bpassword=bpassword+random.choice('ABCFDGGJKJETET')
+    for i in range (1,4):
+        bpassword=bpassword+random.choice('0123456789')
+    print(bpassword)
+#    _send_text('//*[@id="formPassword2"]','londoN123')
+    _send_text('//*[@id="RForm-0"]/form/div[5]/input',bpassword)
+    _send_text('//*[@id="RForm-0"]/form/div[6]/input',bpassword)
+
+    _send_text('//*[@id="txtPhone"]',maxi_phone)
+
+    _send_text('//*[@id="RForm-0"]/form/div[1]/input',name)
+    _send_text('//*[@id="RForm-0"]/form/div[2]/input',surname)
+    _send_text('//*[@id="RForm-0"]/form/div[4]/input',email)
+
+    _click('//*[@id="RForm-0"]/form/div[9]/button')
+    _log("umarkets reg "+email+" "+bpassword)
+#    time.sleep(1000)
+#    time.sleep(3)
+#    _click('/html/body/div[5]/div[1]/div[7]/div[1]/div[1]/div/form/div[8]/button')
+#    _wait_element('/html/body/div[5]/div[1]/h1')
+#    print(driver.find_element_by_xpath('/html/body/div[5]/div[1]/h1').text)
+#    time.sleep(10)
+
+
+
+
 
 #    _send_text('//*[@id="input-field"]',Keys.ENTER)
 #    time.sleep(1000)
@@ -1069,6 +1135,9 @@ while True:
 
     _log("--------------DEV no try here------------")
     driver = webdriver.Chrome(PATH, options=chrome_options)
+    umarkets_reg()
+    maxi_chat()
+
     maxi_reg()
     maxi_chat()
  #   ingo_chat_online()
