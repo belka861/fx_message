@@ -1,4 +1,5 @@
 #!/bin/sh
+echo 'sv ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 sudo apt-get update -y
 sudo apt-get upgrade -y
 sudo apt-get install wget -y
