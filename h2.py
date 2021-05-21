@@ -683,7 +683,8 @@ def maxi_reg():
     for i in range (1,4):
         bpassword=bpassword+random.choice('0123456789')
     print(bpassword)
-    _send_text('//*[@id="formPassword2"]','londoN123')
+#    _send_text('//*[@id="formPassword2"]','londoN123')
+    _send_text('//*[@id="formPassword2"]',bpassword)
     _send_text('/html/body/div[5]/div[1]/div[7]/div[1]/div[1]/div/form/div[3]/div/div[2]/label/input',maxi_phone)
     _send_text('/html/body/div[5]/div[1]/div[7]/div[1]/div[1]/div/form/div[1]/div[1]/input',name)
     _send_text('/html/body/div[5]/div[1]/div[7]/div[1]/div[1]/div/form/div[1]/div[2]/input',surname)
@@ -693,7 +694,7 @@ def maxi_reg():
     _click('/html/body/div[5]/div[1]/div[7]/div[1]/div[1]/div/form/div[8]/button')
     _wait_element('/html/body/div[5]/div[1]/h1')
     print(driver.find_element_by_xpath('/html/body/div[5]/div[1]/h1').text)
-    time.sleep(10)
+#    time.sleep(10)
 
 
 
@@ -826,7 +827,7 @@ def maxi_chat():
 
     maxi_dice=random.randint(1,6)
     if (maxi_dice==2):
-        time.sleep(random.randint(20,40))
+        time.sleep(random.randint(3,10))
         _send_text('//*[@id="input-field"]',prefix+" "+intro)
         stack.append(prefix+" "+intro)
         time.sleep(3)
@@ -853,7 +854,7 @@ def maxi_chat():
 
     maxi_dice=random.randint(1,5)
     if (maxi_dice==2):
-        time.sleep(random.randint(20,40))
+        time.sleep(random.randint(3,10))
         _send_text('//*[@id="input-field"]',em+" "+email)
         stack.append(em+" "+email)
         _wait_element('//*[@id="send-button"]/img')
@@ -886,7 +887,7 @@ def maxi_chat():
 
     maxi_dice=random.randint(1,5)
     if (maxi_dice==2):
-        time.sleep(random.randint(20,40))
+        time.sleep(random.randint(3,10))
         pm=random.choice(['мой номер телефона', 'Актуальный телефон', 'мой телефон', 'телефон:''мобильный телефон','телефонный номер',\
 'личный телефон','мой личный телефон',\
 'Сообщаю вам мой телефон для идентификации',\
@@ -912,6 +913,7 @@ def maxi_chat():
     bored=0
     while (bored<4):
         print("bored "+str(bored))
+
         for y in range (1,4):
             questiont=data[random.randint(1,len(data)-1)].replace('\n', '')
             _send_text('//*[@id="input-field"]',questiont)
@@ -919,13 +921,16 @@ def maxi_chat():
             for y1 in range (1,100):
                 _send_text('//*[@id="input-field"]',Keys.BACKSPACE)
                 _send_text('//*[@id="input-field"]',Keys.DELETE)
+
+
+
         questiont=data[random.randint(1,len(data)-1)].replace('\n', '')
         _send_text('//*[@id="input-field"]',questiont)
         _click('//*[@id="send-button"]/img')
         stack.append(questiont)
         bored=bored+1
         dialogue=driver.find_element_by_xpath('//*[@id="body-box"]/div/div').text
-        w=random.randint(60,180)
+        w=random.randint(5,12)
         for i in range(1,w):   
             dialogue1=driver.find_element_by_xpath('//*[@id="body-box"]/div/div').text
             if (dialogue1 != dialogue):
