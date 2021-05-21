@@ -1138,7 +1138,7 @@ while True:
 #    print (g)
 #    sys.exit()
 
-    _log("--------------DEV no try here------------")
+    _log("--------------DEV no try here--------------")
     driver = webdriver.Chrome(PATH, options=chrome_options)
     umarkets_reg()
     maxi_chat()
