@@ -1167,11 +1167,11 @@ while True:
 #    print (g)
 #    sys.exit()
 
-    while True:
-        driver = webdriver.Chrome(PATH, options=chrome_options)
-        tradelabs_call()
-        driver.close()
-        driver.quit()
+#    while True:
+#        driver = webdriver.Chrome(PATH, options=chrome_options)
+#        tradelabs_call()
+#        driver.close()
+#        driver.quit()
 
 
     _log("--------------DEV no try here--------------")
