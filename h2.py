@@ -19,6 +19,7 @@ global maxi_phone
 co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Грузия','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция']
 co2_dict={'Австрия':'AT','Азербайджан':'AZ','Армения':'AM','Бельгия':'BE','Болгария':'BG','Беларусь':'BY','Великобритания':'GB','Венгрия':'HU','Германия':'DE','Греция':'GR','Грузия':'GE','Дания':'DK','Испания':'ES','Италия':'IT','Казахстан':'KZ','Киргизстан':'KG','Кипр':'CY','Латвия':'LV','Литва':'LT','Люксембург':'LU','Молдова':'MD','Монако':'MC','Нидерланды':'NL','Норвегия':'NO','Польша':'PL','Португалия':'PT','Российская Федерация':'RU','Румыния':'RO','Словакия':'SK','Словения':'SI','Сербия':'RS','Таджикистан':'TJ','Узбекистан':'UZ','Финляндия':'FI','Франция':'FR','Хорватия':'HR','Черногория':'ME','Чешская Республика':'CZ','Швейцария':'CH','Швеция':'SE','Эстония':'EE'}
 
+chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 PATH='C:\Program Files (x86)\chromedriver.exe'
 if (mode=="PROD"):
     chrome_options.add_argument('--headless')
@@ -155,8 +156,8 @@ def _wait_element(xpath):
 
 #def ai(question):
 def ai(question):
-    print("----AI start---")
-    print ("Q: "+question)
+    _log("----AI start---")
+    _log("Q: "+question)
     a=[]
     #question='Здравствуйте, я создам запрос, с вами свяжется ваш менеджер.'
     words=question.replace(',','').replace('.','').replace('\n', '').lower().split()
@@ -174,8 +175,16 @@ def ai(question):
         answer=random.choice(data)
     answer=answer.replace('\n', '')
 
-    print ("A: "+answer)
-    print ("-----AI END--------")
+    if (answer==question):
+        answer=random.choice(data)
+ 
+    answer=answer.replace('\n', '')
+
+ 
+
+
+    _log ("A: "+answer)
+    _log ("-----AI END--------")
     return (answer)
 
 
@@ -281,7 +290,7 @@ def _do_reg():
     driver.get("https://24xforex.com/ru/register")
 
 #    time.sleep(10)
-    _log(driver.page_source)
+#    _log(driver.page_source)
 
     driver.execute_script("window.open('about:blank', 'tab2');")
     driver.switch_to.window("tab2")
@@ -514,18 +523,22 @@ def lime_reg():
 #    time.sleep(3)
 #    _click('//*[@id="RForm-0"]/form/div[4]/input')
 #    _wait_element('//*[@id="RForm-0"]/form/div[4]/input')
+
+    characters = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    bpassword="".join(random.sample(characters, 20))
+
     e=driver.find_element_by_xpath('//*[@id="RForm-0"]/form/div[4]/input')
     e.send_keys(email)
-    password=""
-    for i in range (1,4):
-        password=password+random.choice('abcdefghijklmnopqruvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
-    for i in range (1,3):
-        password=password+random.choice('0123456789')
+#    password=""
+#    for i in range (1,4):
+#        password=password+random.choice('abcdefghijklmnopqruvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+#    for i in range (1,3):
+#        password=password+random.choice('0123456789')
     r=driver.find_element_by_xpath('//*[@id="RForm-0"]/form/div[5]/input')
-    r.send_keys(password)
+    r.send_keys(bpassword)
     r=driver.find_element_by_xpath('//*[@id="RForm-0"]/form/div[6]/input')
-    r.send_keys(password)
-    _log(email+" "+password)
+    r.send_keys(bpassword)
+    _log("lime: " +email+" "+bpassword)
     _wait_element('//*[@id="RForm-0"]/form/div[8]/button')
     _click('//*[@id="RForm-0"]/form/div[8]/button')
 #    time.sleep(5)
@@ -946,8 +959,8 @@ def maxi_chat():
             print("DIA 1 below VVVVVVVVVVVVVVVVVVVVV-------------")
             print(dialogue1)
             if (dialogue1 != dialogue):
-                print ("mosh typed")
-                print ("stack dump")
+                _log ("mosh typed")
+                _log ("stack dump")
                 print(stack)
                 for line in dialogue1.splitlines():
                     if ((line not in stack) and (len(line)>25)):
@@ -994,12 +1007,13 @@ def umarkets_reg():
 #    _click('//*[@id="modalReg"]/div[2]/div/div/div[1]/div[1]')
 #    bph=PhoneNumber('BE')
 #    maxi_phone=bph.get_number(full=False)
-    bpassword=''
-    for i in range (1,6):
-        bpassword=bpassword+random.choice('abcdefghijklmnopqruvwxyz')
-    bpassword=bpassword+random.choice('ABCFDGGJKJETET')
-    for i in range (1,4):
-        bpassword=bpassword+random.choice('0123456789')
+    characters = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    bpassword="".join(random.sample(characters, 20))
+#    for i in range (1,6):
+#        bpassword=bpassword+random.choice('abcdefghijklmnopqruvwxyz')
+#    bpassword=bpassword+random.choice('ABCFDGGJKJETET')
+#    for i in range (1,4):
+#        bpassword=bpassword+random.choice('0123456789')
     print(bpassword)
 #    _send_text('//*[@id="formPassword2"]','londoN123')
     _send_text('//*[@id="RForm-0"]/form/div[5]/input',bpassword)
@@ -1053,6 +1067,105 @@ def tradelabs_call():
 #    time.sleep(1000)
     return True
 #    time.sleep(1000)
+
+def global_chat():
+
+    driver.delete_all_cookies()
+
+
+#    driver.get("https://trade.globalallianceltd.com/registration-ru")
+    driver.get('https://globalliance.io/ru/')
+#    _wait_element('//*[@id="primary-menu"]/li[9]/div/a[2]')
+#    _click('//*[@id="primary-menu"]/li[9]/div/a[2]')
+#    _wait_element('//*[@id="user-fname-reg"]')
+#    _send_text('//*[@id="user-fname-reg"]',name)
+
+
+#    ph=PhoneNumber('RU')
+ #   tn=ph.get_number(full=True)
+
+
+
+#    r=driver.find_element_by_xpath('//*[@id="user-phone-reg"]/input')
+#    _click('//*[@id="user-phone-reg"]/input')
+#    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
+#    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
+#    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
+#    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
+#    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
+#    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
+#    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
+#    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
+
+
+
+
+#    r.clear()
+#    time.sleep(2)
+#    _send_text('//*[@id="user-phone-reg"]/input',phone_full)
+
+
+#    _send_text('//*[@id="user-lname-reg"]',surname)
+#    _send_text('//*[@id="user-email-reg"]', email)
+
+
+
+
+#    password1="Global"+password
+#    _send_text('//*[@id="user-password-reg"]',password1)
+#    _click('//*[@id="user-birthday-reg"]')
+
+#    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[1]/input')
+#    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[1]/input')
+#    bday=random.randint(1,27)
+#    _send_text('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[1]/input',str(bday))
+
+#    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/input')
+#    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/input')
+
+
+#    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/ul/section')
+#    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/ul/section')
+
+#    byear=random.randint(1950,2000)
+#    _send_text('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[3]/input',byear)
+
+#    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[2]/button[1]')
+#    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[2]/button[1]')
+#    _log(email)
+#    _log(password1)
+
+
+#    _wait_element('//*[@id="app"]/div[5]/div/section/div[1]/div/div[2]/div/form/div[8]/button/span')
+#    _click('//*[@id="app"]/div[5]/div/section/div[1]/div/div[2]/div/form/div[8]/button/span')
+#    time.sleep(1000)
+    #chat here
+    _wait_element('//*[@id="jvlabelWrap"]/jdiv[2]')
+    _click('//*[@id="jvlabelWrap"]/jdiv[2]')
+
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',question)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+
+    _wait_element('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input')
+    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input',final_name)
+    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[2]/input',email)
+    _click('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[3]')
+
+    q2=ai(question)    
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q2)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+
+    q3=ai(q2)    
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q3)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+
+    _log(_get_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv'))
+#    time.sleep(1000)
+    return True
+
 
 
 
@@ -1174,47 +1287,66 @@ while True:
 #        driver.quit()
 
 
-    _log("--------------DEV no try here--------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)
-    tradelabs_call()
+#    _log("--------------DEV no try here--------------")
+#    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    global_chat()
+#    tradelabs_call()
 #    marketbull_reg()
-    umarkets_reg()
-    maxi_chat()
+#    umarkets_reg()
+#    maxi_chat()
 
-    maxi_reg()
-    maxi_chat()
+#    maxi_reg()
+#    maxi_chat()
  #   ingo_chat_online()
-    driver.close()
-    driver.quit()
+#    driver.close()
+#    driver.quit()
 
-
-    _log("--------------Maxi chat begin------------")
+    _log("--------------Global chat begin------------")
     driver = webdriver.Chrome(PATH, options=chrome_options)
     try:
+        _log("global chat:")
+        global_chat()
+        driver.close()
+        driver.quit()
+    except:
+        _log("global chat failed")
+        pass
+
+
+
+#    _log("--------------Maxi chat begin------------")
+#    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    try:
+ #       umarkets_reg()
+#        maxi_chat()
+
+#        maxi_reg()
+#        maxi_chat()
+ 
 
 #        _log("skip plus email")
-        maxi_chat()
+#        maxi_chat()
 #        plus_email()
-        driver.close()
-        driver.quit()
-    except:
-        _log("maxi chat fail")
-        pass
+#        driver.close()
+#        driver.quit()
+#    except:
+#        _log("maxi chat fail")
+#        pass
 
 
 
 
-    _log("--------------Plus email begin------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)
-    try:
+#    _log("--------------Plus email begin------------")
+#    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    try:
 
-        _log("skip plus email")
+#        _log("skip plus email")
 #        plus_email()
-        driver.close()
-        driver.quit()
-    except:
-        _log("plus email fail")
-        pass
+#        driver.close()
+#        driver.quit()
+#    except:
+#        _log("plus email fail")
+#        pass
 
     _log("--------------lime email begin------------")
     driver = webdriver.Chrome(PATH, options=chrome_options)    
@@ -1226,90 +1358,98 @@ while True:
        _log("lime email fail")
        pass
 
-    driver = webdriver.Chrome(PATH, options=chrome_options)    
-    _log("--------------lime reg begin------------")
-    try:
-        lime_reg()
-        _log ("lime reg skip")
-        driver.close()
-        driver.quit()
+#    driver = webdriver.Chrome(PATH, options=chrome_options)    
+# 
+#   _log("--------------lime reg begin------------")
+#    try:
+#        lime_reg()
+#        _log ("lime reg skip")
+#        driver.close()
+#        driver.quit()
 
-    except:
-        _log("lime reg fail")
-        pass
+#    except:
+#        _log("lime reg fail")
+#        pass
 
 #    ingo_reg()
 #    _do_email()
 #    _do_chat()
 #    ingo_email()
-    _log("--------------prtend reg begin------------")
-    try:
-        ptrend_reg()
-    except:
-        _log("prtend reg fail")
-        pass
 
-    _log("--------------Ingo reg begin------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)    
-    try:
-        ingo_reg()
-        driver.close()
-        driver.quit()
 
-    except:
-        print("ingo reg failed")
-        pass
-    _log("--------------Ingo reg end------------")
-    _log("")
 
-    _log("--------------Ingo email begin------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    _log("--------------prtend reg begin------------")
+#    try:
+#        ptrend_reg()
+#    except:
+#        _log("prtend reg fail")
+#        pass
+
+#    _log("--------------Ingo reg begin------------")
+#    driver = webdriver.Chrome(PATH, options=chrome_options)    
+#    try:
+#        print("ingor reg skip")
+#        ingo_reg()
+#        driver.close()
+#        driver.quit()
+
+#    except:
+#        print("ingo reg failed")
+#        pass
+#    _log("--------------Ingo reg end------------")
+#    _log("")
+
+#    _log("--------------Ingo email begin------------")
+#    driver = webdriver.Chrome(PATH, options=chrome_options)
     
-    try:
-        ingo_email()
-        driver.close()
-        driver.quit()
+#    try:
+#        print ("ingo email skip")
+ #       ingo_email()
+#        driver.close()
+#        driver.quit()
 
-    except:
-        print ("ingo email fail")
-        pass
+#    except:
+#        print ("ingo email fail")
+#        pass
 
 
-    _log("--------------24x forex chat begin ------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)
-    try:
-        _do_chat()
-        driver.close()
-        driver.quit()
+#    _log("--------------24x forex chat begin ------------")
+#    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    try:
+#        print ('24x forex chat skip')
+ #       _do_chat()
+#        driver.close()
+#        driver.quit()
 
-    except:
-        print ('chat failed')
-        pass
+#    except:
+#        print ('chat failed')
+#        pass
 #    time.sleep(1000)
 
 
-    _log("--------------24x forex email begin ------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)
-    try:
-        _do_email()
-        driver.close()
-        driver.quit()
+#    _log("--------------24x forex email begin ------------")
+#    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    try:
+#        print("24 foorex email skip")
+#        _do_email()
+#        driver.close()
+#        driver.quit()
 
-    except:
-        print ('email failed')
-        pass
+#    except:
+#        print ('email failed')
+#        pass
 
-    _log("--------------24x forex reg begin ------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    _log("--------------24x forex reg begin ------------")
+#    driver = webdriver.Chrome(PATH, options=chrome_options)
 
-    try:
-        _do_reg()
-        driver.close()
-        driver.quit()
+#    try:
+#        _do_reg()
+#        driver.close()
+#        driver.quit()
 
-    except:
-        print ('reg failed')
-        pass
+#    except:
+#        print ('reg failed')
+#        pass
 
 #    try:
 #        driver.delete_all_cookies()
