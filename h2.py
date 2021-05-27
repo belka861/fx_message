@@ -29,10 +29,10 @@ prox.add_to_capabilities(capabilities)
 
 
 
-
-#
-mode="DEV"
-#mode="PROD"
+if (platform.system()=='Windows'):
+    mode="DEV"
+else:
+    mode="PROD"
 global maxi_phone
 co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Грузия','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция']
 co2_dict={'Австрия':'AT','Азербайджан':'AZ','Армения':'AM','Бельгия':'BE','Болгария':'BG','Беларусь':'BY','Великобритания':'GB','Венгрия':'HU','Германия':'DE','Греция':'GR','Грузия':'GE','Дания':'DK','Испания':'ES','Италия':'IT','Казахстан':'KZ','Киргизстан':'KG','Кипр':'CY','Латвия':'LV','Литва':'LT','Люксембург':'LU','Молдова':'MD','Монако':'MC','Нидерланды':'NL','Норвегия':'NO','Польша':'PL','Португалия':'PT','Российская Федерация':'RU','Румыния':'RO','Словакия':'SK','Словения':'SI','Сербия':'RS','Таджикистан':'TJ','Узбекистан':'UZ','Финляндия':'FI','Франция':'FR','Хорватия':'HR','Черногория':'ME','Чешская Республика':'CZ','Швейцария':'CH','Швеция':'SE','Эстония':'EE'}
@@ -51,7 +51,7 @@ if (mode=="PROD"):
 #else:
 #    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 
-#if (platform.system=='Windows'):
+
 
 #PATH='/home/sv/chromedriver'
 #else:
@@ -1227,8 +1227,16 @@ def global_chat():
     q2=ai(question)    
     _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q2)
     webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
-
+    
     for i in range(1,5):
+        try:
+            _log(_get_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[1]/jdiv/jdiv/jdiv/jdiv[2]/jdiv/jdiv/jdiv[2]'))
+            if ('Agents' not in _get_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[1]/jdiv/jdiv/jdiv/jdiv[2]/jdiv/jdiv/jdiv[2]')): 
+                _log("-=mosh typed=-")
+#            _log(_get_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[1]/jdiv/jdiv/jdiv/jdiv[2]/jdiv/jdiv[2]/jdiv[1]'))
+                i=1
+        except:
+            pass
         time.sleep(random.randint(30,60))
         q3=ai(q2)    
         _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q3)
@@ -1413,10 +1421,11 @@ while True:
     driver.get('https://ipleak.net/')
     _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
     _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
+#    global_chat()
 #    time.sleep(1000)
     try:
         _log("global chat:")
-        global_chat()
+ #       global_chat()
         driver.close() 
         driver.quit()
     except:
@@ -1428,24 +1437,27 @@ while True:
 
 
 
-#    _log("--------------Maxi chat begin------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)
-#    try:
- #       umarkets_reg()
+    _log("--------------Maxi chat begin------------")
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    try:
+#        umarkets_reg()
 #        maxi_chat()
 
-#        maxi_reg()
-#        maxi_chat()
+        maxi_reg()
+        maxi_chat()
  
 
 #        _log("skip plus email")
 #        maxi_chat()
 #        plus_email()
-#        driver.close()
-#        driver.quit()
-#    except:
-#        _log("maxi chat fail")
-#        pass
+        driver.close()
+        driver.quit()
+    except:
+        _log("maxi chat fail")
+        driver.close()
+        driver.quit()
+
+        pass
 
 
 
