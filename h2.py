@@ -1109,7 +1109,7 @@ def tradelabs_call():
 def global_chat():
 
     driver.delete_all_cookies()
-
+#    time.sleep(60)
 
     driver.get("https://trade.globalallianceltd.com/registration-ru")
 #    driver.get('https://globalliance.io/ru/')
@@ -1180,9 +1180,12 @@ def global_chat():
     #chat inside trade apph2.py//*[@id="right-sidebar"]/section/div[1]/button[7]
 
     _wait_element('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
-    _log("global reg OK: "+email+" "+password1)
+    _wait_element('//*[@id="top-nav"]/div[2]/div[5]/div/div[1]/p[2]')
+    uid=_get_text('//*[@id="top-nav"]/div[2]/div[5]/div/div[1]/p[2]')
+    _log("global reg OK: "+email+" "+password1+" "+uid)
+#    time.sleep(2000)
 #    _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
-    driver.execute_script('document.evaluate(\'//*[@id="right-sidebar"]/section/div[1]/button[7]\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
+ #   driver.execute_script('document.evaluate(\'//*[@id="right-sidebar"]/section/div[1]/button[7]\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
     time.sleep(5)  
     _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
     _wait_element('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
@@ -1199,30 +1202,64 @@ def global_chat():
     _log(_get_text('//*[@id="center"]/div[2]/div/div/div[1]/section'))
 
 #    time.sleep(3000)
-    #chat here
-    _wait_element('//*[@id="jvlabelWrap"]/jdiv[2]')
-    _click('//*[@id="jvlabelWrap"]/jdiv[2]')
 
+    #chat here offline
+#    _wait_element('//*[@id="jvlabelWrap"]/jdiv[2]')
+#    _click('//*[@id="jvlabelWrap"]/jdiv[2]')
+
+    #online
+    _wait_element('//*[@id="jvlabelWrap"]/jdiv[1]')
+    _click('//*[@id="jvlabelWrap"]/jdiv[1]')
+
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/form/jdiv[1]/input')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/form/jdiv[1]/input',final_name)
+
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/form/jdiv[2]/input')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/form/jdiv[2]/input',email)
+
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/form/jdiv[3]/textarea')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/form/jdiv[3]/textarea',question)
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/form/jdiv[4]')
+    _click('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/form/jdiv[4]')
+#    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    time.sleep(5)
     _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
-    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',question)
-    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
-
-    _wait_element('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input')
-    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input',final_name)
-    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[2]/input',email)
-    _click('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[3]')
-
     q2=ai(question)    
-    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
     _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q2)
     webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
 
-    q3=ai(q2)    
-    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
-    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q3)
-    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    for i in range(1,5):
+        time.sleep(random.randint(10,40))
+        q3=ai(q2)    
+        _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q3)
+        webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+        q2=q3
+
+
+
+#//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[2]/jdiv
+     #offline
+#    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+#    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',question)
+#    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+
+#    _wait_element('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input')
+#    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input',final_name)
+#    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[2]/input',email)
+#    _click('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[3]')
+
+#    q2=ai(question)    
+#    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+#    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q2)
+ #   webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+
+#    q3=ai(q2)    
+#    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+#    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q3)
+#    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
 
     _log(_get_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv'))
+#    time.sleep(120)
 #    time.sleep(1000)
     return True
 
