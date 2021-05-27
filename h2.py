@@ -189,6 +189,13 @@ url = 'https://raw.githubusercontent.com/belka861/fx_websocket/main/surnames_f.t
 r = requests.get(url, allow_redirects=True)
 open('surnames_f.txt', 'wb').write(r.content)
 
+url = 'https://raw.githubusercontent.com/belka861/fx_websocket/main/nyse-listed.csv'
+r = requests.get(url, allow_redirects=True)
+open('nyse-listed.csv', 'wb').write(r.content)
+
+
+
+
 with open('nyse-listed.csv', 'r') as file:
     nyse = file.readlines()
 
