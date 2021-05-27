@@ -1417,7 +1417,7 @@ while True:
     try:
         _log("global chat:")
         global_chat()
-        driver.close()
+        driver.close() 
         driver.quit()
     except:
         _log("global chat failed")
