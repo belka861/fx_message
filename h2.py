@@ -21,7 +21,7 @@ prox.proxy_type = ProxyType.MANUAL
 p="208.127.60.176:8080"
 #good
 
-p="196.41.102.130:46004"
+#p="196.41.102.130:46004"
 
 # Proxy IP & Port
 prox.http_proxy = p
@@ -189,10 +189,10 @@ url = 'https://raw.githubusercontent.com/belka861/fx_websocket/main/surnames_f.t
 r = requests.get(url, allow_redirects=True)
 open('surnames_f.txt', 'wb').write(r.content)
 
-url = 'https://raw.githubusercontent.com/belka861/fx_websocket/main/nyse-listed.csv'
+
+url = 'https://raw.githubusercontent.com/belka861/fx_message/main/nyse-listed.csv'
 r = requests.get(url, allow_redirects=True)
 open('nyse-listed.csv', 'wb').write(r.content)
-
 
 
 
