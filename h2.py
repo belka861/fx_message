@@ -1,5 +1,6 @@
 from selenium import webdriver
 import platform
+from selenium.webdriver.common.proxy import Proxy, ProxyType
 #import numpy as np
 #from scipy.interpolate import splev, splrep
 
@@ -12,6 +13,23 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from phone_gen import PhoneNumber
 import time,os,random,datetime,sys
+
+prox = Proxy()
+prox.proxy_type = ProxyType.MANUAL
+
+p="208.127.60.176:8080"
+# Proxy IP & Port
+prox.http_proxy = p
+#prox.socks_proxy = p
+prox.ssl_proxy = p
+chrome_options.add_argument('--ignore-certificate-errors')
+# Configure capabilities 
+capabilities = webdriver.DesiredCapabilities.CHROME
+prox.add_to_capabilities(capabilities)
+
+
+
+
 #
 mode="DEV"
 #mode="PROD"
@@ -1001,7 +1019,7 @@ def maxi_chat():
 def umarkets_reg():
     global maxi_phone
     driver.delete_all_cookies()
-    driver.get("https://umarkets.net/ru/registration/")
+    driver.get("https://umarkets.info/ru/registration/")
     countries=[2,14,21,23,26,52,59,60,61,77,78,81,87,88,105,132,137,154,155,157,176,179,180,186,198,201,206,208,212,215,218,219,224]
     country=random.choice(countries)
     _click('//*[@id="RForm-0"]/form/div[7]/select/option['+str(country)+']')
@@ -1093,73 +1111,94 @@ def global_chat():
     driver.delete_all_cookies()
 
 
-#    driver.get("https://trade.globalallianceltd.com/registration-ru")
-    driver.get('https://globalliance.io/ru/')
-    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    driver.get("https://trade.globalallianceltd.com/registration-ru")
+#    driver.get('https://globalliance.io/ru/')
+#    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 #    _wait_element('//*[@id="primary-menu"]/li[9]/div/a[2]')
-#    _click('//*[@id="primary-menu"]/li[9]/div/a[2]')
-#    _wait_element('//*[@id="user-fname-reg"]')
-#    _send_text('//*[@id="user-fname-reg"]',name)
+ #   _click('//*[@id="primary-menu"]/li[9]/div/a[2]')
+    _wait_element('//*[@id="user-fname-reg"]')
+    _send_text('//*[@id="user-fname-reg"]',name)
 
 
-#    ph=PhoneNumber('RU')
- #   tn=ph.get_number(full=True)
+    ph=PhoneNumber('RU')
+    tn=ph.get_number(full=True)
 
 
 
-#    r=driver.find_element_by_xpath('//*[@id="user-phone-reg"]/input')
-#    _click('//*[@id="user-phone-reg"]/input')
-#    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
-#    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
-#    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
-#    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
-#    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
-#    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
-#    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
-#    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
+    r=driver.find_element_by_xpath('//*[@id="user-phone-reg"]/input')
+    _click('//*[@id="user-phone-reg"]/input')
+    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
+    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
+    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
+    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
+    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
+    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
+    _send_text('//*[@id="user-phone-reg"]/input',Keys.BACKSPACE)
+    _send_text('//*[@id="user-phone-reg"]/input',Keys.DELETE)
 
 
 
 
 #    r.clear()
 #    time.sleep(2)
-#    _send_text('//*[@id="user-phone-reg"]/input',phone_full)
+    _send_text('//*[@id="user-phone-reg"]/input',phone_full)
 
 
-#    _send_text('//*[@id="user-lname-reg"]',surname)
-#    _send_text('//*[@id="user-email-reg"]', email)
+    _send_text('//*[@id="user-lname-reg"]',surname)
+    _send_text('//*[@id="user-email-reg"]', email)
 
 
 
 
-#    password1="Global"+password
-#    _send_text('//*[@id="user-password-reg"]',password1)
-#    _click('//*[@id="user-birthday-reg"]')
+    password1="Global"+password
+    _send_text('//*[@id="user-password-reg"]',password1)
+    _click('//*[@id="user-birthday-reg"]')
 
-#    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[1]/input')
-#    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[1]/input')
-#    bday=random.randint(1,27)
-#    _send_text('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[1]/input',str(bday))
+    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[1]/input')
+    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[1]/input')
+    bday=random.randint(1,27)
+    _send_text('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[1]/input',str(bday))
 
-#    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/input')
-#    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/input')
-
-
-#    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/ul/section')
-#    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/ul/section')
-
-#    byear=random.randint(1950,2000)
-#    _send_text('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[3]/input',byear)
-
-#    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[2]/button[1]')
-#    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[2]/button[1]')
-#    _log(email)
-#    _log(password1)
+    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/input')
+    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/input')
 
 
-#    _wait_element('//*[@id="app"]/div[5]/div/section/div[1]/div/div[2]/div/form/div[8]/button/span')
-#    _click('//*[@id="app"]/div[5]/div/section/div[1]/div/div[2]/div/form/div[8]/button/span')
-#    time.sleep(1000)
+    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/ul/section')
+    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[2]/ul/section')
+
+    byear=random.randint(1950,2000)
+    _send_text('//*[@id="app"]/div[5]/div/div/div/div[2]/div[1]/div[3]/input',byear)
+
+    _wait_element('//*[@id="app"]/div[5]/div/div/div/div[2]/div[2]/button[1]')
+    _click('//*[@id="app"]/div[5]/div/div/div/div[2]/div[2]/button[1]')
+
+
+
+    _wait_element('//*[@id="app"]/div[5]/div/section/div[1]/div/div[2]/div/form/div[8]/button/span')
+    _click('//*[@id="app"]/div[5]/div/section/div[1]/div/div[2]/div/form/div[8]/button/span')
+
+    #chat inside trade apph2.py//*[@id="right-sidebar"]/section/div[1]/button[7]
+
+    _wait_element('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
+    _log("global reg OK: "+email+" "+password1)
+#    _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
+    driver.execute_script('document.evaluate(\'//*[@id="right-sidebar"]/section/div[1]/button[7]\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
+    time.sleep(5)  
+    _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
+    _wait_element('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
+    _click('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
+    _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',question)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    q2=ai(question)
+    _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',q2)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    q3=ai(q2)
+    _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',q3)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    time.sleep(2)
+    _log(_get_text('//*[@id="center"]/div[2]/div/div/div[1]/section'))
+
+#    time.sleep(3000)
     #chat here
     _wait_element('//*[@id="jvlabelWrap"]/jdiv[2]')
     _click('//*[@id="jvlabelWrap"]/jdiv[2]')
@@ -1317,7 +1356,9 @@ while True:
 
 
 #    _log("--------------DEV no try here--------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+#    driver.get('https://ipleak.net/')
+#    time.sleep(1000)
 #    global_chat()
 #    tradelabs_call()
 #    marketbull_reg()
@@ -1331,7 +1372,11 @@ while True:
 #    driver.quit()
 
     _log("--------------Global chat begin------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    driver.get('https://ipleak.net/')
+    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
+    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
+#    time.sleep(1000)
     try:
         _log("global chat:")
         global_chat()
@@ -1378,7 +1423,7 @@ while True:
 #        pass
 
     _log("--------------lime email begin------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)    
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)    
     try:
         lime_email()
         driver.close()
