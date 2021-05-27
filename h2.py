@@ -17,7 +17,12 @@ import time,os,random,datetime,sys
 prox = Proxy()
 prox.proxy_type = ProxyType.MANUAL
 
+#good
 p="208.127.60.176:8080"
+#good
+
+p="196.41.102.130:46004"
+
 # Proxy IP & Port
 prox.http_proxy = p
 #prox.socks_proxy = p
@@ -26,6 +31,44 @@ chrome_options.add_argument('--ignore-certificate-errors')
 # Configure capabilities 
 capabilities = webdriver.DesiredCapabilities.CHROME
 prox.add_to_capabilities(capabilities)
+
+import urllib.request , socket
+import requests
+
+import sys
+import urllib.request, socket
+from threading import Thread
+                
+socket.setdefaulttimeout(30)
+
+def check_proxy(pip):
+    global good_proxy
+    try:        
+        proxy_handler = urllib.request.ProxyHandler({'https': pip})        
+        opener = urllib.request.build_opener(proxy_handler)
+        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+        urllib.request.install_opener(opener)        
+        sock=urllib.request.urlopen('https://trade.globalallianceltd.com/registration-ru')  # change the url address here
+#        print(pip)
+        good_proxy.append(pip)
+        print ("good"+good_proxy)
+    except urllib.error.HTTPError as e:        
+        return e
+    except Exception as detail:
+        return detail
+    return 0
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -169,7 +212,7 @@ def _get_text(x):
 
 
 def _wait_element(xpath):
-    r = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+    r = WebDriverWait(driver, 220).until(EC.visibility_of_element_located((By.XPATH, xpath)))
     return True
 
 #def ai(question):
@@ -1280,24 +1323,106 @@ def global_spam():
 #    time.sleep(60)
 
     driver.get("https://trade.globalallianceltd.com/registration-ru")
+    _wait_element('//*[@id="app"]/div[5]/div/section/div[1]/div/div[1]/div[1]')
     _click('//*[@id="app"]/div[5]/div/section/div[1]/div/div[1]/div[1]')
-    _send_text('//*[@id="user-email"]','jaroslava_selivanova742128@rambler.lv')
-    _send_text('//*[@id="user-password"]','Global742128')
+    _send_text('//*[@id="user-email"]','lilija840032@yandex.az')
+    _send_text('//*[@id="user-password"]','Global840032')
     _click('//*[@id="app"]/div[5]/div/section/div[1]/div/div[2]/div/form/div[3]/button/span')
-    driver.execute_script('document.evaluate(\'//*[@id="right-sidebar"]/section/div[1]/button[7]\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
     time.sleep(5)  
-    _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
+    driver.execute_script('document.evaluate(\'//*[@id="right-sidebar"]/section/div[1]/button[7]\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
+
+#    _wait_element('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
+#    _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
     _wait_element('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
     _click('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
     _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',question)
     webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
     q3=question
-    for i in range(1,200):
+    for i in range(1,20000):
         q2=ai(q3)
         _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',q2)
         webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
         q3=q2
-#        time.sleep(10)        
+        time.sleep(2)        
+
+
+def global_offline_chat():
+    driver.delete_all_cookies()
+    driver.get("https://trade.globalallianceltd.com/registration-ru")
+    _wait_element('//*[@id="jvlabelWrap"]/jdiv[2]')
+    _click('//*[@id="jvlabelWrap"]/jdiv[2]')
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',question)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    _wait_element('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input')
+    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input',final_name)
+    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[2]/input',email)
+    _click('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[4]/jdiv/jdiv/jdiv/jdiv/jdiv[3]')
+
+    q2=ai(question)    
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q2)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+
+    q3=ai(q2)    
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q3)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+
+
+    time.sleep(10)
+
+def get_final_name():
+    name=names[random.randint(1,len(names)-1)].replace('\n', '')
+    surname=surnames[random.randint(1,len(surnames)-1)].replace('\n', '')
+    dice=random.choice([1,2,3])
+#    _log (dice)
+    if (dice==1):
+        final_name=name
+    if (dice==2):
+        final_name=name+" "+surname
+    if (dice==3):
+        final_name=surname+" "+name
+    return final_name
+
+def get_phone_full():
+    country=countries[random.randint(1,len(countries)-1)].replace('\n', '')
+#    _log(country)
+
+    #phone # depends on conutry
+    ph=PhoneNumber(country)
+
+    tn2=ph.get_number(full=True)
+    phone_full=ph.get_number()
+    return phone_full
+
+
+#    _log(name)
+
+
+
+
+
+def st24online_phone():
+    driver.delete_all_cookies()
+    driver.get('https://st24online.com/contact/?lang=ru#')
+    _wait_element('/html/body/div[1]/div/header/div/div/div/div[1]/div[1]/span/i')
+    _click('/html/body/div[1]/div/header/div/div/div/div[1]/div[1]/span/i')
+    _wait_element('//*[@id="mobile-menu-item-784"]/a/span')
+    _click('//*[@id="mobile-menu-item-784"]/a/span')
+    for i in range(1,10):
+        final_name=get_final_name()
+        phone_full=get_phone_full()
+        _wait_element('//*[@id="drop_down_callBack"]/p[1]/span/input')
+        _send_text('//*[@id="drop_down_callBack"]/p[1]/span/input',final_name)
+        _send_text('//*[@id="drop_down_callBack"]/p[2]/span/input',phone_full)
+        _click('//*[@id="drop_down_callBack"]/p[3]/input')
+        _wait_element('//*[@id="wpcf7-f777-o1"]/form/div[3]')
+        print(final_name+phone_full+_get_text('//*[@id="wpcf7-f777-o1"]/form/div[3]'))
+    time.sleep(1000)
+
+
+
 
 #os.system('pkill chrome')
 
@@ -1344,7 +1469,7 @@ while True:
 
     #random full name choice
     dice=random.choice([1,2,3])
-    _log (dice)
+#    _log (dice)
     if (dice==1):
         final_name=name
     if (dice==2):
@@ -1425,12 +1550,71 @@ while True:
 #        driver.quit()
 
 
+#proxy here
+
+    socket.setdefaulttimeout(180)
+                                                                                                                                            	
+    response = requests.get('https://api.proxyscrape.com/?request=displayproxies&proxytype=https&timeout=1000&anonymity=all&status=alive&ssl=yes&limit=10&lastupdated')
+    q=[]
+    for line in response.text.splitlines():
+        print (line)
+        q.append(line)
+    print (q)
+    proxyList = ['140.82.61.218:8080','178.32.47.218:17501'] # there are two sample proxy ip
+    proxyList =q
+
+
+
+
+
+
+    proxies = q
+    threads = []
+    good_proxy=[]
+#    for proxy in proxies:
+ #       thread = Thread( target=check_proxy, args=(proxy.strip(), ))
+#        thread.start()
+#        threads.append(thread)
+
+#    for thread in threads:
+#        thread.join()
+
+#    print (good_proxy)
+#    pp=random.choice(good_proxy)
+
+    prox = Proxy()
+    prox.proxy_type = ProxyType.MANUAL
+
+    #good
+    p="208.127.60.176:8080"
+    #good
+
+#    p=pp
+    print ("PROXY: "+p)
+    # Proxy IP & Port
+    prox.http_proxy = p
+    #prox.socks_proxy = p
+    prox.ssl_proxy = p
+    chrome_options.add_argument('--ignore-certificate-errors')
+    # Configure capabilities 
+    capabilities = webdriver.DesiredCapabilities.CHROME
+    prox.add_to_capabilities(capabilities)
+
+#proxy here
+
+
+
+
+
+
     _log("--------------DEV no try here--------------")
     driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    driver.get('https://ipleak.net/')
-    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
-    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
-
+    driver.get('https://whatismyip.host/')
+#    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
+#    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
+#    global_chat()
+#    global_offline_chat()
+    st24online_phone()
     global_spam()
 #    driver.get('https://ipleak.net/')
     time.sleep(1000)

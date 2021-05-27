@@ -16,14 +16,15 @@ headers = {"Content-Type": "application/json"}
 
 def worker(threadname):
 	while True:
-		chunk=random.randint(50,200)
+		chunk=random.randint(50,20000)
 		rstart=random.randint(100,rsize-chunk)
-	
+
 		data={"message":z[rstart:rstart+chunk]}
 		try:
 			response = requests.put(url, data=json.dumps(data), headers=headers)
 			res = response.json()
 			print(str(threadname)+str(res))
+			print (z[rstart:rstart+chunk])	
 		except:
 			print(str(threadname)+" req failed")
 try:
