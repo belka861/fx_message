@@ -1179,27 +1179,27 @@ def global_chat():
 
     #chat inside trade apph2.py//*[@id="right-sidebar"]/section/div[1]/button[7]
 
-    _wait_element('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
-    _wait_element('//*[@id="top-nav"]/div[2]/div[5]/div/div[1]/p[2]')
-    uid=_get_text('//*[@id="top-nav"]/div[2]/div[5]/div/div[1]/p[2]')
-    _log("global reg OK: "+email+" "+password1+" "+uid)
+#    _wait_element('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
+#    _wait_element('//*[@id="top-nav"]/div[2]/div[5]/div/div[1]/p[2]')
+#    uid=_get_text('//*[@id="top-nav"]/div[2]/div[5]/div/div[1]/p[2]')
+#    _log("global reg OK: "+email+" "+password1+" "+uid)
 #    time.sleep(2000)
 #    _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
  #   driver.execute_script('document.evaluate(\'//*[@id="right-sidebar"]/section/div[1]/button[7]\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
-    time.sleep(5)  
-    _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
-    _wait_element('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
-    _click('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
-    _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',question)
-    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
-    q2=ai(question)
-    _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',q2)
-    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
-    q3=ai(q2)
-    _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',q3)
-    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
-    time.sleep(2)
-    _log(_get_text('//*[@id="center"]/div[2]/div/div/div[1]/section'))
+#    time.sleep(5)  
+#    _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
+#    _wait_element('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
+#    _click('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
+#    _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',question)
+#    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+#    q2=ai(question)
+ #   _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',q2)
+#    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+#    q3=ai(q2)
+#    _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',q3)
+#    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+#    time.sleep(2)
+#    _log(_get_text('//*[@id="center"]/div[2]/div/div/div[1]/section'))
 
 #    time.sleep(3000)
 
@@ -1229,7 +1229,7 @@ def global_chat():
     webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
 
     for i in range(1,5):
-        time.sleep(random.randint(10,40))
+        time.sleep(random.randint(30,60))
         q3=ai(q2)    
         _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q3)
         webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
@@ -1421,6 +1421,9 @@ while True:
         driver.quit()
     except:
         _log("global chat failed")
+        driver.close()
+        driver.quit()
+
         pass
 
 
