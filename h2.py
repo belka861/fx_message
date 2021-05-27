@@ -195,7 +195,11 @@ def ai(question):
 
     if (answer==question):
         answer=random.choice(data)
- 
+
+    dice=random.randint(1,10)
+    if (dice==5):
+        answer=random.choice(data)
+
     answer=answer.replace('\n', '')
 
  
@@ -1271,8 +1275,29 @@ def global_chat():
 #    time.sleep(1000)
     return True
 
+def global_spam():
+    driver.delete_all_cookies()
+#    time.sleep(60)
 
-
+    driver.get("https://trade.globalallianceltd.com/registration-ru")
+    _click('//*[@id="app"]/div[5]/div/section/div[1]/div/div[1]/div[1]')
+    _send_text('//*[@id="user-email"]','jaroslava_selivanova742128@rambler.lv')
+    _send_text('//*[@id="user-password"]','Global742128')
+    _click('//*[@id="app"]/div[5]/div/section/div[1]/div/div[2]/div/form/div[3]/button/span')
+    driver.execute_script('document.evaluate(\'//*[@id="right-sidebar"]/section/div[1]/button[7]\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
+    time.sleep(5)  
+    _click('//*[@id="right-sidebar"]/section/div[1]/button[7]/span')
+    _wait_element('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
+    _click('//*[@id="center"]/div[2]/div/div/div[2]/div[1]')
+    _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',question)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    q3=question
+    for i in range(1,10000):
+        q2=ai(q3)
+        _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',q2)
+        webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+        q3=q2
+#        time.sleep(10)        
 
 #os.system('pkill chrome')
 
@@ -1400,10 +1425,15 @@ while True:
 #        driver.quit()
 
 
-#    _log("--------------DEV no try here--------------")
-#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    _log("--------------DEV no try here--------------")
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    driver.get('https://ipleak.net/')
+    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
+    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
+
+    global_spam()
 #    driver.get('https://ipleak.net/')
-#    time.sleep(1000)
+    time.sleep(1000)
 #    global_chat()
 #    tradelabs_call()
 #    marketbull_reg()
@@ -1413,8 +1443,8 @@ while True:
 #    maxi_reg()
 #    maxi_chat()
  #   ingo_chat_online()
-#    driver.close()
-#    driver.quit()
+    driver.close()
+    driver.quit()
 
     _log("--------------Global chat begin------------")
     driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
