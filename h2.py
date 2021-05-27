@@ -1292,7 +1292,7 @@ def global_spam():
     _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',question)
     webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
     q3=question
-    for i in range(1,10000):
+    for i in range(1,200):
         q2=ai(q3)
         _send_text('//*[@id="center"]/div[2]/div/div/div[2]/div[1]',q2)
         webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
