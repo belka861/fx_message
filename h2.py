@@ -1493,7 +1493,7 @@ def st24online_email():
     driver.get('https://st24online.com/contact/?lang=ru#')
     _wait_element('//*[@id="wpcf7-f767-p761-o2"]/form/div[4]/span/textarea')
     q3=question
-    for i in range (1,random.randint(10,50)):
+    for i in range (1,random.randint(10,70)):
 
         name24=_get_name()
         surname24=_get_surname()
@@ -1515,7 +1515,7 @@ def st24online_email():
         _wait_element('//*[@id="wpcf7-f767-p761-o2"]/form/div[6]')
         _log(_get_text('//*[@id="wpcf7-f767-p761-o2"]/form/div[6]'))
         q3=ai(" ")
-    time.sleep(1000)
+#    time.sleep(1000)
     #reg done doing random doc
 #    _wait_element('//*[@id="my-header"]/div[4]/div/a/span/i')
 #    _click('//*[@id="my-header"]/div[4]/div/a/span/i')
