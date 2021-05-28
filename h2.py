@@ -265,6 +265,12 @@ def _click(xpath):
     r.click()
     return True
 
+def _clear(xpath):
+    r=driver.find_element_by_xpath(xpath)
+    r.clear()
+    return True
+
+
 
 def get_greet():
     greet=random.choice(['Горячо приветствую',\
@@ -1379,6 +1385,32 @@ def global_offline_chat():
 
     time.sleep(10)
 
+
+def _get_email():
+    domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotmail.com', 'list.ru', 'bk.ru', 'inbox.ru', 'internet.ru',\
+'yahoo.com', 'aol.com', 'e1.ru','inbox.lv', 'dino.lv','human.lv', 'fit.lv','sok.lv', 'eclub.lv', 'zohomail.com', 'protonmail.com', 'mail.com',\
+ 'cyberservices.com', 'protestant.com', 'ya.ru','box.az','byke.com','chez.com','email.ru','gmx.net','goldmail.ru',\
+'sendmail.ru','sendmail.com','gold.az','mail.lv','mail.lt','tyt.by','mail.by','rambler.lv','rambler.cz','outlook.ru','tut.by',\
+'inet.ru','bigmailbox.com','lycos.com','netaddress.com','techemail.com','yandex.kz','yandex.lv','yandex.com','yandex.az','yandex.tr','ya.az',\
+'aport.ru','chat.ru','newmail.ru','sitek.net','zmail.ru','id.ru','ok.ru','ru.ru']
+    domain=random.choice(domains)
+    password=""
+    for i in range (1,7):
+        password=password+random.choice('01234567890')
+    username=translit(final_name, reversed=True).replace(" ", "_").replace("'","").lower()+password
+    email=username+"@"+domain
+    return email
+
+
+
+def _get_name():
+    name=names[random.randint(1,len(names)-1)].replace('\n', '')
+    return name
+
+def _get_surname():
+    surname=surnames[random.randint(1,len(surnames)-1)].replace('\n', '')
+    return surname
+
 def get_final_name():
     name=names[random.randint(1,len(names)-1)].replace('\n', '')
     surname=surnames[random.randint(1,len(surnames)-1)].replace('\n', '')
@@ -1407,9 +1439,6 @@ def get_phone_full():
 #    _log(name)
 
 
-
-
-
 def st24online_phone():
     driver.delete_all_cookies()
     driver.get('https://st24online.com/contact/?lang=ru#')
@@ -1417,17 +1446,82 @@ def st24online_phone():
     _click('/html/body/div[1]/div/header/div/div/div/div[1]/div[1]/span/i')
     _wait_element('//*[@id="mobile-menu-item-784"]/a/span')
     _click('//*[@id="mobile-menu-item-784"]/a/span')
-    for i in range(1,10):
+    for i in range(1,random.randint(100,200)):
         final_name=get_final_name()
         phone_full=get_phone_full()
         _wait_element('//*[@id="drop_down_callBack"]/p[1]/span/input')
+        _clear('//*[@id="drop_down_callBack"]/p[1]/span/input')
+        _clear('//*[@id="drop_down_callBack"]/p[2]/span/input')
         _send_text('//*[@id="drop_down_callBack"]/p[1]/span/input',final_name)
         _send_text('//*[@id="drop_down_callBack"]/p[2]/span/input',phone_full)
         _click('//*[@id="drop_down_callBack"]/p[3]/input')
         _wait_element('//*[@id="wpcf7-f777-o1"]/form/div[3]')
         print(final_name+phone_full+_get_text('//*[@id="wpcf7-f777-o1"]/form/div[3]'))
-    time.sleep(1000)
+    time.sleep(10)
 
+def st24online_reg():
+    driver.delete_all_cookies()
+    driver.get('https://st24online.com/contact/?lang=ru#')
+    _wait_element('/html/body/div[1]/div/header/div/div/div/div[1]/div[1]/span/i')
+    _click('/html/body/div[1]/div/header/div/div/div/div[1]/div[1]/span/i')
+
+    _wait_element('//*[@id="mobile-menu-item-786"]/a/span')
+    _click('//*[@id="mobile-menu-item-786"]/a/span')
+    _wait_element('//*[@id="frm_register"]/input[3]')
+    _send_text('//*[@id="frm_register"]/input[3]',surname)
+    _send_text('//*[@id="frm_register"]/input[4]',name)
+    _send_text('//*[@id="emailRegister"]',email)
+    characters = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    bpassword="".join(random.sample(characters, 10))
+
+    _send_text('//*[@id="passwordRegister"]',bpassword )
+    _send_text('//*[@id="confirm_password"]',bpassword)
+
+    _clear('//*[@id="telephone"]')
+    _send_text('//*[@id="telephone"]',phone_full)
+    _click('//*[@id="terms_conditions"]')
+    _click('//*[@id="checkbox2"]')
+    _click('//*[@id="frm_register"]/button')
+    _wait_element('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]')
+    print(_get_text('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]'))
+    _log("#st24online "+email+" "+bpassword)
+ 
+
+
+def st24online_email():
+    driver.delete_all_cookies()
+    driver.get('https://st24online.com/contact/?lang=ru#')
+    _wait_element('//*[@id="wpcf7-f767-p761-o2"]/form/div[4]/span/textarea')
+    q3=question
+    for i in range (1,random.randint(100,200)):
+
+        name24=_get_name()
+        surname24=_get_surname()
+        email24=_get_email()
+        _clear('//*[@id="wpcf7-f767-p761-o2"]/form/div[2]/div[1]/div/span/input')
+        _send_text('//*[@id="wpcf7-f767-p761-o2"]/form/div[2]/div[1]/div/span/input',name24)
+
+        _clear('//*[@id="wpcf7-f767-p761-o2"]/form/div[2]/div[2]/div/span/input')
+        _send_text('//*[@id="wpcf7-f767-p761-o2"]/form/div[2]/div[2]/div/span/input',surname24)
+
+        _clear('//*[@id="wpcf7-f767-p761-o2"]/form/div[3]/div[1]/div/span/input')
+        _send_text('//*[@id="wpcf7-f767-p761-o2"]/form/div[3]/div[1]/div/span/input',email24)
+
+        _clear('//*[@id="wpcf7-f767-p761-o2"]/form/div[4]/span/textarea')
+        q2=ai(question)
+        _send_text('//*[@id="wpcf7-f767-p761-o2"]/form/div[3]/div[2]/div/span/input',q2)
+        _send_text('//*[@id="wpcf7-f767-p761-o2"]/form/div[4]/span/textarea',q3)
+        _click('//*[@id="wpcf7-f767-p761-o2"]/form/div[5]/input')
+        _wait_element('//*[@id="wpcf7-f767-p761-o2"]/form/div[6]')
+        _log(_get_text('//*[@id="wpcf7-f767-p761-o2"]/form/div[6]'))
+        q3=ai(" ")
+    time.sleep(1000)
+    #reg done doing random doc
+#    _wait_element('//*[@id="my-header"]/div[4]/div/a/span/i')
+#    _click('//*[@id="my-header"]/div[4]/div/a/span/i')
+
+
+ #   time.sleep(1000)
 
 
 
@@ -1621,10 +1715,12 @@ while True:
 #    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
 #    global_chat()
 #    global_offline_chat()
-    st24online_phone()
-    global_spam()
+#    st24online_email()
+#    st24online_reg()
+#    st24online_phone()
+#    global_spam()
 #    driver.get('https://ipleak.net/')
-    time.sleep(1000)
+#    time.sleep(1000)
 #    global_chat()
 #    tradelabs_call()
 #    marketbull_reg()
@@ -1637,25 +1733,69 @@ while True:
     driver.close()
     driver.quit()
 
-    _log("--------------Global chat begin------------")
+
+    _log("--------------24 email begin------------")
     driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    driver.get('https://ipleak.net/')
-    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
-    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
-#    global_chat()
-#    time.sleep(1000)
     try:
-        _log("global chat:")
- #       global_chat()
-        driver.close() 
-        driver.quit()
-    except:
-        _log("global chat failed")
+        st24online_email()
         driver.close()
         driver.quit()
-
+    except:
+        _log("24 email fail")
+        driver.close()
+        driver.quit()
         pass
 
+
+    _log("--------------24 reg begin------------")
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    try:
+        st24online_reg()
+        driver.close()
+        driver.quit()
+    except:
+        _log("24 reg fail")
+        driver.close()
+        driver.quit()
+        pass
+
+
+
+    _log("--------------24 phone begin------------")
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    try:
+        st24online_phone()
+        driver.close()
+        driver.quit()
+    except:
+        _log("24 phone fail")
+        driver.close()
+        driver.quit()
+        pass
+
+
+
+
+
+#    _log("--------------Global chat begin------------")
+#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+#    driver.get('https://ipleak.net/')
+#    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
+#    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
+#    global_chat()
+#    time.sleep(1000)
+#    try:
+ #       _log("global chat:")
+ #       global_chat()
+#        driver.close() 
+#        driver.quit()
+#    except:
+#        _log("global chat failed")
+#        driver.close()
+#        driver.quit()
+#
+ #       pass
+#
 
 
     _log("--------------Maxi chat begin------------")
@@ -1695,15 +1835,15 @@ while True:
 #        _log("plus email fail")
 #        pass
 
-    _log("--------------lime email begin------------")
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)    
-    try:
-        lime_email()
-        driver.close()
-        driver.quit()
-    except:
-       _log("lime email fail")
-       pass
+#    _log("--------------lime email begin------------")
+#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)    
+#    try:
+#        lime_email()
+#        driver.close()
+#        driver.quit()
+#    except:
+#       _log("lime email fail")
+#       pass
 
 #    driver = webdriver.Chrome(PATH, options=chrome_options)    
 # 
