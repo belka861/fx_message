@@ -1746,7 +1746,7 @@ while True:
         driver.quit()
         pass
 
-
+   
     _log("--------------24 reg begin------------")
     driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
     try:
