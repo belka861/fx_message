@@ -219,7 +219,7 @@ def _get_text(x):
 
 
 def _wait_element(xpath):
-    r = WebDriverWait(driver, 220).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+    r = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, xpath)))
     return True
 
 #def ai(question):
@@ -1493,7 +1493,7 @@ def st24online_email():
     driver.get('https://st24online.com/contact/?lang=ru#')
     _wait_element('//*[@id="wpcf7-f767-p761-o2"]/form/div[4]/span/textarea')
     q3=question
-    for i in range (1,random.randint(100,200)):
+    for i in range (1,random.randint(10,50)):
 
         name24=_get_name()
         surname24=_get_surname()
