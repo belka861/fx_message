@@ -1510,8 +1510,8 @@ def st24online_reg():
     _click('//*[@id="frm_register"]/button')
     _wait_element('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]')
     print(_get_text('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]'))
-    _log("#st24online "+email24+" "+bpassword)
-    _cred("st24",email24,bpassword)
+    _log("#st24 "+email24+" "+bpassword)
+    _cred("#st24",email24,bpassword)
  
 
 
