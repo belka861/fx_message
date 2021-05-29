@@ -77,7 +77,7 @@ if (platform.system()=='Windows'):
 else:
     mode="PROD"
 global maxi_phone
-co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Грузия','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция']
+co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция',"Эстония"]
 co2_dict={'Австрия':'AT','Азербайджан':'AZ','Армения':'AM','Бельгия':'BE','Болгария':'BG','Беларусь':'BY','Великобритания':'GB','Венгрия':'HU','Германия':'DE','Греция':'GR','Грузия':'GE','Дания':'DK','Испания':'ES','Италия':'IT','Казахстан':'KZ','Киргизстан':'KG','Кипр':'CY','Латвия':'LV','Литва':'LT','Люксембург':'LU','Молдова':'MD','Монако':'MC','Нидерланды':'NL','Норвегия':'NO','Польша':'PL','Португалия':'PT','Российская Федерация':'RU','Румыния':'RO','Словакия':'SK','Словения':'SI','Сербия':'RS','Таджикистан':'TJ','Узбекистан':'UZ','Финляндия':'FI','Франция':'FR','Хорватия':'HR','Черногория':'ME','Чешская Республика':'CZ','Швейцария':'CH','Швеция':'SE','Эстония':'EE'}
 
 chrome_options.add_argument('--disable-blink-features=AutomationControlled')
@@ -115,6 +115,18 @@ def _log(message):
     fh.write(text)
     fh.close()
     return True
+
+cred_file="cred.txt"
+def _cred(s,u,p):
+    fh=open(cred_file,"a",encoding="utf-8")
+#    fh=open(logfile,"a")
+#    text=str(datetime.datetime.now())+" "+str(message)+"\r\n"
+    text=s+","+u+","+p
+    print(text)
+    fh.write(text)
+    fh.close()
+    return True
+
 
 def human_like_mouse_move(action, start_element):
 
@@ -1460,6 +1472,9 @@ def st24online_phone():
     time.sleep(10)
 
 def st24online_reg():
+    name24=_get_name()
+    surname24=_get_surname()    
+    email24=_get_email()
     driver.delete_all_cookies()
     driver.get('https://st24online.com/contact/?lang=ru#')
     _wait_element('/html/body/div[1]/div/header/div/div/div/div[1]/div[1]/span/i')
@@ -1468,23 +1483,35 @@ def st24online_reg():
     _wait_element('//*[@id="mobile-menu-item-786"]/a/span')
     _click('//*[@id="mobile-menu-item-786"]/a/span')
     _wait_element('//*[@id="frm_register"]/input[3]')
-    _send_text('//*[@id="frm_register"]/input[3]',surname)
-    _send_text('//*[@id="frm_register"]/input[4]',name)
-    _send_text('//*[@id="emailRegister"]',email)
+    _send_text('//*[@id="frm_register"]/input[3]',surname24)
+    _send_text('//*[@id="frm_register"]/input[4]',name24)
+    _send_text('//*[@id="emailRegister"]',email24)
     characters = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     bpassword="".join(random.sample(characters, 10))
 
     _send_text('//*[@id="passwordRegister"]',bpassword )
     _send_text('//*[@id="confirm_password"]',bpassword)
 
-    _clear('//*[@id="telephone"]')
-    _send_text('//*[@id="telephone"]',phone_full)
+#    _click('//*[@id="country"]')
+    c1=random.choice(co2)
+    c11=co2_dict[c1]
+
+
+    _click('//*[@id="'+c11+'"]')
+
+    ph=PhoneNumber(c11)
+    st24_ph=ph.get_number(full=False)
+
+#    _clear('//*[@id="telephone"]')
+    _send_text('//*[@id="telephone"]',st24_ph)
     _click('//*[@id="terms_conditions"]')
     _click('//*[@id="checkbox2"]')
+#    time.sleep(10)
     _click('//*[@id="frm_register"]/button')
     _wait_element('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]')
     print(_get_text('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]'))
-    _log("#st24online "+email+" "+bpassword)
+    _log("#st24online "+email24+" "+bpassword)
+    _cred("st24",email24,bpassword)
  
 
 
@@ -1653,25 +1680,25 @@ while True:
 
 #proxy here
 
-    socket.setdefaulttimeout(180)
+#    socket.setdefaulttimeout(180)
                                                                                                                                             	
-    response = requests.get('https://api.proxyscrape.com/?request=displayproxies&proxytype=https&timeout=1000&anonymity=all&status=alive&ssl=yes&limit=10&lastupdated')
-    q=[]
-    for line in response.text.splitlines():
-        print (line)
-        q.append(line)
-    print (q)
-    proxyList = ['140.82.61.218:8080','178.32.47.218:17501'] # there are two sample proxy ip
-    proxyList =q
+#    response = requests.get('https://api.proxyscrape.com/?request=displayproxies&proxytype=https&timeout=1000&anonymity=all&status=alive&ssl=yes&limit=10&lastupdated')
+#    q=[]
+#    for line in response.text.splitlines():
+#        print (line)
+#        q.append(line)
+#    print (q)
+#    proxyList = ['140.82.61.218:8080','178.32.47.218:17501'] # there are two sample proxy ip
+#    proxyList =q
 
 
 
 
 
 
-    proxies = q
-    threads = []
-    good_proxy=[]
+#    proxies = q
+#    threads = []
+#    good_proxy=[]
 #    for proxy in proxies:
  #       thread = Thread( target=check_proxy, args=(proxy.strip(), ))
 #        thread.start()
@@ -1683,8 +1710,8 @@ while True:
 #    print (good_proxy)
 #    pp=random.choice(good_proxy)
 
-    prox = Proxy()
-    prox.proxy_type = ProxyType.MANUAL
+#    prox = Proxy()
+#    prox.proxy_type = ProxyType.MANUAL
 
     #good
     p="208.127.60.176:8080"
@@ -1734,6 +1761,29 @@ while True:
     driver.quit()
 
 
+
+    _log("--------------24 reg begin------------")
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+#    st24online_reg()
+
+    try:
+        for i in range (1,random.randint(100,200)):
+            try:
+                st24online_reg()
+            except:
+                pass
+
+        driver.close()
+        driver.quit()
+    except:
+        _log("24 reg fail")
+        driver.close()
+        driver.quit()
+        pass
+
+
+
+
     _log("--------------24 email begin------------")
     driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
     try:
@@ -1747,19 +1797,7 @@ while True:
         pass
 
    
-    _log("--------------24 reg begin------------")
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    try:
-        st24online_reg()
-        driver.close()
-        driver.quit()
-    except:
-        _log("24 reg fail")
-        driver.close()
-        driver.quit()
-        pass
-
-
+ 
 
     _log("--------------24 phone begin------------")
     driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
