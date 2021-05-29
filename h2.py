@@ -121,7 +121,7 @@ def _cred(s,u,p):
     fh=open(cred_file,"a",encoding="utf-8")
 #    fh=open(logfile,"a")
 #    text=str(datetime.datetime.now())+" "+str(message)+"\r\n"
-    text=s+","+u+","+p
+    text=s+","+u+","+p+"\r\n"
     print(text)
     fh.write(text)
     fh.close()
