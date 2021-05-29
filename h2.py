@@ -79,6 +79,14 @@ else:
 global maxi_phone
 co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция',"Эстония"]
 co2_dict={'Австрия':'AT','Азербайджан':'AZ','Армения':'AM','Бельгия':'BE','Болгария':'BG','Беларусь':'BY','Великобритания':'GB','Венгрия':'HU','Германия':'DE','Греция':'GR','Грузия':'GE','Дания':'DK','Испания':'ES','Италия':'IT','Казахстан':'KZ','Киргизстан':'KG','Кипр':'CY','Латвия':'LV','Литва':'LT','Люксембург':'LU','Молдова':'MD','Монако':'MC','Нидерланды':'NL','Норвегия':'NO','Польша':'PL','Португалия':'PT','Российская Федерация':'RU','Румыния':'RO','Словакия':'SK','Словения':'SI','Сербия':'RS','Таджикистан':'TJ','Узбекистан':'UZ','Финляндия':'FI','Франция':'FR','Хорватия':'HR','Черногория':'ME','Чешская Республика':'CZ','Швейцария':'CH','Швеция':'SE','Эстония':'EE'}
+domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotmail.com', 'list.ru', 'bk.ru', 'inbox.ru', 'internet.ru',\
+'yahoo.com', 'aol.com', 'e1.ru','inbox.lv', 'dino.lv','human.lv', 'fit.lv','sok.lv', 'eclub.lv', 'zohomail.com', 'protonmail.com', 'mail.com',\
+ 'cyberservices.com', 'protestant.com', 'ya.ru','box.az','byke.com','chez.com','email.ru','gmx.net','goldmail.ru',\
+'sendmail.ru','sendmail.com','gold.az','mail.lv','mail.lt','tyt.by','mail.by','rambler.lv','rambler.cz','outlook.ru','tut.by',\
+'inet.ru','bigmailbox.com','lycos.com','netaddress.com','techemail.com','yandex.kz','yandex.lv','yandex.com','yandex.az','yandex.tr','ya.az',\
+'aport.ru','chat.ru','newmail.ru','sitek.net','zmail.ru','id.ru','ok.ru','ru.ru']
+
+
 
 chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 PATH='C:\Program Files (x86)\chromedriver.exe'
@@ -206,7 +214,9 @@ url = 'https://raw.githubusercontent.com/belka861/fx_message/main/nyse-listed.cs
 r = requests.get(url, allow_redirects=True)
 open('nyse-listed.csv', 'wb').write(r.content)
 
-
+url = 'https://www.mit.edu/~ecprice/wordlist.10000'
+r = requests.get(url, allow_redirects=True)
+open('wordlist10000.txt', 'wb').write(r.content)
 
 with open('nyse-listed.csv', 'r') as file:
     nyse = file.readlines()
@@ -1399,17 +1409,33 @@ def global_offline_chat():
 
 
 def _get_email():
-    domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotmail.com', 'list.ru', 'bk.ru', 'inbox.ru', 'internet.ru',\
-'yahoo.com', 'aol.com', 'e1.ru','inbox.lv', 'dino.lv','human.lv', 'fit.lv','sok.lv', 'eclub.lv', 'zohomail.com', 'protonmail.com', 'mail.com',\
- 'cyberservices.com', 'protestant.com', 'ya.ru','box.az','byke.com','chez.com','email.ru','gmx.net','goldmail.ru',\
-'sendmail.ru','sendmail.com','gold.az','mail.lv','mail.lt','tyt.by','mail.by','rambler.lv','rambler.cz','outlook.ru','tut.by',\
-'inet.ru','bigmailbox.com','lycos.com','netaddress.com','techemail.com','yandex.kz','yandex.lv','yandex.com','yandex.az','yandex.tr','ya.az',\
-'aport.ru','chat.ru','newmail.ru','sitek.net','zmail.ru','id.ru','ok.ru','ru.ru']
     domain=random.choice(domains)
     password=""
     for i in range (1,7):
         password=password+random.choice('01234567890')
     username=translit(final_name, reversed=True).replace(" ", "_").replace("'","").lower()+password
+    email=username+"@"+domain
+    return email
+
+def _get_email_from_final_name(final_name):
+    domain=random.choice(domains)
+    password=""
+    for i in range (1,random.randint(5,8)):
+        password=password+random.choice('01234567890')
+    word=random.choice(wordlist10000).replace("\n","")
+    word2=random.choice(wordlist10000).replace("\n","")
+    dice=random.choice([1,2,3,4])
+    if (dice==1):
+        username=translit(final_name, reversed=True).replace(" ", "_").replace("'","").lower()+password
+    if (dice==2):
+        username=(word+word2).replace(" ", "_").replace("'","").lower()+password
+    if (dice==3):
+        username=(word+translit(final_name, reversed=True)).replace(" ", "_").replace("'","").lower()+password
+    if (dice==4):
+        username=(translit(final_name, reversed=True)+word).replace(" ", "_").replace("'","").lower()+password
+
+
+    print (username)
     email=username+"@"+domain
     return email
 
@@ -1435,6 +1461,20 @@ def get_final_name():
     if (dice==3):
         final_name=surname+" "+name
     return final_name
+
+def _get_final_name(name, surname):
+    dice=random.choice([1,2,3])
+#    _log (dice)
+    if (dice==1):
+        final_name=name
+    if (dice==2):
+        final_name=name+" "+surname
+    if (dice==3):
+        final_name=surname+" "+name
+    return final_name
+
+
+
 
 def get_phone_full():
     country=countries[random.randint(1,len(countries)-1)].replace('\n', '')
@@ -1472,9 +1512,10 @@ def st24online_phone():
     time.sleep(10)
 
 def st24online_reg():
-    name24=_get_name()
-    surname24=_get_surname()    
-    email24=_get_email()
+    name241=_get_name()
+    surname241=_get_surname()    
+    f=_get_final_name(name241, surname241)
+    email24=_get_email_from_final_name(f)
     driver.delete_all_cookies()
     driver.get('https://st24online.com/contact/?lang=ru#')
     _wait_element('/html/body/div[1]/div/header/div/div/div/div[1]/div[1]/span/i')
@@ -1483,8 +1524,8 @@ def st24online_reg():
     _wait_element('//*[@id="mobile-menu-item-786"]/a/span')
     _click('//*[@id="mobile-menu-item-786"]/a/span')
     _wait_element('//*[@id="frm_register"]/input[3]')
-    _send_text('//*[@id="frm_register"]/input[3]',surname24)
-    _send_text('//*[@id="frm_register"]/input[4]',name24)
+    _send_text('//*[@id="frm_register"]/input[3]',surname241)
+    _send_text('//*[@id="frm_register"]/input[4]',name241)
     _send_text('//*[@id="emailRegister"]',email24)
     characters = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
     bpassword="".join(random.sample(characters, 10))
@@ -1510,7 +1551,7 @@ def st24online_reg():
     _click('//*[@id="frm_register"]/button')
     _wait_element('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]')
     print(_get_text('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]'))
-    _log("#st24 "+email24+" "+bpassword)
+    _log("#st24 "+name241+" "+surname241+" "+email24+" "+bpassword)
     _cred("#st24",email24,bpassword)
  
 
@@ -1566,6 +1607,10 @@ with open('surnames_f.txt', 'r',encoding="utf-8") as file:
 
 with open('countries.txt', 'r',encoding="utf-8") as file:
     countries = file.readlines()
+
+with open('wordlist10000.txt', 'r',encoding="utf-8") as file:
+    wordlist10000 = file.readlines()
+
 
 while True:
 
@@ -1633,12 +1678,6 @@ while True:
 
 
     #email
-    domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotmail.com', 'list.ru', 'bk.ru', 'inbox.ru', 'internet.ru',\
-'yahoo.com', 'aol.com', 'e1.ru','inbox.lv', 'dino.lv','human.lv', 'fit.lv','sok.lv', 'eclub.lv', 'zohomail.com', 'protonmail.com', 'mail.com',\
- 'cyberservices.com', 'protestant.com', 'ya.ru','box.az','byke.com','chez.com','email.ru','gmx.net','goldmail.ru',\
-'sendmail.ru','sendmail.com','gold.az','mail.lv','mail.lt','tyt.by','mail.by','rambler.lv','rambler.cz','outlook.ru','tut.by',\
-'inet.ru','bigmailbox.com','lycos.com','netaddress.com','techemail.com','yandex.kz','yandex.lv','yandex.com','yandex.az','yandex.tr','ya.az',\
-'aport.ru','chat.ru','newmail.ru','sitek.net','zmail.ru','id.ru','ok.ru','ru.ru']
     domain=random.choice(domains)
     password=""
     for i in range (1,7):
@@ -1765,7 +1804,7 @@ while True:
     _log("--------------24 reg begin------------")
     driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
 #    st24online_reg()
-
+#    time.sleep(1000)
     try:
         for i in range (1,random.randint(100,200)):
             try:
