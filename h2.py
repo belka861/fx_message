@@ -246,8 +246,8 @@ def _wait_element(xpath):
 
 #def ai(question):
 def ai(question):
-    _log("----AI start---")
-    _log("Q: "+question)
+#    _log("----AI start---")
+#    _log("Q: "+question)
     a=[]
     #question='Здравствуйте, я создам запрос, с вами свяжется ваш менеджер.'
     words=question.replace(',','').replace('.','').replace('\n', '').lower().split()
@@ -277,8 +277,8 @@ def ai(question):
  
 
 
-    _log ("A: "+answer)
-    _log ("-----AI END--------")
+#    _log ("A: "+answer)
+#    _log ("-----AI END--------")
     return (answer)
 
 
@@ -373,43 +373,61 @@ def get_greet():
 
 
 
-def _do_email():
-    driver.get('https://24xforex.com/ru#contact')
-#    time.sleep(2)
+def _24xforex_email():
+    question=_get_question()
+    name=_get_name()
+    surname=_get_surname()
+    final_name=_get_final_name(name,surname)
+    email=_get_email_from_final_name(final_name)
 
-    e=driver.find_element_by_xpath('//*[@id="contact_email"]')
-    e.send_keys(email)
-#    time.sleep(1)
-    name1=driver.find_element_by_xpath('//*[@id="contact_name"]')
-    name1.send_keys(final_name)
+    driver.get('https://24xforex.com/ru#contact')
+    _send_text('//*[@id="contact_email"]',email)
+    _send_text('//*[@id="contact_name"]',final_name)
     _click('//*[@id="contact_message"]')
-    text1=driver.find_element_by_xpath('//*[@id="contact_message"]')
-    text1.send_keys(question)
-#    time.sleep (1)
-#    _wait_element
-#    r=driver.find_element_by_css_selector('#contact > div.contact-block > div.form-block > form > button')
-#    r.click()
+    _send_text('//*[@id="contact_message"]',question)
     _wait_element('//*[@id="contact"]/div[2]/div[2]/form/button')
     driver.execute_script('document.evaluate(\'//*[@id="contact"]/div[2]/div[2]/form/button\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
 #    time.sleep(4)
     _wait_element('//*[@id="contact"]/div[2]/div[1]')
-    r=driver.find_element_by_xpath('//*[@id="contact"]/div[2]/div[1]').text
-    print(r)
+    _log(_get_text('//*[@id="contact"]/div[2]/div[1]'))
+    return True
+
+def w_24xforex_email():
+    _log("--------------24 x forex email begin------------")
+    driver = webdriver.Chrome(PATH, options=chrome_options)
+    try:
+        for i in range (1,random.randint(100,200)):
+            try:
+#                print ("ingo email skip")
+                _24xforex_email()
+            except:
+                pass
+        driver.close()
+        driver.quit()
+    except:
+        _log("24x forex email fail")
+        driver.close()
+        driver.quit()
+        pass
+    _log("--------------24x forex email end--------------")
+
 
 
 def ingo_email():
+    question=_get_question()
+    name=_get_name()
+    surname=_get_surname()
+    final_name=_get_final_name(name,surname)
+    email=_get_email_from_final_name(final_name)
     driver.get('https://ingoinvest.com/ru')
-    time.sleep(7)
-
-    e=driver.find_element_by_xpath('//*[@id="contact_email"]')
-    e.send_keys(email)
-#    time.sleep(1)
-    name1=driver.find_element_by_xpath('//*[@id="contact_name"]')
-    name1.send_keys(final_name)
+#    time.sleep(7)
+    _wait_element('//*[@id="contact_email"]')
+    _send_text('//*[@id="contact_email"]',email)
+    _send_text('//*[@id="contact_name"]',final_name)
     _click('//*[@id="contact_message"]')
-    text1=driver.find_element_by_xpath('//*[@id="contact_message"]')
-    text1.send_keys(question)
-    time.sleep (1)
+    _send_text('//*[@id="contact_message"]',question)
+#    time.sleep (1)
+    _wait_element('//*[@id="contact"]/div/div[2]/div[1]/form/button')
     _click('//*[@id="contact"]/div/div[2]/div[1]/form/button')
 #    _wait_element
 #    r=driver.find_element_by_css_selector('#contact > div.contact-block > div.form-block > form > button')
@@ -419,10 +437,29 @@ def ingo_email():
 #    time.sleep(4)
 #    _wait_element('//*[@id="contact"]/div[2]/div[1]')
     _wait_element('//*[@id="wrapper"]/main/div[2]/article/h1')
-    r=driver.find_element_by_xpath('//*[@id="wrapper"]/main/div[2]/article/h1').text
-    _log(r)
-#    time.sleep(5)
-#    _log(driver.page_source)
+    _log(_get_text('//*[@id="wrapper"]/main/div[2]/article/h1'))
+    return True
+
+def w_ingo_email():
+
+    _log("--------------Ingo email begin------------")
+    driver = webdriver.Chrome(PATH, options=chrome_options)
+    try:
+        for i in range (1,random.randint(100,200)):
+            try:
+#                print ("ingo email skip")
+                ingo_email()
+            except:
+                pass
+        driver.close()
+        driver.quit()
+    except:
+        _log("ingo email fail")
+        driver.close()
+        driver.quit()
+        pass
+    _log("--------------Ingo email end--------------")
+
 
 
 
@@ -1435,7 +1472,7 @@ def _get_email_from_final_name(final_name):
         username=(translit(final_name, reversed=True)+word).replace(" ", "_").replace("'","").lower()+password
 
 
-    print (username)
+#    print (username)
     email=username+"@"+domain
     return email
 
@@ -1474,6 +1511,9 @@ def _get_final_name(name, surname):
     return final_name
 
 
+def _get_question():
+    question=data[random.randint(1,len(data)-1)].replace('\n', '')
+    return question
 
 
 def get_phone_full():
@@ -1774,9 +1814,21 @@ while True:
 
 
 
+
+
+
+
+
+
+
+
     _log("--------------DEV no try here--------------")
     driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    driver.get('https://whatismyip.host/')
+#    driver.get('https://whatismyip.host/')
+    w_24xforex_email()
+#    _do_email()
+#    w_ingo_email()
+    time.sleep(1000)
 #    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
 #    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
 #    global_chat()
@@ -1896,6 +1948,11 @@ while True:
         driver.quit()
 
         pass
+
+
+
+
+
 
 
 
