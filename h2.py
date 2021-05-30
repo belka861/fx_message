@@ -394,7 +394,7 @@ def _24xforex_email():
 
 def w_24xforex_email():
     _log("--------------24 x forex email begin------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    driver = webdriver.Chrome(PATH, options=chrome_options)
     try:
         for i in range (1,random.randint(100,200)):
             try:
@@ -443,7 +443,7 @@ def ingo_email():
 def w_ingo_email():
 
     _log("--------------Ingo email begin------------")
-    driver = webdriver.Chrome(PATH, options=chrome_options)
+#    driver = webdriver.Chrome(PATH, options=chrome_options)
     try:
         for i in range (1,random.randint(100,200)):
             try:
@@ -501,9 +501,11 @@ def _do_chat():
     return True
 
 
-def _do_reg():
+def _24xforex_reg():
+
 #    driver.maximize_window()
     driver.delete_all_cookies()
+    
     driver.get("https://24xforex.com/ru/register")
 
 #    time.sleep(10)
@@ -512,10 +514,11 @@ def _do_reg():
     driver.execute_script("window.open('about:blank', 'tab2');")
     driver.switch_to.window("tab2")
     driver.get('https://temp-mail.io/en')
+#    _wait_element('//*[@id="email"]')
     time.sleep(3)
 #    _log(driver.page_source)
     email=driver.find_element_by_id('email').get_attribute('value')
-    _log(email)
+#    _log(email)
     driver.switch_to.window(driver.window_handles[0])
     _wait_element('//*[@id="live_name"]')
     e=driver.find_element_by_id('live_email')
@@ -538,12 +541,12 @@ def _do_reg():
 
     countries=[11,15,20,27,52,53,55,61,65,70,74,78,90,98,103,108,110,116,117,119,132,143,146,153,163,169,170,188,189,201,202,205,213,218,219,221,75]
     crandom=random.choice(countries)
-    print (crandom)
+#    print (crandom)
     co=driver.find_element_by_xpath('/html/body/div[1]/section[1]/div/div/form/div[1]/div[2]/ul/li['+str(crandom)+']')
-    print (co.text)
+#    print (co.text)
     ph=PhoneNumber(co.text)
     tn=ph.get_number(full=False)
-    _log (tn)
+#    _log (tn)
     co.click()
 
     tns=str(tn)
@@ -565,7 +568,7 @@ def _do_reg():
     driver.switch_to.window(driver.window_handles[1])
 
     try:
-        r = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="__layout"]/div/aside/div[1]/div[2]/div/div/ul/li/div[1]')))
+        r = WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.XPATH, '//*[@id="__layout"]/div/aside/div[1]/div[2]/div/div/ul/li/div[1]')))
     except:
         print ("timeout")
         driver.close()
@@ -584,12 +587,30 @@ def _do_reg():
 
     r.click()
     time.sleep(1)
-    r=driver.find_element_by_xpath('//*[@id="__layout"]/div/main/div/div[1]/div/div[1]/article/div/div[3]/span/div/center/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr/td').text
-    _log (r)
-
-
-#    sys.exit()
+    r=_get_text('//*[@id="__layout"]/div/main/div/div[1]/div/div[1]/article/div/div[3]/span/div/center/table/tbody/tr/td/table/tbody/tr[3]/td/table/tbody/tr/td')
+    _log(r)
     return True
+
+def w_24xforex_reg():
+
+    _log("--------------24xforex reg begin------------")
+#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+
+    try:
+        _24xforex_reg()
+        driver.close()
+        driver.quit()
+
+    except:
+        _log("24xforex reg fail")
+        try:
+            driver.close()
+            driver.quit()
+        except:
+            pass
+        pass
+    _log("--------------24xforex reg end--------------")
+
 
 
 def ingo_reg():
@@ -1823,12 +1844,17 @@ while True:
 
 
     _log("--------------DEV no try here--------------")
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    
 #    driver.get('https://whatismyip.host/')
+    for i in range (1, random.randint(10,20)):
+        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        w_24xforex_reg()
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
     w_24xforex_email()
 #    _do_email()
-#    w_ingo_email()
-    time.sleep(1000)
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    w_ingo_email()
+#    time.sleep(1000)
 #    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
 #    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
 #    global_chat()
