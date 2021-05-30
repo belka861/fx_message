@@ -455,8 +455,11 @@ def w_ingo_email():
         driver.quit()
     except:
         _log("ingo email fail")
-        driver.close()
-        driver.quit()
+        try:
+            driver.close()
+            driver.quit()
+        except:
+            pass
         pass
     _log("--------------Ingo email end--------------")
 
