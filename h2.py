@@ -715,6 +715,33 @@ def ingo_reg():
 #    sys.exit()
     return True
 
+
+
+def w_ingo_reg():
+    _log("--------------ingo reg begin------------")
+#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    try:
+        ingo_reg()
+        driver.close()
+        driver.quit()
+    except:
+        _log("ingo reg fail")
+        try:
+            driver.close()
+            driver.quit()
+        except:
+            pass
+        pass
+    _log("--------------ingo reg end--------------")
+
+
+
+
+
+
+
+
+
 def ptrend_reg():
 #   import json
     co2=random.choice(['RU','FR','AT','AZ','AM','BY','BE','BG','GB','DE','GR','GE','DK','ES','IT','KZ','KG','LU','MC','NL','NO','PT','RU','RS','SK','TR','UZ','FI','FR','HR','CZ','CH','SE'])
@@ -1849,6 +1876,13 @@ while True:
     _log("--------------DEV no try here--------------")
     
 #    driver.get('https://whatismyip.host/')
+    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+#    maxi_reg()
+#    maxi_chat()
+#    time.sleep(1000)
+    for i in range (1, random.randint(1,5)):
+        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        w_ingo_reg()
     for i in range (1, random.randint(10,20)):
         driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
         w_24xforex_reg()
