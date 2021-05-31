@@ -1,11 +1,24 @@
-q_ingo_reg=0
-q_maxi_reg=0
-q_24xforex_reg=0
-q_24xforex_email=0
+q_ingo_reg=1
+q_maxi_reg=1
+q_24xforex_reg=1
+q_24xforex_email=1
 q_ingo_email=1
+q_ptrend_reg=1
+
+#Recaptcha
+q_plus_reg=0
+q_plus_email=0
+
+#Global* not working
+#q_qlobal*
+
+#REGISTRATION DISABLED NOW
+q_umarkets_reg=0
 
 
-
+q_st24online_reg=1
+q_st24online_phone=1
+q_st24online_email=1
 
 from selenium import webdriver
 import platform
@@ -30,7 +43,9 @@ prox.proxy_type = ProxyType.MANUAL
 p="208.127.60.176:8080"
 #good
 
-#p="196.41.102.130:46004"
+
+#experiment
+#p="175.215.8.145:3128"
 
 # Proxy IP & Port
 prox.http_proxy = p
@@ -86,7 +101,7 @@ if (platform.system()=='Windows'):
 else:
     mode="PROD"
 global maxi_phone
-co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Великобритания','Венгрия','Германия','Греция','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция',"Эстония"]
+co2=['Австрия','Азербайджан','Армения','Бельгия','Болгария','Венгрия','Германия','Греция','Дания','Испания','Италия','Казахстан','Кипр','Латвия','Литва','Молдова','Монако','Нидерланды','Норвегия','Польша','Португалия','Российская Федерация','Румыния','Словакия','Словения','Таджикистан','Узбекистан','Франция','Хорватия','Чешская Республика','Швейцария','Швеция',"Эстония"]
 co2_dict={'Австрия':'AT','Азербайджан':'AZ','Армения':'AM','Бельгия':'BE','Болгария':'BG','Беларусь':'BY','Великобритания':'GB','Венгрия':'HU','Германия':'DE','Греция':'GR','Грузия':'GE','Дания':'DK','Испания':'ES','Италия':'IT','Казахстан':'KZ','Киргизстан':'KG','Кипр':'CY','Латвия':'LV','Литва':'LT','Люксембург':'LU','Молдова':'MD','Монако':'MC','Нидерланды':'NL','Норвегия':'NO','Польша':'PL','Португалия':'PT','Российская Федерация':'RU','Румыния':'RO','Словакия':'SK','Словения':'SI','Сербия':'RS','Таджикистан':'TJ','Узбекистан':'UZ','Финляндия':'FI','Франция':'FR','Хорватия':'HR','Черногория':'ME','Чешская Республика':'CZ','Швейцария':'CH','Швеция':'SE','Эстония':'EE'}
 domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotmail.com', 'list.ru', 'bk.ru', 'inbox.ru', 'internet.ru',\
 'yahoo.com', 'aol.com', 'e1.ru','inbox.lv', 'dino.lv','human.lv', 'fit.lv','sok.lv', 'eclub.lv', 'zohomail.com', 'protonmail.com', 'mail.com',\
@@ -252,6 +267,11 @@ def _get_text(x):
 def _wait_element(xpath):
     r = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.XPATH, xpath)))
     return True
+
+def _wait_element60(xpath):
+    r = WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+    return True
+
 
 #def ai(question):
 def ai(question):
@@ -883,6 +903,13 @@ def maxi_reg():
     driver.delete_all_cookies()
     driver.get("https://maximarkets.org/registration/")
 
+    question=_get_question()
+    name=_get_name()
+    surname=_get_surname()
+    final_name=_get_final_name(name,surname)
+    email=_get_email_from_final_name(final_name)
+
+
 #    _wait_element('//*[@id="open-account"]/a')
 #    _wait_element('//*[@id="infinite-mobile-menu"]/a')
 #    _click('//*[@id="infinite-mobile-menu"]/a')
@@ -1114,6 +1141,12 @@ def maxi_chat():
 
 
 def umarkets_reg():
+    question=_get_question()
+    name=_get_name()
+    surname=_get_surname()
+    final_name=_get_final_name(name,surname)
+    email=_get_email_from_final_name(final_name)
+
     global maxi_phone
     driver.delete_all_cookies()
     driver.get("https://umarkets.info/ru/registration/")
@@ -1528,6 +1561,7 @@ def st24online_phone():
         _wait_element('//*[@id="wpcf7-f777-o1"]/form/div[3]')
         print(final_name+phone_full+_get_text('//*[@id="wpcf7-f777-o1"]/form/div[3]'))
     time.sleep(10)
+    return True
 
 def st24online_reg():
     name241=_get_name()
@@ -1567,10 +1601,11 @@ def st24online_reg():
     _click('//*[@id="checkbox2"]')
 #    time.sleep(10)
     _click('//*[@id="frm_register"]/button')
-    _wait_element('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]')
+    _wait_element60('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]')
     print(_get_text('//*[@id="my-header"]/div[1]/a[2]/span/span[2]/span[1]'))
     _log("#st24 "+name241+" "+surname241+" "+email24+" "+bpassword)
     _cred("#st24",email24,bpassword)
+    return True
  
 
 
@@ -1601,6 +1636,7 @@ def st24online_email():
         _wait_element('//*[@id="wpcf7-f767-p761-o2"]/form/div[6]')
         _log(_get_text('//*[@id="wpcf7-f767-p761-o2"]/form/div[6]'))
         q3=ai(" ")
+    return True
 #    time.sleep(1000)
     #reg done doing random doc
 #    _wait_element('//*[@id="my-header"]/div[4]/div/a/span/i')
@@ -1774,6 +1810,9 @@ while True:
     p="208.127.60.176:8080"
     #good
 
+    #experiment bD
+#    p="175.215.8.145:3128"
+
 #    p=pp
     print ("PROXY: "+p)
     # Proxy IP & Port
@@ -1800,10 +1839,10 @@ while True:
 
 
 
-    _log("--------------DEV no try here--------------")
-    
+#    _log("--------------DEV no try here--------------")
+#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)    
 #    driver.get('https://whatismyip.host/')
-    
+#    st24online_reg()
 #    maxi_reg()
 #    maxi_chat()
 #    time.sleep(1000)
@@ -1854,7 +1893,7 @@ while True:
         _log("--------------24 x forex email begin------------")
         driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
         try:
-            for i in range (1,random.randint(100,200)):
+            for i in range (1,random.randint(10,20)):
                 try:
     #                print ("ingo email skip")
                     _24xforex_email()
@@ -1877,7 +1916,7 @@ while True:
         _log("--------------Ingo email begin------------")
         driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
         try:
-            for i in range (1,random.randint(100,200)):
+            for i in range (1,random.randint(10,20)):
                 try:
     #                print ("ingo email skip")
                     ingo_email()
@@ -1894,6 +1933,150 @@ while True:
                 pass
             pass
         _log("--------------Ingo email end--------------")
+
+
+    if (q_maxi_reg>0):
+        _log("--------------maxi reg begin------------")
+        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        try:
+            for i in range (1,random.randint(5,10)):
+                try:
+    #                print ("ingo email skip")
+                    maxi_reg()
+                    
+                except:
+                    pass
+            try:
+                maxi_chat()
+            except:
+                _log("maxi chat failed")
+            driver.close()
+            driver.quit()
+        except:
+            _log("maxi reg fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------maxi reg end--------------")
+
+
+
+    #off, not working now
+    if (q_umarkets_reg>0):
+        _log("--------------umarkets reg begin------------")
+        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+#        driver = webdriver.Chrome(PATH, options=chrome_options)
+        try:
+            for i in range (1,random.randint(5,10)):
+                try:
+    #                print ("ingo email skip")
+                    umarkets_reg()
+                except:
+                    pass
+            try:
+                maxi_chat()
+            except:
+                _log(" chat failed")
+            driver.close()
+            driver.quit()
+        except:
+            _log("umarketsreg fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------umarkets reg end--------------")
+
+
+
+
+    if (q_st24online_reg>0):
+        _log("--------------st24online_reg begin------------")
+        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+#        driver = webdriver.Chrome(PATH, options=chrome_options)
+        try:
+            for i in range (1,random.randint(5,10)+q_st24online_reg):
+                try:
+    #                print ("ingo email skip")
+                    st24online_reg()
+                except:
+                    _log(" st24online_reg failed in cycle")
+                    driver.close()
+                    driver.quit()
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("st24online_reg general fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------st24online_reg end--------------")
+
+
+    if (q_st24online_phone>0):
+        _log("--------------st24 phone begin------------")
+        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        try:
+            if True:
+                try:
+    #                print ("ingo email skip")
+                    st24online_phone()
+                except:
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("st24 phone fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------st24 phone end--------------")
+
+
+    if (q_st24online_email>0):
+        _log("--------------st24 email begin------------")
+        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        try:
+            if True:
+                try:
+    #                print ("ingo email skip")
+                    st24online_email()
+                except:
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("st24 email fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------st24 email end--------------")
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2022,7 +2205,14 @@ while True:
 
         pass
 
-
+    if ((platform.system()!='Windows') and (q_ptrend_reg==1)):
+        _log("--------------prtend reg begin------------")
+        try:
+            for i in range (1,random.randint(50,200)):
+                ptrend_reg()
+        except:
+            _log("prtend reg fail")
+            pass
 
 
 
