@@ -1,3 +1,12 @@
+q_ingo_reg=0
+q_maxi_reg=0
+q_24xforex_reg=0
+q_24xforex_email=0
+q_ingo_email=1
+
+
+
+
 from selenium import webdriver
 import platform
 from selenium.webdriver.common.proxy import Proxy, ProxyType
@@ -197,7 +206,7 @@ url = 'https://raw.githubusercontent.com/belka861/fx_message/main/phrases.txt'
 r = requests.get(url, allow_redirects=True)
 open('phrases.txt', 'wb').write(r.content)
 
-url = 'https://raw.githubusercontent.com/belka861/fx_websocket/main/names_f.txt'
+url = 'https://raw.githubusercontent.com/belka861/fx_message/main/names_f.txt'
 r = requests.get(url, allow_redirects=True)
 open('names_f.txt', 'wb').write(r.content)
 
@@ -205,7 +214,7 @@ url = 'https://raw.githubusercontent.com/belka861/fx_websocket/main/countries.tx
 r = requests.get(url, allow_redirects=True)
 open('countries.txt', 'wb').write(r.content)
 
-url = 'https://raw.githubusercontent.com/belka861/fx_websocket/main/surnames_f.txt'
+url = 'https://raw.githubusercontent.com/belka861/fx_message/main/surnames_f.txt'
 r = requests.get(url, allow_redirects=True)
 open('surnames_f.txt', 'wb').write(r.content)
 
@@ -392,24 +401,6 @@ def _24xforex_email():
     _log(_get_text('//*[@id="contact"]/div[2]/div[1]'))
     return True
 
-def w_24xforex_email():
-    _log("--------------24 x forex email begin------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)
-    try:
-        for i in range (1,random.randint(100,200)):
-            try:
-#                print ("ingo email skip")
-                _24xforex_email()
-            except:
-                pass
-        driver.close()
-        driver.quit()
-    except:
-        _log("24x forex email fail")
-        driver.close()
-        driver.quit()
-        pass
-    _log("--------------24x forex email end--------------")
 
 
 
@@ -439,29 +430,6 @@ def ingo_email():
     _wait_element('//*[@id="wrapper"]/main/div[2]/article/h1')
     _log(_get_text('//*[@id="wrapper"]/main/div[2]/article/h1'))
     return True
-
-def w_ingo_email():
-
-    _log("--------------Ingo email begin------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)
-    try:
-        for i in range (1,random.randint(100,200)):
-            try:
-#                print ("ingo email skip")
-                ingo_email()
-            except:
-                pass
-        driver.close()
-        driver.quit()
-    except:
-        _log("ingo email fail")
-        try:
-            driver.close()
-            driver.quit()
-        except:
-            pass
-        pass
-    _log("--------------Ingo email end--------------")
 
 
 
@@ -505,6 +473,9 @@ def _do_chat():
 
 
 def _24xforex_reg():
+    name241=_get_name()
+    surname241=_get_surname()    
+
 
 #    driver.maximize_window()
     driver.delete_all_cookies()
@@ -528,10 +499,10 @@ def _24xforex_reg():
     e.send_keys(email)
 
     name1=driver.find_element_by_xpath('//*[@id="live_name"]')
-    name1.send_keys(name)
+    name1.send_keys(name241)
 
     last_name=driver.find_element_by_xpath('//*[@id="live_last_name"]')
-    last_name.send_keys(surname)
+    last_name.send_keys(surname241)
     
     select=driver.find_element_by_xpath('/html/body/div[1]/section[1]/div/div/form/div[2]/div/div[1]')
     select.click()
@@ -594,25 +565,6 @@ def _24xforex_reg():
     _log(r)
     return True
 
-def w_24xforex_reg():
-
-    _log("--------------24xforex reg begin------------")
-#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-
-    try:
-        _24xforex_reg()
-        driver.close()
-        driver.quit()
-
-    except:
-        _log("24xforex reg fail")
-        try:
-            driver.close()
-            driver.quit()
-        except:
-            pass
-        pass
-    _log("--------------24xforex reg end--------------")
 
 
 
@@ -714,31 +666,6 @@ def ingo_reg():
 
 #    sys.exit()
     return True
-
-
-
-def w_ingo_reg():
-    _log("--------------ingo reg begin------------")
-#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    try:
-        ingo_reg()
-        driver.close()
-        driver.quit()
-    except:
-        _log("ingo reg fail")
-        try:
-            driver.close()
-            driver.quit()
-        except:
-            pass
-        pass
-    _log("--------------ingo reg end--------------")
-
-
-
-
-
-
 
 
 
@@ -1876,21 +1803,104 @@ while True:
     _log("--------------DEV no try here--------------")
     
 #    driver.get('https://whatismyip.host/')
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+    
 #    maxi_reg()
 #    maxi_chat()
 #    time.sleep(1000)
-    for i in range (1, random.randint(1,5)):
+
+
+#----------prod 
+    if (q_ingo_reg>0):
+        for i in range (1, random.randint(1,q_ingo_reg+5)):
+
+            _log("--------------ingo reg begin------------")
+            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+            try:
+                ingo_reg()
+                driver.close()
+                driver.quit()
+            except:
+                _log("ingo reg fail")
+                try:
+                    driver.close()
+                    driver.quit()
+                except:
+                    pass
+                pass
+            _log("--------------ingo reg end--------------")
+
+    if (q_24xforex_reg>0):
+        for i in range (1, random.randint(1,q_24xforex_reg+5)):
+            _log("--------------24xforex reg begin------------")
+            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+            try:
+                _24xforex_reg()
+                driver.close()
+                driver.quit()
+            except:
+                _log("24xforex reg fail")
+                try:
+                    driver.close()
+                    driver.quit()
+                except:
+                    pass
+                pass
+            _log("--------------24xforex reg end--------------")
+
+
+
+
+    if (q_24xforex_email>0):
+        _log("--------------24 x forex email begin------------")
         driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-        w_ingo_reg()
-    for i in range (1, random.randint(10,20)):
+        try:
+            for i in range (1,random.randint(100,200)):
+                try:
+    #                print ("ingo email skip")
+                    _24xforex_email()
+                except:
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("24x forex email fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------24x forex email end--------------")
+
+
+    if (q_ingo_email>0):
+        _log("--------------Ingo email begin------------")
         driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-        w_24xforex_reg()
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    w_24xforex_email()
+        try:
+            for i in range (1,random.randint(100,200)):
+                try:
+    #                print ("ingo email skip")
+                    ingo_email()
+                except:
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("ingo email fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------Ingo email end--------------")
+
+
+
+
 #    _do_email()
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    w_ingo_email()
+#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+#    w_ingo_email()
 #    time.sleep(1000)
 #    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
 #    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
