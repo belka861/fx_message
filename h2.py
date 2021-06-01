@@ -1857,7 +1857,7 @@ while True:
 
             _log("--------------ingo reg begin------------")
             if (docker==1):
-                driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+                driver = webdriver.Chrome("http://172.17.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
             else:
                 driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
             try:
@@ -1878,7 +1878,7 @@ while True:
         for i in range (1, random.randint(1,q_24xforex_reg+5)):
             _log("--------------24xforex reg begin------------")
             if (docker==1):
-                driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+                driver = webdriver.Chrome("http://172.17.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
             else:
                 driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
 
@@ -1902,7 +1902,7 @@ while True:
     if (q_24xforex_email>0):
         _log("--------------24 x forex email begin------------")
         if (docker==1):
-            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+            driver = webdriver.Chrome("http://172.17.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
         else:
             driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
 
@@ -1929,7 +1929,7 @@ while True:
     if (q_ingo_email>0):
         _log("--------------Ingo email begin------------")
         if (docker==1):
-            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+            driver = webdriver.Chrome("http://172.17.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
         else:
             driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
 
@@ -1956,7 +1956,7 @@ while True:
     if (q_maxi_reg>0):
         _log("--------------maxi reg begin------------")
         if (docker==1):
-            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+            driver = webdriver.Chrome("http://172.17.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
         else:
             driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
 
@@ -1990,7 +1990,7 @@ while True:
     if (q_umarkets_reg>0):
         _log("--------------umarkets reg begin------------")
         if (docker==1):
-            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+            driver = webdriver.Chrome("http://172.17.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
         else:
             driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
 
@@ -2024,7 +2024,7 @@ while True:
     if (q_st24online_reg>0):
         _log("--------------st24online_reg begin------------")
         if (docker==1):
-            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+            driver = webdriver.Chrome("http://172.17.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
         else:
             driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
 
@@ -2055,7 +2055,7 @@ while True:
     if (q_st24online_phone>0):
         _log("--------------st24 phone begin------------")
         if (docker==1):
-            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+            driver = webdriver.Chrome("http://172.17.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
         else:
             driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
 
