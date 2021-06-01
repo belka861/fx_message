@@ -119,7 +119,10 @@ chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 PATH='C:\Program Files (x86)\chromedriver.exe'
 if (mode=="PROD"):
     chrome_options.add_argument('--headless')
-    PATH='/home/igor/chromedriver'
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-gpu')
+    PATH='/usr/local/bin/chromedriver'
+
 #    chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors.     
 #    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 #    from pyvirtualdisplay import Display 
