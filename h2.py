@@ -1,3 +1,6 @@
+docker=0
+
+
 q_ingo_reg=1
 q_maxi_reg=1
 q_24xforex_reg=1
@@ -1853,7 +1856,10 @@ while True:
         for i in range (1, random.randint(1,q_ingo_reg+5)):
 
             _log("--------------ingo reg begin------------")
-            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+            if (docker==1):
+                driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+            else:
+                driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
             try:
                 ingo_reg()
                 driver.close()
