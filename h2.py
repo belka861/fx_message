@@ -1877,7 +1877,11 @@ while True:
     if (q_24xforex_reg>0):
         for i in range (1, random.randint(1,q_24xforex_reg+5)):
             _log("--------------24xforex reg begin------------")
-            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+            if (docker==1):
+                driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+            else:
+                driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+
             try:
                 _24xforex_reg()
                 driver.close()
@@ -1897,7 +1901,11 @@ while True:
 
     if (q_24xforex_email>0):
         _log("--------------24 x forex email begin------------")
-        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        if (docker==1):
+            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+        else:
+            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+
         try:
             for i in range (1,random.randint(10,20)):
                 try:
@@ -1920,7 +1928,11 @@ while True:
 
     if (q_ingo_email>0):
         _log("--------------Ingo email begin------------")
-        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        if (docker==1):
+            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+        else:
+            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+
         try:
             for i in range (1,random.randint(10,20)):
                 try:
@@ -1943,7 +1955,11 @@ while True:
 
     if (q_maxi_reg>0):
         _log("--------------maxi reg begin------------")
-        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        if (docker==1):
+            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+        else:
+            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+
         try:
             for i in range (1,random.randint(5,10)):
                 try:
@@ -1973,7 +1989,11 @@ while True:
     #off, not working now
     if (q_umarkets_reg>0):
         _log("--------------umarkets reg begin------------")
-        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        if (docker==1):
+            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+        else:
+            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+
 #        driver = webdriver.Chrome(PATH, options=chrome_options)
         try:
             for i in range (1,random.randint(5,10)):
@@ -2003,7 +2023,11 @@ while True:
 
     if (q_st24online_reg>0):
         _log("--------------st24online_reg begin------------")
-        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        if (docker==1):
+            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+        else:
+            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+
 #        driver = webdriver.Chrome(PATH, options=chrome_options)
         try:
             for i in range (1,random.randint(5,10)+q_st24online_reg):
@@ -2030,7 +2054,11 @@ while True:
 
     if (q_st24online_phone>0):
         _log("--------------st24 phone begin------------")
-        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        if (docker==1):
+            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+        else:
+            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+
         try:
             if True:
                 try:
@@ -2053,7 +2081,11 @@ while True:
 
     if (q_st24online_email>0):
         _log("--------------st24 email begin------------")
-        driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+        if (docker==1):
+            driver = webdriver.Chrome("http://127.0.0.1:4444/wd/hub", desired_capabilities=capabilities, options=chrome_options)
+        else:
+            driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
+
         try:
             if True:
                 try:
@@ -2072,279 +2104,3 @@ while True:
                 pass
             pass
         _log("--------------st24 email end--------------")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#    _do_email()
-#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-#    w_ingo_email()
-#    time.sleep(1000)
-#    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
-#    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
-#    global_chat()
-#    global_offline_chat()
-#    st24online_email()
-#    st24online_reg()
-#    st24online_phone()
-#    global_spam()
-#    driver.get('https://ipleak.net/')
-#    time.sleep(1000)
-#    global_chat()
-#    tradelabs_call()
-#    marketbull_reg()
-#    umarkets_reg()
-#    maxi_chat()
-
-#    maxi_reg()
-#    maxi_chat()
- #   ingo_chat_online()
-    driver.close()
-    driver.quit()
-
-
-
-    _log("--------------24 reg begin------------")
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-#    st24online_reg()
-#    time.sleep(1000)
-    try:
-        for i in range (1,random.randint(100,200)):
-            try:
-                st24online_reg()
-            except:
-                pass
-
-        driver.close()
-        driver.quit()
-    except:
-        _log("24 reg fail")
-        driver.close()
-        driver.quit()
-        pass
-
-
-
-
-    _log("--------------24 email begin------------")
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    try:
-        st24online_email()
-        driver.close()
-        driver.quit()
-    except:
-        _log("24 email fail")
-        driver.close()
-        driver.quit()
-        pass
-
-   
- 
-
-    _log("--------------24 phone begin------------")
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    try:
-        st24online_phone()
-        driver.close()
-        driver.quit()
-    except:
-        _log("24 phone fail")
-        driver.close()
-        driver.quit()
-        pass
-
-
-
-
-
-#    _log("--------------Global chat begin------------")
-#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-#    driver.get('https://ipleak.net/')
-#    _wait_element('//*[@id="myipv4_placeholder"]/div[1]/a')
-#    _log(_get_text('//*[@id="myipv4_placeholder"]/div[1]/a'))
-#    global_chat()
-#    time.sleep(1000)
-#    try:
- #       _log("global chat:")
- #       global_chat()
-#        driver.close() 
-#        driver.quit()
-#    except:
-#        _log("global chat failed")
-#        driver.close()
-#        driver.quit()
-#
- #       pass
-#
-
-
-    _log("--------------Maxi chat begin------------")
-    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)
-    try:
-#        umarkets_reg()
-#        maxi_chat()
-
-        maxi_reg()
-        maxi_chat()
- 
-
-#        _log("skip plus email")
-#        maxi_chat()
-#        plus_email()
-        driver.close()
-        driver.quit()
-    except:
-        _log("maxi chat fail")
-        driver.close()
-        driver.quit()
-
-        pass
-
-    if ((platform.system()!='Windows') and (q_ptrend_reg==1)):
-        _log("--------------prtend reg begin------------")
-        try:
-            for i in range (1,random.randint(50,200)):
-                ptrend_reg()
-        except:
-            _log("prtend reg fail")
-            pass
-
-
-
-
-
-
-
-#    _log("--------------Plus email begin------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)
-#    try:
-
-#        _log("skip plus email")
-#        plus_email()
-#        driver.close()
-#        driver.quit()
-#    except:
-#        _log("plus email fail")
-#        pass
-
-#    _log("--------------lime email begin------------")
-#    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)    
-#    try:
-#        lime_email()
-#        driver.close()
-#        driver.quit()
-#    except:
-#       _log("lime email fail")
-#       pass
-
-#    driver = webdriver.Chrome(PATH, options=chrome_options)    
-# 
-#   _log("--------------lime reg begin------------")
-#    try:
-#        lime_reg()
-#        _log ("lime reg skip")
-#        driver.close()
-#        driver.quit()
-
-#    except:
-#        _log("lime reg fail")
-#        pass
-
-#    ingo_reg()
-#    _do_email()
-#    _do_chat()
-#    ingo_email()
-
-
-
-#    _log("--------------prtend reg begin------------")
-#    try:
-#        ptrend_reg()
-#    except:
-#        _log("prtend reg fail")
-#        pass
-
-#    _log("--------------Ingo reg begin------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)    
-#    try:
-#        print("ingor reg skip")
-#        ingo_reg()
-#        driver.close()
-#        driver.quit()
-
-#    except:
-#        print("ingo reg failed")
-#        pass
-#    _log("--------------Ingo reg end------------")
-#    _log("")
-
-#    _log("--------------Ingo email begin------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)
-    
-#    try:
-#        print ("ingo email skip")
- #       ingo_email()
-#        driver.close()
-#        driver.quit()
-
-#    except:
-#        print ("ingo email fail")
-#        pass
-
-
-#    _log("--------------24x forex chat begin ------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)
-#    try:
-#        print ('24x forex chat skip')
- #       _do_chat()
-#        driver.close()
-#        driver.quit()
-
-#    except:
-#        print ('chat failed')
-#        pass
-#    time.sleep(1000)
-
-
-#    _log("--------------24x forex email begin ------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)
-#    try:
-#        print("24 foorex email skip")
-#        _do_email()
-#        driver.close()
-#        driver.quit()
-
-#    except:
-#        print ('email failed')
-#        pass
-
-#    _log("--------------24x forex reg begin ------------")
-#    driver = webdriver.Chrome(PATH, options=chrome_options)
-
-#    try:
-#        _do_reg()
-#        driver.close()
-#        driver.quit()
-
-#    except:
-#        print ('reg failed')
-#        pass
-
-#    try:
-#        driver.delete_all_cookies()
-#    except:
-#        pass
-#    driver.close()
-#    driver.quit()
-#    os.system('pkill chrome')
