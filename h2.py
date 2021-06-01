@@ -1,4 +1,4 @@
-docker=0
+docker=1
 
 
 q_ingo_reg=1
