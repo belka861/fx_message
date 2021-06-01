@@ -869,7 +869,7 @@ def plus_email():
 #    time.sleep(1000)
 
 
-
+#chat unavailable
 def ingo_chat_online():
     driver.get("https://ingoinvest.com/ru")
     #click on banner jivochat
@@ -1841,8 +1841,8 @@ while True:
 
 #    _log("--------------DEV no try here--------------")
 #    driver = webdriver.Chrome(PATH, desired_capabilities=capabilities, options=chrome_options)    
-#    driver.get('https://whatismyip.host/')
-#    st24online_reg()
+#   driver.get('https://whatismyip.host/')
+#    ingo_chat_online()
 #    maxi_reg()
 #    maxi_chat()
 #    time.sleep(1000)
