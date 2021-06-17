@@ -1985,25 +1985,25 @@ while True:
 
 
 
-    _log("--------------DEV no try here--------------")
+#    _log("--------------DEV no try here--------------")
 #
-    if (docker==1):
-        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
-    else:
-        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
-    ptrend_people={}
-    threaded_proxy()
-    print(ptrend_people)
-    for key in ptrend_people:
-        _log(key)
-        _log(ptrend_people[key])
-        ptrend_chat(key,ptrend_people[key])
+#    if (docker==1):
+#        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+#    else:
+#        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+#    ptrend_people={}
+#    threaded_proxy()
+#    print(ptrend_people)
+#    for key in ptrend_people:
+#        _log(key)
+#        _log(ptrend_people[key])
+#        ptrend_chat(key,ptrend_people[key])
 #    ptrend_chat()
 #    cryptogazprom_reg()
 #    _24xforex_email()
 #    _24xforex_email()
-    driver.close()
-    driver.quit()
+#    driver.close()
+#    driver.quit()
 
 #    driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)    
 #   driver.get('https://whatismyip.host/')
@@ -2016,12 +2016,24 @@ while True:
 #----------prod
 
     if (q_threaded_proxy)>0:
-        _log("--------------threaded proxy begin------------")
-        try:
-            threaded_proxy()
-        except:
-            pass
-        _log("--------------threaded proxy end------------")
+        if (docker==1):
+            driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+        else:
+            driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+
+            _log("--------------threaded proxy begin------------")
+            try:
+                ptrend_people={}
+                threaded_proxy()
+                print(ptrend_people)
+                for key in ptrend_people:
+                    _log(key)
+                    _log(ptrend_people[key])
+                    ptrend_chat(key,ptrend_people[key])
+
+            except:
+                pass
+            _log("--------------threaded proxy end------------")
 
 
 
