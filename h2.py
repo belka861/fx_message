@@ -783,6 +783,9 @@ def ptrend_chat_noreg():
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(random.randint(2,3))
     driver.execute_script("window.scrollTo(0, 0)")
+
+    driver.save_screenshot("/test/screenshot.png")
+
     _click('/html/body/div[2]/div/div[2]/section/form/div[1]/input')
     _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
     _click('//*[@id="AskMeChatBot"]/div/div/img')
