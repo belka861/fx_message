@@ -1880,17 +1880,17 @@ while True:
 
 
 
-    _log("--------------DEV no try here--------------")
+#    _log("--------------DEV no try here--------------")
 #
-    if (docker==1):
-        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
-    else:
-        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+#    if (docker==1):
+#        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+#    else:
+#        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
 #    cryptogazprom_reg()
 #    _24xforex_email()
-    _24xforex_email()
-    driver.close()
-    driver.quit()
+#    _24xforex_email()
+#    driver.close()
+#    driver.quit()
 
 #    driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)    
 #   driver.get('https://whatismyip.host/')
