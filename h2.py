@@ -114,7 +114,7 @@ domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotma
 chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 PATH='C:\Program Files (x86)\chromedriver.exe'
 if (mode=="PROD"):
-    chrome_options.add_argument('--headless')
+#    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('window-size=1920,1080')
@@ -122,9 +122,9 @@ if (mode=="PROD"):
 
 #    chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors.     
 #    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
-#    from pyvirtualdisplay import Display 
-#    display = Display(visible=0, size=(1024, 768)) 
-#    display.start() 
+    from pyvirtualdisplay import Display 
+    display = Display(visible=0, size=(1920, 1080)) 
+    display.start() 
 
 #else:
 #    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
