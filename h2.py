@@ -36,6 +36,9 @@ q_threaded_proxy=1
 q_ptrend_email=1
 q_ptrend_chat_noreg=1
 
+q_gravity_reg=1
+
+
 ptrend_people={}
 from selenium import webdriver
 import platform
@@ -1803,6 +1806,52 @@ def cryptogazprom_reg():
  #   time.sleep(1000)
 
 
+def gravity_reg():
+    driver.delete_all_cookies()
+    name241=_get_name()
+    surname241=_get_surname()    
+    f=_get_final_name(name241, surname241)
+    email24=_get_email_from_final_name(f)
+    phone_full=get_phone_full()
+
+    driver.get('https://clients.gravity-trade.com/ru')
+    _wait_element('//*[@id="form-field-firstName"]')
+
+    _send_text('//*[@id="form-field-firstName"]',name241)
+    _send_text('//*[@id="form-field-lastName"]',surname241)
+    _click('//*[@id="form-field-address__countryCode"]')
+    countries=[11,15,20,27,52,53,55,61,65,70,74,78,90,98,103,108,110,116,117,119,132,143,146,153,163,169,170,188,189,201,202,205,213,218,219,221,75]
+    crandom=random.choice(countries)
+    crandom=179
+
+
+
+#    print (crandom)
+    xp='//*[@id="form-field-address__countryCode"]/option['+str(crandom)+']'
+    co=_get_text(xp)
+#    co=driver.find_element_by_xpath('/html/body/div[1]/section[1]/div/div/form/div[1]/div[2]/ul/li['+str(crandom)+']')
+#    print (co.text)
+    ph=PhoneNumber(co)
+    tn=ph.get_number(full=True)
+    
+
+    _click(xp)
+    _log(tn)
+    _send_text('//*[@id="form-field-contacts__phone"]',tn)
+    _send_text('//*[@id="form-field-contacts__email"]',email24)
+
+    characters = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    pass1="".join(random.sample(characters, 10))
+    _send_text('//*[@id="form-field-password"]',pass1)
+    _click('//*[@id="form-field-field_4"]')
+    _click('//*[@id="form-field-field_1"]')
+    _click('//*[@id="form-field-field_2"]')
+    _click('//*[@id="form-field-field_3"]')
+    _click('//*[@id="cp-crm-sign-up-form"]/div[1]/div[14]/button/span/span[2]')
+
+    time.sleep(20)
+    driver.save_screenshot("/test/screenshot.png")
+    return True
 
 
 socket.setdefaulttimeout(10)
@@ -2094,7 +2143,8 @@ while True:
 #    print(ptrend_people)
 #    for key in ptrend_people:
 #        _log(key)
-    ptrend_chat_noreg()
+    gravity_reg()
+#    ptrend_chat_noreg()
 #        _log(ptrend_people[key])
 #        ptrend_chat(key,ptrend_people[key])
 #    ptrend_chat()
