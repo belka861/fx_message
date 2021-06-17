@@ -32,6 +32,8 @@ q_st24online_phone=1
 q_st24online_email=1
 
 q_cryptogazprom_reg=1
+q_threaded_proxy=1
+
 
 from selenium import webdriver
 import platform
@@ -76,7 +78,7 @@ import sys
 import urllib.request, socket
 from threading import Thread
                 
-socket.setdefaulttimeout(30)
+socket.setdefaulttimeout(10)
 
 
 
@@ -1699,7 +1701,7 @@ def cryptogazprom_reg():
 
 
 
-socket.setdefaulttimeout(30)
+socket.setdefaulttimeout(10)
 ptrade_done=0
 
 def check_proxy(pip):
@@ -1721,14 +1723,15 @@ def check_proxy(pip):
         opener.addheaders = [('User-agent', 'Mozilla/5.0')]
         urllib.request.install_opener(opener)        
         sock=urllib.request.urlopen('https://prtrend.org')  # change the url address here
-        print(pip)
+#        print(pip)
         req='curl -s --header "Content-Type: application/json"  --request POST  --data \''+payload+'\'  --proxy "'+pip+'"  https://prtrend.org/wp-json/xcritical/1.0/registration'
-        print(req)
+ #       print(req)
 
         result = os.popen(req).read()
-        print(result)
+#        print(result)
         if ("leadGuid" in result):
             print(":::::::::::: reg OK::::::::::::::")
+            print(pip)
             _cred("#Ptrend",email241,pass1)
             ptrade_done=1
         
@@ -1740,14 +1743,14 @@ def check_proxy(pip):
 
 
 def threaded_proxy():
-    socket.setdefaulttimeout(180)
+    socket.setdefaulttimeout(10)
                                                                                                                                         	
     response = requests.get('https://api.proxyscrape.com/?request=displayproxies&proxytype=https&timeout=7000&anonymity=elite&ssl=yes')
     q=[]
     for line in response.text.splitlines():
-        print (line)
+#        print (line)
         q.append(line)
-    print (q)
+#    print (q)
 # prinitng request content
 #print(response.content)
 #pr=str(response.content).split('\r\n')
@@ -1972,18 +1975,13 @@ while True:
 
 
 
-
-
-
-
-
-    _log("--------------DEV no try here--------------")
+#    _log("--------------DEV no try here--------------")
 #
-    if (docker==1):
-        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
-    else:
-        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
-    threaded_proxy()
+#    if (docker==1):
+#        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+#    else:
+#        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+#    threaded_proxy()
 #    ptrend_chat()
 #    cryptogazprom_reg()
 #    _24xforex_email()
@@ -2000,6 +1998,19 @@ while True:
 
 
 #----------prod
+
+    if (q_threaded_proxy)>0:
+        _log("--------------threaded proxy begin------------")
+        try:
+            threaded_proxy()
+        except:
+            pass
+        _log("--------------threaded proxy end------------")
+
+
+
+
+
 
 
     if (q_cryptogazprom_reg>0):
