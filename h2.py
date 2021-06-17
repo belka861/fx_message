@@ -31,7 +31,7 @@ q_st24online_reg=1
 q_st24online_phone=1
 q_st24online_email=1
 
-q_cryptoprom_reg=1
+q_cryptogazprom_reg=1
 
 from selenium import webdriver
 import platform
