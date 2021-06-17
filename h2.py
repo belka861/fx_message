@@ -790,7 +790,8 @@ def ptrend_chat_noreg():
 
 
     _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
-    _click('//*[@id="AskMeChatBot"]/div/div/img')
+#    _click('//*[@id="AskMeChatBot"]/div/div/img')
+    driver.execute_script('document.evaluate(\'//*[@id="AskMeChatBot"]/div/div/img\', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.click();')
 
 #    _wait_element('//*[@id="AskMeChatBot"]/div/div')
 #    _click('//*[@id="AskMeChatBot"]/div/div')
