@@ -31,7 +31,7 @@ q_st24online_reg=1
 q_st24online_phone=1
 q_st24online_email=1
 
-q_cryptogazprom_reg=1
+q_cryptoprom_reg=1
 
 from selenium import webdriver
 import platform
@@ -1903,7 +1903,7 @@ while True:
 #----------prod
 
 
-   if (q_cryptogazprom_reg>0):
+    if (q_cryptogazprom_reg>0):
         _log("--------------cryptogazprom_reg begin------------")
         if (docker==1):
             driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
