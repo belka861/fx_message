@@ -789,11 +789,11 @@ def ptrend_chat_noreg():
 
 
 
-#    _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
-#    _click('//*[@id="AskMeChatBot"]/div/div/img')
+    _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
+    _click('//*[@id="AskMeChatBot"]/div/div/img')
 
-    _wait_element('//*[@id="AskMeChatBot"]/div/div')
-    _click('//*[@id="AskMeChatBot"]/div/div')
+#    _wait_element('//*[@id="AskMeChatBot"]/div/div')
+#    _click('//*[@id="AskMeChatBot"]/div/div')
 
 
     _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[1]/div[2]/input')
