@@ -33,6 +33,8 @@ q_st24online_email=1
 
 q_cryptogazprom_reg=1
 q_threaded_proxy=1
+q_ptrend_email=1
+q_ptrend_chat_noreg=1
 
 ptrend_people={}
 from selenium import webdriver
@@ -742,6 +744,90 @@ def ptrend_chat(emailp,passwordp):
 #    maxi_chat()
     return True
 
+#not working on their side
+def ptrend_email():
+    name241=_get_name()
+    surname241=_get_surname()    
+    f=_get_final_name(name241, surname241)
+    email241=_get_email_from_final_name(f)
+    driver.delete_all_cookies()
+    driver.get("https://prtrend.org/kontakty/")
+    _wait_element('/html/body/div[2]/div/div[2]/section/form/div[1]/input')
+    _send_text('/html/body/div[2]/div/div[2]/section/form/div[1]/input',name241)
+    _send_text('/html/body/div[2]/div/div[2]/section/form/div[2]/input',surname241)
+    _send_text('/html/body/div[2]/div/div[2]/section/form/div[3]/input',email241)
+    _send_text('/html/body/div[2]/div/div[2]/section/form/div[4]/input',get_phone_full())
+    q1="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    while (len(q1)>38):
+        q1=_get_question()    
+    q1=	q1.replace(',','').replace('.','').replace('?','').replace('!','').replace(':','').replace(';','').replace('(','').replace(')','').replace('0','').replace('1','').replace('2','').replace('3','').replace('4','').replace('5','').replace('6','').replace('7','').replace('8','')
+    q1=q1.replace('9','')
+    _send_text('/html/body/div[2]/div/div[2]/section/form/div[5]/input',q1)
+    _send_text('/html/body/div[2]/div/div[2]/section/form/div[6]/textarea',ai(q1))
+    _click('/html/body/div[2]/div/div[2]/section/form/button')    
+    maxi_chat()
+    time.sleep(1000)
+
+
+    return True
+
+def ptrend_chat_noreg():
+    name241=_get_name()
+    surname241=_get_surname()    
+    f=_get_final_name(name241, surname241)
+    email241=_get_email_from_final_name(f)
+
+    driver.delete_all_cookies()
+    driver.get("https://prtrend.org/kontakty/")
+    time.sleep(random.randint(2,3))
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(random.randint(2,3))
+    driver.execute_script("window.scrollTo(0, 0)")
+    _click('/html/body/div[2]/div/div[2]/section/form/div[1]/input')
+    _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
+    _click('//*[@id="AskMeChatBot"]/div/div/img')
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[1]/div[2]/input')
+    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[1]/div[2]/input',email241)
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[2]/div')
+    _click('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[2]/div')
+
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[1]/div[2]/input')
+    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[1]/div[2]/input',f)
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[2]/div[1]')
+    _click('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[2]/div[1]')
+
+    _wait_element('//*[@id="input-field"]')
+
+    _send_text('//*[@id="input-field"]',get_greet())
+    time.sleep(5)
+    _wait_element('//*[@id="send-button"]/img')
+    _click('//*[@id="send-button"]/img')
+
+    time.sleep(random.randint(10,20))
+    q1=_get_question()
+    _send_text('//*[@id="input-field"]',q1)
+    _click('//*[@id="send-button"]/img')
+
+    for i in range(1,random.randint(3,6)):
+        time.sleep(random.randint(10,20))
+        questiont=data[random.randint(1,len(data)-1)].replace('\n', '')
+        _send_text('//*[@id="input-field"]',questiont)
+        time.sleep(random.randint(3,10))
+        for y1 in range (1,100):
+            _send_text('//*[@id="input-field"]',Keys.BACKSPACE)
+            _send_text('//*[@id="input-field"]',Keys.DELETE)
+
+        dialogue=_get_text('//*[@id="body-box"]/div/div')
+        _log("ptrent dia: "+dialogue)
+        q1=ai(q1)
+        _send_text('//*[@id="input-field"]',q1)
+        _click('//*[@id="send-button"]/img')
+    _log("ptrend chat bored")        
+#        stack.append(greet)
+
+
+#    time.sleep(1000)
+    return True
 
 def lime_reg():
     driver.delete_all_cookies()
@@ -987,14 +1073,14 @@ def maxi_chat():
     _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
     _click('//*[@id="AskMeChatBot"]/div/div/img')
 
-#    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input')
-#    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input',final_name)
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input')
+    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[2]/input',final_name)
 
- #   _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input')
-#    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input',email)
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input')
+    _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div/div[4]/input',email)
 
-#    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
-#    _click('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
+    _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
+    _click('//*[@id="AskMeChatBot"]/div/div[2]/div/button')
 
     _wait_element('//*[@id="input-field"]')
 
@@ -1992,10 +2078,12 @@ while True:
 #    else:
 #        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
 #    ptrend_people={}
+
 #    threaded_proxy()
 #    print(ptrend_people)
 #    for key in ptrend_people:
 #        _log(key)
+#    ptrend_chat_noreg()
 #        _log(ptrend_people[key])
 #        ptrend_chat(key,ptrend_people[key])
 #    ptrend_chat()
@@ -2014,6 +2102,45 @@ while True:
 
 
 #----------prod
+
+
+    if (q_ptrend_chat_noreg>0):
+        _log("--------------Ptrend chat noreg begin------------")
+        if (docker==1):
+            driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+        else:
+            driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+
+#        driver = webdriver.Chrome(PATH, options=chrome_options)
+        try:
+            for i in range (1,random.randint(5,10)+q_ptrend_chat_noreg):
+                try:
+    #                print ("ingo email skip")
+                    ptrend_chat_noreg()
+                except:
+                    _log(" ptrend chat noreg failed in cycle")
+                    driver.close()
+                    driver.quit()
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("ptrend chat noreg general fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------ptrend chat noreg end--------------")
+
+
+
+
+
+
+
+
 
     if (q_threaded_proxy)>0:
         if (docker==1):
