@@ -779,11 +779,12 @@ def ptrend_chat_noreg():
 
     driver.delete_all_cookies()
     driver.get("https://prtrend.org/kontakty/")
-    time.sleep(random.randint(2,3))
+    time.sleep(random.randint(2,5))
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(random.randint(2,3))
+    time.sleep(random.randint(2,5))
     driver.execute_script("window.scrollTo(0, 0)")
-
+    time.sleep(random.randint(2,5))
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     driver.save_screenshot("/test/screenshot.png")
 
     _click('/html/body/div[2]/div/div[2]/section/form/div[1]/input')
