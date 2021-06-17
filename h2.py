@@ -34,7 +34,7 @@ q_st24online_email=1
 q_cryptogazprom_reg=1
 q_threaded_proxy=1
 
-
+ptrend_people={}
 from selenium import webdriver
 import platform
 from selenium.webdriver.common.proxy import Proxy, ProxyType
@@ -709,9 +709,11 @@ def ptrend_reg():
     return True
 
 
-def ptrend_chat():
-    emailp="liza_demidova307459@goldmail.ru"
-    passwordp="abFgfarG307459"
+def ptrend_chat(emailp,passwordp):
+    driver.delete_all_cookies()
+ 
+#    emailp="oksana700998@ru.ru"
+#    passwordp="abFgfarG042805"
     driver.get("https://prtrend.org/authorization/")
     _wait_element('/html/body/div[2]/div/div[2]/div/form/div[1]/input')
     _send_text('/html/body/div[2]/div/div[2]/div/form/div[1]/input',emailp)
@@ -727,11 +729,16 @@ def ptrend_chat():
     time.sleep(random.randint(3,10))
     _send_text('/html/body/div[4]/div/div[3]/textarea',question)
     webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    _log(_get_text('/html/body/div[4]/div/div[2]'))
     time.sleep(random.randint(3,10))
 
+    q1=ai(question)
+    _send_text('/html/body/div[4]/div/div[3]/textarea',q1)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    time.sleep(random.randint(10,60))
     _log(_get_text('/html/body/div[4]/div/div[2]'))
-
-    time.sleep(1000)
+    _log ("bored") 
+#    time.sleep(1000)
 #    maxi_chat()
     return True
 
@@ -1705,7 +1712,7 @@ socket.setdefaulttimeout(10)
 ptrade_done=0
 
 def check_proxy(pip):
-    global ptrade_done
+    global ptrend_people
     try:  
         co2=random.choice(['RU','FR','AT','AZ','AM','BY','BE','BG','GB','DE','GR','GE','DK','ES','IT','KZ','KG','LU','MC','NL','NO','PT','RU','RS','SK','TR','UZ','FI','FR','HR','CZ','CH','SE'])
         phone_rus=PhoneNumber(co2).get_number(full=False)
@@ -1714,7 +1721,10 @@ def check_proxy(pip):
         f=_get_final_name(name241, surname241)
         email241=_get_email_from_final_name(f)
 
-        pass1='abFgfarG'+password
+#        pass1='abFgfarG'+password
+        characters = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+        pass1="".join(random.sample(characters, 14))
+
         payload= '{"fullName": "'+str((name241+" "+surname241).encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+"\",\"email\": \""+email241+'","country": "'+co2+'",  "Lang": "ru",  "countryPrefix": "",  "phone": "'+phone_rus+'",  "password": "'+pass1+'",  "password repeatPassword": "'+pass1+'",  "linkID": "",  "checkbox": "on",  "firstName": "'+str(name241.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'",  "lastName": "'+str(surname241.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'"}'
 
       
@@ -1733,7 +1743,7 @@ def check_proxy(pip):
             print(":::::::::::: reg OK::::::::::::::")
             print(pip)
             _cred("#Ptrend",email241,pass1)
-            ptrade_done=1
+            ptrend_people[email241]=pass1
         
     except urllib.error.HTTPError as e:        
         return e
@@ -1975,19 +1985,25 @@ while True:
 
 
 
-#    _log("--------------DEV no try here--------------")
+    _log("--------------DEV no try here--------------")
 #
-#    if (docker==1):
-#        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
-#    else:
-#        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
-#    threaded_proxy()
+    if (docker==1):
+        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+    else:
+        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+    ptrend_people={}
+    threaded_proxy()
+    print(ptrend_people)
+    for key in ptrend_people:
+        _log(key)
+        _log(ptrend_people[key])
+        ptrend_chat(key,ptrend_people[key])
 #    ptrend_chat()
 #    cryptogazprom_reg()
 #    _24xforex_email()
 #    _24xforex_email()
-#    driver.close()
-#    driver.quit()
+    driver.close()
+    driver.quit()
 
 #    driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)    
 #   driver.get('https://whatismyip.host/')
