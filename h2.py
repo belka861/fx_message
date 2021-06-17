@@ -1,18 +1,18 @@
 docker=0
 
-q_ingo_reg=1
+q_ingo_reg=0
 
 #ok windows
 q_maxi_reg=1
 
 
-q_24xforex_reg=1
+q_24xforex_reg=0
 
 #ok windows
-q_24xforex_email=1
+q_24xforex_email=0
 
 #ok windows
-q_ingo_email=1
+q_ingo_email=0
 
 q_ptrend_reg=1
 
