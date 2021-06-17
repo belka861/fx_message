@@ -10,9 +10,10 @@ RUN apt-get install -yqq unzip
 RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
 RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
-
-RUN wget --no-cache -O h2.py https://raw.githubusercontent.com/belka861/fx_message/main/h2.py
+#working bug with issues and prop delays
+#RUN wget --no-cache -O h2.py https://raw.githubusercontent.com/belka861/fx_message/main/h2.py
 #RUN sed 's/docker=0/docker=1/' h2.py
 RUN pip3 install  requests transliterate random_username phone-gen selenium websocket-client pyvirtualdisplay
 #ADD remote_test.py /
+ADD h2.py /
 CMD python h2.py
