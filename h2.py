@@ -426,6 +426,7 @@ def _24xforex_email():
     email=_get_email_from_final_name(final_name)
 
     driver.get('https://24xforex.com/ru#contact')
+    _wait_element('//*[@id="contact_email')
     _send_text('//*[@id="contact_email"]',email)
     _send_text('//*[@id="contact_name"]',final_name)
     _click('//*[@id="contact_message"]')
