@@ -2,10 +2,19 @@ docker=0
   
 
 q_ingo_reg=1
-q_maxi_reg=0
+
+#ok windows
+q_maxi_reg=1
+
+
 q_24xforex_reg=1
+
+#ok windows
 q_24xforex_email=1
+
+#ok windows
 q_ingo_email=1
+
 q_ptrend_reg=1
 
 #Recaptcha
@@ -22,6 +31,8 @@ q_umarkets_reg=0
 q_st24online_reg=1
 q_st24online_phone=1
 q_st24online_email=1
+
+q_cryptogazprom_reg=1
 
 from selenium import webdriver
 import platform
@@ -57,7 +68,7 @@ prox.ssl_proxy = p
 chrome_options.add_argument('--ignore-certificate-errors')
 # Configure capabilities 
 capabilities = webdriver.DesiredCapabilities.CHROME
-prox.add_to_capabilities(capabilities)
+#prox.add_to_capabilities(capabilities)
 
 import urllib.request , socket
 import requests
@@ -1643,7 +1654,31 @@ def st24online_email():
         _log(_get_text('//*[@id="wpcf7-f767-p761-o2"]/form/div[6]'))
         q3=ai(" ")
     return True
-#    time.sleep(1000)
+
+
+def cryptogazprom_reg():
+    driver.delete_all_cookies()
+    for i in range(1,random.randint(1,100)):
+        name241=_get_name()
+        surname241=_get_surname()    
+        f=_get_final_name(name241, surname241)
+        email24=_get_email_from_final_name(f)
+        phone_full=get_phone_full()
+
+        driver.get('https://crypto-gazprom.com/')
+        _wait_element('//*[@id="form2"]/div[1]/input')
+        _clear('//*[@id="form2"]/div[1]/input')
+        _send_text('//*[@id="form2"]/div[1]/input',name241)
+        _clear('//*[@id="form2"]/div[2]/input')
+        _send_text('//*[@id="form2"]/div[2]/input',surname241)
+        _clear('//*[@id="form2"]/div[3]/input')
+        _send_text('//*[@id="form2"]/div[3]/input',email24)
+        _clear('//*[@id="form2"]/div[4]/input')
+        _send_text('//*[@id="form2"]/div[4]/input', phone_full)
+        _click('//*[@id="form2"]/div[5]/button')
+        _wait_element('/html/body/div/div/p[2]')
+        print(_get_text('/html/body/div/div/p[2]'))
+#        time.sleep(1000)
     #reg done doing random doc
 #    _wait_element('//*[@id="my-header"]/div[4]/div/a/span/i')
 #    _click('//*[@id="my-header"]/div[4]/div/a/span/i')
@@ -1820,7 +1855,7 @@ while True:
 #    p="175.215.8.145:3128"
 
 #    p=pp
-    print ("PROXY: "+p)
+#    print ("PROXY: "+p)
     # Proxy IP & Port
     prox.http_proxy = p
     #prox.socks_proxy = p
@@ -1828,7 +1863,7 @@ while True:
     chrome_options.add_argument('--ignore-certificate-errors')
     # Configure capabilities 
     capabilities = webdriver.DesiredCapabilities.CHROME
-    prox.add_to_capabilities(capabilities)
+#    prox.add_to_capabilities(capabilities)
 
 #proxy here
 
@@ -1846,10 +1881,12 @@ while True:
 
 
 #    _log("--------------DEV no try here--------------")
+#
 #    if (docker==1):
 #        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
 #    else:
 #        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+#    cryptogazprom_reg()
 #    _24xforex_email()
 #    driver.close()
 #    driver.quit()
@@ -2115,3 +2152,35 @@ while True:
                 pass
             pass
         _log("--------------st24 email end--------------")
+
+
+
+    if (q_cryptogazprom_reg>0):
+        _log("--------------cryptogazprom_reg begin------------")
+        if (docker==1):
+            driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+        else:
+            driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+
+        try:
+            if True:
+                try:
+    #                print ("ingo email skip")
+                    cryptogazprom_reg()
+                except:
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("cryptogazprom_reg fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------cryptogazprom_reg end--------------")
+
+
+
+
