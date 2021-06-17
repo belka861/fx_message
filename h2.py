@@ -727,7 +727,7 @@ def ptrend_chat(emailp,passwordp):
     _send_text('/html/body/div[4]/div/div[3]/textarea',get_greet())
     webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
     time.sleep(random.randint(3,10))
-    q1=get_question()
+    q1=_get_question()
     _send_text('/html/body/div[4]/div/div[3]/textarea',q1)
     webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
     _log(_get_text('/html/body/div[4]/div/div[2]'))
