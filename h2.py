@@ -15,7 +15,7 @@ q_24xforex_email=0
 q_ingo_email=0
 
 q_ptrend_reg=1
-
+q_ptrend_chat=1
 #Recaptcha
 q_plus_reg=0
 q_plus_email=0
@@ -77,24 +77,6 @@ import urllib.request, socket
 from threading import Thread
                 
 socket.setdefaulttimeout(30)
-
-def check_proxy(pip):
-    global good_proxy
-    try:        
-        proxy_handler = urllib.request.ProxyHandler({'https': pip})        
-        opener = urllib.request.build_opener(proxy_handler)
-        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-        urllib.request.install_opener(opener)        
-        sock=urllib.request.urlopen('https://trade.globalallianceltd.com/registration-ru')  # change the url address here
-#        print(pip)
-        good_proxy.append(pip)
-        print ("good"+good_proxy)
-    except urllib.error.HTTPError as e:        
-        return e
-    except Exception as detail:
-        return detail
-    return 0
-
 
 
 
@@ -722,6 +704,33 @@ def ptrend_reg():
     _log(payload)
     result = os.popen('curl -s --header "Content-Type: application/json"  --request POST  --data \''+payload+'\'  https://prtrend.org/wp-json/xcritical/1.0/registration').read()
     _log(result)
+    return True
+
+
+def ptrend_chat():
+    emailp="liza_demidova307459@goldmail.ru"
+    passwordp="abFgfarG307459"
+    driver.get("https://prtrend.org/authorization/")
+    _wait_element('/html/body/div[2]/div/div[2]/div/form/div[1]/input')
+    _send_text('/html/body/div[2]/div/div[2]/div/form/div[1]/input',emailp)
+    _send_text('/html/body/div[2]/div/div[2]/div/form/div[2]/input',passwordp)
+    _click('/html/body/div[2]/div/div[2]/div/form/button')
+#    time.sleep(20)
+
+    _wait_element('//*[@id="Capa_1"]')
+    _click('//*[@id="Capa_1"]')
+    _wait_element('/html/body/div[4]/div/div[3]/textarea')
+    _send_text('/html/body/div[4]/div/div[3]/textarea',get_greet())
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    time.sleep(random.randint(3,10))
+    _send_text('/html/body/div[4]/div/div[3]/textarea',question)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+    time.sleep(random.randint(3,10))
+
+    _log(_get_text('/html/body/div[4]/div/div[2]'))
+
+    time.sleep(1000)
+#    maxi_chat()
     return True
 
 
@@ -1689,6 +1698,93 @@ def cryptogazprom_reg():
 
 
 
+
+socket.setdefaulttimeout(30)
+ptrade_done=0
+
+def check_proxy(pip):
+    global ptrade_done
+    try:  
+        co2=random.choice(['RU','FR','AT','AZ','AM','BY','BE','BG','GB','DE','GR','GE','DK','ES','IT','KZ','KG','LU','MC','NL','NO','PT','RU','RS','SK','TR','UZ','FI','FR','HR','CZ','CH','SE'])
+        phone_rus=PhoneNumber(co2).get_number(full=False)
+        name241=_get_name()
+        surname241=_get_surname()    
+        f=_get_final_name(name241, surname241)
+        email241=_get_email_from_final_name(f)
+
+        pass1='abFgfarG'+password
+        payload= '{"fullName": "'+str((name241+" "+surname241).encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+"\",\"email\": \""+email241+'","country": "'+co2+'",  "Lang": "ru",  "countryPrefix": "",  "phone": "'+phone_rus+'",  "password": "'+pass1+'",  "password repeatPassword": "'+pass1+'",  "linkID": "",  "checkbox": "on",  "firstName": "'+str(name241.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'",  "lastName": "'+str(surname241.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'"}'
+
+      
+        proxy_handler = urllib.request.ProxyHandler({'https': pip})        
+        opener = urllib.request.build_opener(proxy_handler)
+        opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+        urllib.request.install_opener(opener)        
+        sock=urllib.request.urlopen('https://prtrend.org')  # change the url address here
+        print(pip)
+        req='curl -s --header "Content-Type: application/json"  --request POST  --data \''+payload+'\'  --proxy "'+pip+'"  https://prtrend.org/wp-json/xcritical/1.0/registration'
+        print(req)
+
+        result = os.popen(req).read()
+        print(result)
+        if ("leadGuid" in result):
+            print(":::::::::::: reg OK::::::::::::::")
+            _cred("#Ptrend",email241,pass1)
+            ptrade_done=1
+        
+    except urllib.error.HTTPError as e:        
+        return e
+    except Exception as detail:
+        return detail
+    return 0
+
+
+def threaded_proxy():
+    socket.setdefaulttimeout(180)
+                                                                                                                                        	
+    response = requests.get('https://api.proxyscrape.com/?request=displayproxies&proxytype=https&timeout=7000&anonymity=elite&ssl=yes')
+    q=[]
+    for line in response.text.splitlines():
+        print (line)
+        q.append(line)
+    print (q)
+# prinitng request content
+#print(response.content)
+#pr=str(response.content).split('\r\n')
+#print (pr)
+# read the list of proxy IPs in proxyList
+#proxyList = ['140.82.61.218:8080','178.32.47.218:17501'] # there are two sample proxy ip
+    proxyList =q
+
+#Example run : echo -ne "192.168.1.1:231\n192.168.1.2:231" | python proxy_checkpy3-async.py
+    proxies = q
+    threads = []
+
+    for proxy in proxies:
+        if(ptrade_done==0):
+            thread = Thread( target=check_proxy, args=(proxy.strip(), ))
+            thread.start()
+            threads.append(thread)
+
+    for thread in threads:
+        thread.join()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #os.system('pkill chrome')
 
 #random question
@@ -1881,12 +1977,14 @@ while True:
 
 
 
-#    _log("--------------DEV no try here--------------")
+    _log("--------------DEV no try here--------------")
 #
-#    if (docker==1):
-#        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
-#    else:
-#        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+    if (docker==1):
+        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+    else:
+        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+    threaded_proxy()
+#    ptrend_chat()
 #    cryptogazprom_reg()
 #    _24xforex_email()
 #    _24xforex_email()
