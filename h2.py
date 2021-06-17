@@ -788,8 +788,14 @@ def ptrend_chat_noreg():
     driver.save_screenshot("/test/screenshot.png")
 
     _click('/html/body/div[2]/div/div[2]/section/form/div[1]/input')
-    _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
-    _click('//*[@id="AskMeChatBot"]/div/div/img')
+
+#    _wait_element('//*[@id="AskMeChatBot"]/div/div/img')
+#    _click('//*[@id="AskMeChatBot"]/div/div/img')
+
+    _wait_element('//*[@id="AskMeChatBot"]/div/div')
+    _click('//*[@id="AskMeChatBot"]/div/div')
+
+
     _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[1]/div[2]/input')
     _send_text('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[1]/div[2]/input',email241)
     _wait_element('//*[@id="AskMeChatBot"]/div/div[2]/div[2]/div[2]/div')
