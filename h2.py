@@ -1900,7 +1900,43 @@ while True:
 #    time.sleep(1000)
 
 
-#----------prod 
+#----------prod
+
+
+   if (q_cryptogazprom_reg>0):
+        _log("--------------cryptogazprom_reg begin------------")
+        if (docker==1):
+            driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+        else:
+            driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+
+        try:
+            if True:
+                try:
+    #                print ("ingo email skip")
+                    cryptogazprom_reg()
+                except:
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("cryptogazprom_reg fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------cryptogazprom_reg end--------------")
+
+
+
+
+
+
+
+
+
     if (q_ingo_reg>0):
         for i in range (1, random.randint(1,q_ingo_reg+5)):
 
@@ -2156,32 +2192,4 @@ while True:
 
 
 
-    if (q_cryptogazprom_reg>0):
-        _log("--------------cryptogazprom_reg begin------------")
-        if (docker==1):
-            driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
-        else:
-            driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
-
-        try:
-            if True:
-                try:
-    #                print ("ingo email skip")
-                    cryptogazprom_reg()
-                except:
-                    pass
-            driver.close()
-            driver.quit()
-        except:
-            _log("cryptogazprom_reg fail")
-            try:
-                driver.close()
-                driver.quit()
-            except:
-                pass
-            pass
-        _log("--------------cryptogazprom_reg end--------------")
-
-
-
-
+ 
