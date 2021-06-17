@@ -788,7 +788,7 @@ def ptrend_chat_noreg():
     driver.execute_script("window.scrollTo(0, 0)")
     time.sleep(random.randint(2,5))
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    driver.save_screenshot("/test/screenshot.png")
+#    driver.save_screenshot("/test/screenshot.png")
 
 
 
