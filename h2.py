@@ -278,6 +278,10 @@ def _wait_element60(xpath):
     r = WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.XPATH, xpath)))
     return True
 
+def _wait_element5(xpath):
+    r = WebDriverWait(driver, 5).until(EC.visibility_of_element_located((By.XPATH, xpath)))
+    return True
+
 
 #def ai(question):
 def ai(question):
@@ -1807,6 +1811,7 @@ def cryptogazprom_reg():
 
 
 def gravity_reg():
+    global q_gravity_reg
     driver.delete_all_cookies()
     name241=_get_name()
     surname241=_get_surname()    
@@ -1820,9 +1825,9 @@ def gravity_reg():
     _send_text('//*[@id="form-field-firstName"]',name241)
     _send_text('//*[@id="form-field-lastName"]',surname241)
     _click('//*[@id="form-field-address__countryCode"]')
-    countries=[11,15,20,27,52,53,55,61,65,70,74,78,90,98,103,108,110,116,117,119,132,143,146,153,163,169,170,188,189,201,202,205,213,218,219,221,75]
+    countries=[11,14,15,20,21,28,34,45,55,57,58,59,64,68,73,74,80,81,84,98,104,106,107,112,115,117,119,124,125,126,128,142,144,145,153,155,162,173,174,148,179,179,179,179,190,192,197,198,204,210,211,214,223,224,230,234]
     crandom=random.choice(countries)
-    crandom=179
+#    crandom=234
 
 
 
@@ -1836,21 +1841,43 @@ def gravity_reg():
     
 
     _click(xp)
-    _log(tn)
+#    _log(tn)
     _send_text('//*[@id="form-field-contacts__phone"]',tn)
     _send_text('//*[@id="form-field-contacts__email"]',email24)
 
     characters = "01234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
-    pass1="".join(random.sample(characters, 10))
+    pass1="".join(random.sample(characters, random.randint(9,14)))
+    pass1=pass1+random.choice('0123456789')
     _send_text('//*[@id="form-field-password"]',pass1)
     _click('//*[@id="form-field-field_4"]')
     _click('//*[@id="form-field-field_1"]')
     _click('//*[@id="form-field-field_2"]')
     _click('//*[@id="form-field-field_3"]')
     _click('//*[@id="cp-crm-sign-up-form"]/div[1]/div[14]/button/span/span[2]')
+    try:
+        _wait_element5('//*[@id="cp-crm-sign-up-form"]/div[2]')
+        ban=_get_text('//*[@id="cp-crm-sign-up-form"]/div[2]')
+    except:
+        ban="noban"
+        pass
+    _log(ban)
+    if (ban!='noban'):
+        q_gravity_reg=0
+        _log("diablinng q_gravity reg")
+    if (ban=="noban"):
+   #     _log ("noban")
+        _cred('#gravity',email24,pass1)
+        time.sleep(6)
+        _wait_element('//*[@id="support-callback"]')
+        _click('//*[@id="support-callback"]')
 
-    time.sleep(20)
-    driver.save_screenshot("/test/screenshot.png")
+        driver.switch_to.frame("iFrameResizer0")
+        _wait_element('//*[@id="root"]/div/section/div[2]/div/button')
+        _click('//*[@id="root"]/div/section/div[2]/div/button')
+        _wait_element('//*[@id="root"]/div/section/div[2]/p[1]')
+        _log(_get_text('//*[@id="root"]/div/section/div[2]/p[1]'))
+#    time.sleep(2000)
+#    driver.save_screenshot("/test/screenshot.png")
     return True
 
 
@@ -2131,19 +2158,19 @@ while True:
 
 
 
-    _log("--------------DEV no try here--------------")
+#    _log("--------------DEV no try here--------------")
 #
-    if (docker==1):
-        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
-    else:
-        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+#    if (docker==1):
+#        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+#    else:
+ #       driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
 #    ptrend_people={}
-
+#    _log('do nothing in dev')
 #    threaded_proxy()
 #    print(ptrend_people)
 #    for key in ptrend_people:
 #        _log(key)
-    gravity_reg()
+#    gravity_reg()
 #    ptrend_chat_noreg()
 #        _log(ptrend_people[key])
 #        ptrend_chat(key,ptrend_people[key])
@@ -2151,8 +2178,8 @@ while True:
 #    cryptogazprom_reg()
 #    _24xforex_email()
 #    _24xforex_email()
-    driver.close()
-    driver.quit()
+#    driver.close()
+#    driver.quit()
 
 #    driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)    
 #   driver.get('https://whatismyip.host/')
@@ -2163,6 +2190,38 @@ while True:
 
 
 #----------prod
+    if (q_gravity_reg>0):
+        _log("--------------Gravity reg begin------------")
+        if (docker==1):
+            driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+        else:
+            driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+
+#        driver = webdriver.Chrome(PATH, options=chrome_options)
+        try:
+            for i in range (1,random.randint(15,30)+q_gravity_reg):
+                try:
+    #                print ("ingo email skip")
+                    gravity_reg()
+                except:
+                    _log(" Gravity reg failed in cycle")
+                    driver.close()
+                    driver.quit()
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("Gravity reg general fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------Gravity reg end--------------")
+
+
+
 
 
     if (q_ptrend_chat_noreg>0):
