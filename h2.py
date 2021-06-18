@@ -26,14 +26,15 @@ q_plus_email=0
 #REGISTRATION DISABLED NOW
 q_umarkets_reg=0
 
+#captcha
+q_st24online_reg=0
 
-q_st24online_reg=1
 q_st24online_phone=1
 q_st24online_email=1
 
 q_cryptogazprom_reg=1
 q_threaded_proxy=1
-q_ptrend_email=1
+q_ptrend_email=0
 q_ptrend_chat_noreg=1
 
 q_gravity_reg=1
@@ -160,7 +161,7 @@ def _cred(s,u,p):
 #    fh=open(logfile,"a")
 #    text=str(datetime.datetime.now())+" "+str(message)+"\r\n"
     text=s+","+u+","+p+"\r\n"
-    print(text)
+    _log(text)
     fh.write(text)
     fh.close()
     return True
@@ -1052,9 +1053,21 @@ def ingo_chat_online():
 
 
 def maxi_reg():
+    global q_maxi_reg
     global maxi_phone
     driver.delete_all_cookies()
     driver.get("https://maximarkets.org/registration/")
+
+    ban="ban"
+    try:
+        _wait_element5('//*[@id="cf-wrapper"]')
+    except:
+        ban="noban"
+        pass
+    if (ban!='noban'):
+        q_maxi_reg=0
+        _log("diablinng q_maxi_reg because of CF ban")
+
 
     question=_get_question()
     name=_get_name()
