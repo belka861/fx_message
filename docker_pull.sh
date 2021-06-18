@@ -1,0 +1,1 @@
+if [ $(docker pull belkasv/mosh_auto|grep newer|wc -l) -eq 1 ]; then echo "Good Job"; docker container stop mosh; docker container rm mosh; docker run -v /test:/test --restart unless-stopped --name mosh -it belkasv/mosh_auto; else echo "Bad Job"; fi
