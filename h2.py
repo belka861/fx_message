@@ -125,9 +125,9 @@ if (mode=="PROD"):
 
 #    chrome_options.add_argument('--no-sandbox') # required when running as root user. otherwise you would get no sandbox errors.     
 #    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
-    from pyvirtualdisplay import Display 
-    display = Display(visible=0, size=(1920, 1080)) 
-    display.start() 
+#    from pyvirtualdisplay import Display 
+#    display = Display(visible=0, size=(1920, 1080)) 
+#    display.start() 
 
 #else:
 #    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
@@ -2158,19 +2158,19 @@ while True:
 
 
 
-#    _log("--------------DEV no try here--------------")
+    _log("--------------DEV no try here--------------")
 #
-#    if (docker==1):
-#        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
-#    else:
- #       driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+    if (docker==1):
+        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+    else:
+        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
 #    ptrend_people={}
 #    _log('do nothing in dev')
 #    threaded_proxy()
 #    print(ptrend_people)
 #    for key in ptrend_people:
 #        _log(key)
-#    gravity_reg()
+    gravity_reg()
 #    ptrend_chat_noreg()
 #        _log(ptrend_people[key])
 #        ptrend_chat(key,ptrend_people[key])
@@ -2178,8 +2178,8 @@ while True:
 #    cryptogazprom_reg()
 #    _24xforex_email()
 #    _24xforex_email()
-#    driver.close()
-#    driver.quit()
+    driver.close()
+    driver.quit()
 
 #    driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)    
 #   driver.get('https://whatismyip.host/')
