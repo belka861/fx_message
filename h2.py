@@ -38,7 +38,7 @@ q_ptrend_email=0
 q_ptrend_chat_noreg=1
 
 q_gravity_reg=1
-
+q_everest_chat=1
 
 ptrend_people={}
 from selenium import webdriver
@@ -1026,7 +1026,8 @@ def plus_email():
 #chat unavailable
 def ingo_chat_online():
     driver.get("https://ingoinvest.com/ru")
-    #click on banner jivochat
+
+    #click on banner j i v oc hat
     _wait_element('//*[@id="jvlabelWrap"]/jdiv[1]')
     _click('//*[@id="jvlabelWrap"]/jdiv[1]')
 
@@ -1050,6 +1051,62 @@ def ingo_chat_online():
 
     time.sleep(1000)
     return True
+
+
+
+
+def jivochat_online(url):
+    question=_get_question()
+    driver.delete_all_cookies()
+    driver.get(url)
+    #click on banner jivochat
+    _wait_element('//*[@id="jvlabelWrap"]/jdiv[1]')
+    _click('//*[@id="jvlabelWrap"]/jdiv[1]')
+
+    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea')
+    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',question)
+    webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+#    jivochat_3questions()
+#    time.sleep(1000)
+
+
+    #name
+  
+    _wait_element('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input')
+    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/jdiv/jdiv[1]/input', final_name)
+
+#phone
+    _wait_element('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/jdiv/jdiv[2]/input')
+    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/jdiv/jdiv[2]/input',phone_full)
+
+#emial
+    _wait_element('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/jdiv/jdiv[3]/input')
+    _send_text('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/jdiv/jdiv[3]/input',email)
+    _click('//*[@id="scrollbar-container"]/jdiv[1]/jdiv/jdiv[3]/jdiv/jdiv/jdiv/jdiv/jdiv[4]')
+
+
+    #main start here
+    q1=question
+    for i in range(1,random.randint(2,10)):
+        q1=ai(q1)    
+        _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv[1]/jdiv[1]/textarea',q1)
+        webdriver.ActionChains(driver).send_keys(Keys.ENTER).perform()
+        time.sleep(random.randint(1,10))
+        print(_get_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[2]'))
+    time.sleep(20)
+    _log(_get_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[2]'))
+#message
+#   
+#    _wait_element('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[4]/textarea')
+#    _send_text('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[4]/textarea',q1)
+
+#    _click('//*[@id="jcont"]/jdiv[3]/jdiv/jdiv[3]/jdiv/jdiv/jdiv[2]/form/jdiv[5]')
+
+#    time.sleep(1000)
+    return True
+
+
+
 
 
 def maxi_reg():
@@ -2195,6 +2252,8 @@ while True:
 #    threaded_proxy()
 #    print(ptrend_people)
 #    for key in ptrend_people:
+#    jivochat_online("https://everestforex.club/about")
+#    ev()
 #        _log(key)
 #    gravity_reg()
 #    ptrend_chat_noreg()
@@ -2216,6 +2275,50 @@ while True:
 
 
 #----------prod
+
+
+    if (q_everest_chat>0):
+        _log("--------------everest chat  begin------------")
+#        if (docker==1):
+#            driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+#        else:
+#            driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+
+#        driver = webdriver.Chrome(PATH, options=chrome_options)
+        try:
+            for i in range (1,random.randint(15,30)+q_everest_chat):
+                try:
+    #                print ("ingo email skip")
+                    driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+                    jivochat_online("https://everestforex.club/about")
+                    driver.close()
+                    driver.quit()
+
+                except:
+                    _log(" everest chat failed in cycle")
+                    driver.close()
+                    driver.quit()
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("everest chat failed  fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------everest chat  end--------------")
+
+
+
+
+
+
+
+
+
     if (q_gravity_reg>0):
         _log("--------------Gravity reg begin------------")
         if (docker==1):
