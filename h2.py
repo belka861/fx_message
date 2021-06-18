@@ -117,7 +117,7 @@ domains=['mail.ru','yandex.ru', 'rambler.ru', 'outlook.com', 'gmail.com', 'hotma
 chrome_options.add_argument('--disable-blink-features=AutomationControlled')
 PATH='C:\Program Files (x86)\chromedriver.exe'
 if (mode=="PROD"):
-#    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--headless')
     chrome_options.add_argument('--no-sandbox')
     chrome_options.add_argument('--disable-gpu')
     chrome_options.add_argument('window-size=1920,1080')
@@ -779,6 +779,7 @@ def ptrend_email():
     return True
 
 def ptrend_chat_noreg():
+    global q_ptrend_chat_noreg
     name241=_get_name()
     surname241=_get_surname()    
     f=_get_final_name(name241, surname241)
@@ -792,6 +793,18 @@ def ptrend_chat_noreg():
     driver.execute_script("window.scrollTo(0, 0)")
     time.sleep(random.randint(2,5))
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+    ban="ban"
+    try:
+        _wait_element5('//*[@id="cf-wrapper"]')
+    except:
+        ban="noban"
+        pass
+    if (ban!='noban'):
+        q_ptrend_chat_noreg=0
+        _log("diablinng q_ptrend_chat_noreg because of ban")
+
+
 #    driver.save_screenshot("/test/screenshot.png")
 
 
@@ -2262,7 +2275,7 @@ while True:
 
 
 
-    if (q_threaded_proxy)>0:
+    if ((q_threaded_proxy)>0 and (mode =='PROD')):
         if (docker==1):
             driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
         else:
