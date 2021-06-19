@@ -39,6 +39,7 @@ q_ptrend_chat_noreg=1
 
 q_gravity_reg=1
 q_everest_chat=1
+q_toptrade_email=1
 
 ptrend_people={}
 from selenium import webdriver
@@ -708,8 +709,7 @@ def ptrend_reg():
     phone_rus=PhoneNumber(co2).get_number(full=False)
 
     pass1='abFgfarG'+password
-    payload= {"fullName": "\u0421\u0432\u0435\u0442\u043b\u0430\u043d\u0430 \u0410\u041d\u0434\u0440\u0435\u0435\u0432\u0430","email": "svertka54542002@gmail.com","country": "RU",  "Lang": "ru",  "countryPrefix": "",  "phone": "7524443502",  "password": "f6d3vwW3ViVwm4w",  "password repeatPassword": "f6d3vwW3ViVwm4w",  "linkID": "",  "checkbox": "on",  "firstName": "\u0421\u0432\u0435\u0442\u043b\u0430\u043d\u0430",  "lastName": "\u0410\u041d\u0434\u0440\u0435\u0435\u0432\u0430"}
-#good    payload= '{"fullName": "'+str((name+" "+surname).encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+"\",\"email\": \""+email+'","country": "RU",  "Lang": "ru",  "countryPrefix": "",  "phone": "'+phone_rus+'",  "password": "'+pass1+'",  "password repeatPassword": "'+pass1+'",  "linkID": "",  "checkbox": "on",  "firstName": "'+str(name.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'",  "lastName": "'+str(surname.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'"}'
+    payload= {"fullName": "\u0421\u0432\u0435\u0442\u043b\u0430\u043d\u0430 \u0410\u041d\u0434\u0440\u0435\u0435\u0432\u0430","email": "svertka54542002@gmail.com","country": "RU",  "Lang": "ru",  "countryPrefix": "",  "phone": "7524443502",  "password": "f6d3vwW3ViVwm4w",  "password repeatPassword": "f6d3vwW3ViVwm4w",  "linkID": "",  "checkbox": "on",  "firstName": "\u0421\u0432\u0435\u0442\u043b\u0430\u043d\u0430",  "lastName": "\u0410\u041d\u0434\u0440\u0435\u0435\u0432\u0430"}#good    payload= '{"fullName": "'+str((name+" "+surname).encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+"\",\"email\": \""+email+'","country": "RU",  "Lang": "ru",  "countryPrefix": "",  "phone": "'+phone_rus+'",  "password": "'+pass1+'",  "password repeatPassword": "'+pass1+'",  "linkID": "",  "checkbox": "on",  "firstName": "'+str(name.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'",  "lastName": "'+str(surname.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'"}'
     payload= '{"fullName": "'+str((name+" "+surname).encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+"\",\"email\": \""+email+'","country": "'+co2+'",  "Lang": "ru",  "countryPrefix": "",  "phone": "'+phone_rus+'",  "password": "'+pass1+'",  "password repeatPassword": "'+pass1+'",  "linkID": "",  "checkbox": "on",  "firstName": "'+str(name.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'",  "lastName": "'+str(surname.encode('ascii','backslashreplace')).replace('b\'','').replace("\\\\","\\").replace('\'','')+'"}'
 
 
@@ -1862,6 +1862,32 @@ def st24online_email():
     return True
 
 
+def toptrade_email():
+
+    driver.delete_all_cookies()
+    driver.get('https://toptrade.group/ru/contacts/')
+    _wait_element('//*[@id="wpcf7-f4493-p3896-o1"]/form/p[1]/span/input')
+    
+    for i in range (1,random.randint(10,70)):
+
+        name241=_get_name()
+        surname241=_get_surname()    
+        f=_get_final_name(name241, surname241)
+        email24=_get_email_from_final_name(f)
+        q1=_get_question()
+        _clear('//*[@id="wpcf7-f4493-p3896-o1"]/form/p[1]/span/input')
+        _clear('//*[@id="wpcf7-f4493-p3896-o1"]/form/p[2]/span/input')
+        _clear('//*[@id="wpcf7-f4493-p3896-o1"]/form/p[3]/span/textarea')
+        _send_text('//*[@id="wpcf7-f4493-p3896-o1"]/form/p[1]/span/input',name241)
+        _send_text('//*[@id="wpcf7-f4493-p3896-o1"]/form/p[2]/span/input',email24)
+        _send_text('//*[@id="wpcf7-f4493-p3896-o1"]/form/p[3]/span/textarea',q1)
+        _click('//*[@id="wpcf7-f4493-p3896-o1"]/form/p[4]/input')
+        _wait_element('//*[@id="wpcf7-f4493-p3896-o1"]/form/div[2]')
+        print(_get_text('//*[@id="wpcf7-f4493-p3896-o1"]/form/div[2]'))
+        q1=ai(q1)
+    return True
+
+
 def cryptogazprom_reg():
     driver.delete_all_cookies()
     for i in range(1,random.randint(1,100)):
@@ -2241,17 +2267,18 @@ while True:
 
 
 
-#    _log("--------------DEV no try here--------------")
+    _log("--------------DEV no try here--------------")
 #
-#    if (docker==1):
-#        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
-#    else:
-#        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+    if (docker==1):
+        driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+    else:
+        driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
 #    ptrend_people={}
-#    _log('do nothing in dev')
+    _log('do nothing in dev')
 #    threaded_proxy()
 #    print(ptrend_people)
 #    for key in ptrend_people:
+#    toptrade_email()
 #    jivochat_online("https://everestforex.club/about")
 #    ev()
 #        _log(key)
@@ -2263,8 +2290,8 @@ while True:
 #    cryptogazprom_reg()
 #    _24xforex_email()
 #    _24xforex_email()
-#    driver.close()
-#    driver.quit()
+    driver.close()
+    driver.quit()
 
 #    driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)    
 #   driver.get('https://whatismyip.host/')
@@ -2275,6 +2302,36 @@ while True:
 
 
 #----------prod
+    if (q_toptrade_email>0):
+        _log("--------------toptrade email begin------------")
+        if (docker==1):
+            driver = webdriver.Remote("http://172.17.0.1:4444/wd/hub", options=chrome_options, desired_capabilities=capabilities)
+        else:
+            driver = webdriver.Chrome(PATH, options=chrome_options, desired_capabilities=capabilities)
+
+        try:
+            if True:
+                try:
+    #                print ("ingo email skip")
+                    toptrade_email()
+                except:
+                    pass
+            driver.close()
+            driver.quit()
+        except:
+            _log("toptrade email fail")
+            try:
+                driver.close()
+                driver.quit()
+            except:
+                pass
+            pass
+        _log("--------------toptrade email end--------------")
+
+
+
+
+
 
 
     if (q_everest_chat>0):
