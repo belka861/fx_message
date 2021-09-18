@@ -1,4 +1,5 @@
 #!/bin/sh
+#python3 -m pip install selenium phone_gen requests transliterate
 echo 'sv ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 sudo apt-get update -y
 sudo apt-get upgrade -y
